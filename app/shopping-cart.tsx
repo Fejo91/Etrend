@@ -2289,6 +2289,25 @@ export default function ShoppingCartRoute() {
   const [mealSelections, setMealSelections] = useState<Record<string, MealSelection>>(
     Object.fromEntries(MEALS.map(m => [m.id, { workoutDays: 0, restDays: 0 }]))
   );
+  const [selectedDay, setSelectedDay] = useState<number | "all">("all");
+  const [selectedMealType, setSelectedMealType] = useState<
+    "all" | "reggeli" | "tízórai" | "ebéd" | "uzsonna" | "vacsora"
+  >("all");
+
+  const dayOptions = [1, 2, 3, 4, 5, 6, 7];
+  const mealTypeOptions: Array<"reggeli" | "tízórai" | "ebéd" | "uzsonna" | "vacsora"> = [
+    "reggeli",
+    "tízórai",
+    "ebéd",
+    "uzsonna",
+    "vacsora",
+  ];
+
+  const parseDayAndType = (mealName: string): { day: number | null; type: string | null } => {
+    const match = mealName.toLowerCase().match(/^(\d+)\. napi .*? (reggeli|tízórai|ebéd|uzsonna|vacsora)/i);
+    if (!match) return { day: null, type: null };
+    return { day: Number(match[1]), type: match[2] };
+  };
 
   const updateMealSelection = (mealId: string, type: 'workout' | 'rest', change: number) => {
     setMealSelections(prev => ({
@@ -2327,6 +2346,12 @@ export default function ShoppingCartRoute() {
   const hasAnySelection = MEALS.some(m => 
     mealSelections[m.id].workoutDays > 0 || mealSelections[m.id].restDays > 0
   );
+  const filteredMeals = MEALS.filter(meal => {
+    const { day, type } = parseDayAndType(meal.name);
+    const dayMatch = selectedDay === "all" || day === selectedDay;
+    const typeMatch = selectedMealType === "all" || type === selectedMealType;
+    return dayMatch && typeMatch;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -2343,8 +2368,50 @@ export default function ShoppingCartRoute() {
           Válaszd ki, hogy mely ételekből hány adag kell edzésnapokon és pihenőnapokon:
         </Text>
 
+        <View style={styles.filterRow}>
+          <Text style={styles.filterLabel}>Nap:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity
+              style={[styles.chip, selectedDay === "all" && styles.chipActive]}
+              onPress={() => setSelectedDay("all")}
+            >
+              <Text style={[styles.chipText, selectedDay === "all" && styles.chipTextActive]}>Összes</Text>
+            </TouchableOpacity>
+            {dayOptions.map(day => (
+              <TouchableOpacity
+                key={day}
+                style={[styles.chip, selectedDay === day && styles.chipActive]}
+                onPress={() => setSelectedDay(day)}
+              >
+                <Text style={[styles.chipText, selectedDay === day && styles.chipTextActive]}>{day}. nap</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        <View style={styles.filterRow}>
+          <Text style={styles.filterLabel}>Étkezés:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity
+              style={[styles.chip, selectedMealType === "all" && styles.chipActive]}
+              onPress={() => setSelectedMealType("all")}
+            >
+              <Text style={[styles.chipText, selectedMealType === "all" && styles.chipTextActive]}>Összes</Text>
+            </TouchableOpacity>
+            {mealTypeOptions.map(type => (
+              <TouchableOpacity
+                key={type}
+                style={[styles.chip, selectedMealType === type && styles.chipActive]}
+                onPress={() => setSelectedMealType(type)}
+              >
+                <Text style={[styles.chipText, selectedMealType === type && styles.chipTextActive]}>{type}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
         {/* Étkezések külön-külön kiválaszthatók */}
-        {MEALS.map((meal) => (
+        {filteredMeals.map((meal) => (
           <View key={meal.id} style={styles.mealCard}>
             <Text style={styles.mealTitle}>🍽️ {meal.name}</Text>
             
@@ -2450,6 +2517,36 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  filterRow: {
+    marginBottom: 12,
+  },
+  filterLabel: {
+    color: "#e5e7eb",
+    fontWeight: "700",
+    marginBottom: 6,
+    fontSize: 14,
+  },
+  chip: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#334155",
+    marginRight: 8,
+    backgroundColor: "#0f172a",
+  },
+  chipActive: {
+    backgroundColor: "#38bdf8",
+    borderColor: "#38bdf8",
+  },
+  chipText: {
+    color: "#e5e7eb",
+    fontWeight: "600",
+    fontSize: 13,
+  },
+  chipTextActive: {
+    color: "#0b1222",
   },
   backButton: {
     alignSelf: "flex-start",
