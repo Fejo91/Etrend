@@ -1,24 +1,25 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { Stack } from "expo-router";
+import { useEffect } from "react";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.body.style.backgroundColor = "#020617";
+      document.documentElement.style.backgroundColor = "#020617";
+    }
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#020617" } }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="etrend" />
+      <Stack.Screen name="quiz" />
+      <Stack.Screen name="cooking-order-quiz" />
+      <Stack.Screen name="next-step-quiz" />
+      <Stack.Screen name="extra" />
+      <Stack.Screen name="training" />
+      <Stack.Screen name="modal" />
+      <Stack.Screen name="shopping-cart" />
+    </Stack>
   );
 }
