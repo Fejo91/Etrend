@@ -642,11 +642,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép: edzésnapos adaggal kb. 210–220 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 175–185 kcal és ~16–17 g fehérje."
   ],
   quizSteps: [
-    "Készíts elő egy dobozt vagy tányért a bento jellegű tálaláshoz.",
-    "Mérd ki vagy készítsd elő a fő fehérjeforrást.",
-    "Mosd meg és vágd fel a zöldségeket vagy gyümölcsöket.",
-    "Rendezd külön rekeszekbe vagy külön kupacokba az összetevőket.",
-    "Add hozzá a ropogós vagy szénhidrátos elemet, ha tartozik hozzá.",
+    "Készíts elő egy rekeszes dobozt vagy egy tányért a bento tálaláshoz.",
+    "Rakd egymásra a pulykasonka-szeleteket, és vágd fel őket falatnyi kockákra.",
+    "Mosd meg a répát, az uborkát és a paprikát.",
+    "Vágd fel a répát, az uborkát és a paprikát hasábokra vagy falatnyi darabokra.",
+    "Készítsd elő a teljes kiőrlésű kenyeret külön.",
+    "Rendezd külön rekeszekbe vagy kupacokba a pulykasonkát, a zöldségeket és a kenyeret.",
     "Zárd le a dobozt, ha útra viszed, vagy tálald azonnal.",
   ],
 },
@@ -730,12 +731,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép: edzésnapos adaggal kb. 185–190 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 155 kcal és ~17 g fehérje – minimál, mégis tartalmas, gyomorkímélő tízórai."
   ],
   quizSteps: [
-    "Mérd ki az alap krémes hozzávalót egy tálba.",
-    "Add hozzá a diót vagy diódarabokat.",
-    "Keverd át, hogy a dió egyenletesen eloszoljon.",
-    "Add hozzá a gyümölcsöt vagy egyéb kiegészítőt, ha a recept tartalmaz ilyet.",
-    "Keverd össze óvatosan, vagy hagyd rétegezve.",
-    "Tálalás előtt hagyd pár percig állni, hogy az ízek összeérjenek.",
+    "Kanalazd a görög joghurtot egy tálba.",
+    "Keverd át a joghurtot, hogy simább, krémesebb legyen.",
+    "Mérd ki a diót, majd vágd vagy törd durvább darabokra.",
+    "Simítsd el a joghurtot a tálban.",
+    "Szórd a diót a joghurt tetejére.",
+    "Tálald azonnal, vagy külön tartsd a diót, ha később eszed meg.",
   ],
 },
 {
@@ -791,13 +792,13 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép – edzésnapos adag (2 rizsszelet, ~17 g mogyoróvaj, ~65 g banán, ~4 g chia): kb. 250 kcal és ≈ 7 g fehérje. Pihenőnapos adag (2 rizsszelet, ~12 g mogyoróvaj, ~50 g banán, ~3–4 g chia): kb. 205 kcal és ≈ 6 g fehérje. Ez inkább energiát adó, gyors tízórai, a fehérjét majd más étkezésekkel együtt hozod fel a kívánt szintre."
   ],
   quizSteps: [
-    "Mérd ki az alap joghurtos vagy krémes hozzávalót egy tálba.",
-    "Add hozzá a magvakat vagy superfood jellegű összetevőket.",
-    "Keverd át az alapot, hogy az összetevők egyenletesen eloszoljanak.",
-    "Add hozzá a gyümölcsöt vagy friss feltétet.",
-    "Keverd össze óvatosan, vagy hagyd a feltéteket a tetején.",
-    "Hagyd röviden állni, ha van benne zab vagy mag, hogy kissé megpuhuljon.",
-    "Tálald kanalas tízóraiként.",
+    "Készítsd elő a puffasztott rizsszeleteket egy tányérra vagy dobozba.",
+    "Mérd ki a mogyoróvajat, és kend el egyenletesen a rizsszeleteken.",
+    "Hámozd meg a banánt.",
+    "Vágd fel a banánt karikákra.",
+    "Rendezd el a banánkarikákat a mogyoróvajas rizsszeletek tetején.",
+    "Szórd meg a tetejét chia maggal.",
+    "Tálald azonnal, vagy dobozold úgy, hogy a rizsszeletek ne ázzanak el és ne törjenek össze.",
   ],
 },
 {
