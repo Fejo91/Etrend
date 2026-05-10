@@ -36,13 +36,13 @@ import {
   buildShoppingList,
   buildShoppingListByMeal,
 } from "../features/diet/utils/shoppingList";
+import { groupSupplementsByTimeSlot } from "../features/diet/utils/supplementGrouping";
 
 import {
   SUPPLEMENTS,
   SUPPLEMENT_TIME_SLOT_LABELS,
   getDailySupplementPlan,
   type CyclePhase,
-  type SupplementRule,
   type SupplementTimeSlot,
   type TrainingKind,
 } from "../types/supplements";
@@ -239,22 +239,10 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
     [cyclePhase, trainingKind, isBeresDay]
   );
 
-  const groupedSupplements = useMemo(() => {
-    const base: Record<SupplementTimeSlot, SupplementRule[]> = {
-      after_breakfast: [],
-      after_lunch: [],
-      pre_workout: [],
-      post_workout: [],
-      with_dinner: [],
-      after_dinner: [],
-    };
-
-    dailySupplements.forEach((rule) => {
-      base[rule.timeSlot].push(rule);
-    });
-
-    return base;
-  }, [dailySupplements]);
+  const groupedSupplements = useMemo(
+    () => groupSupplementsByTimeSlot(dailySupplements),
+    [dailySupplements]
+  );
 
   return (
     <SafeAreaView style={styles.container}>
