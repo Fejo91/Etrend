@@ -20,7 +20,6 @@ interface Question {
 interface CookingOrderQuizScreenProps {
   onBack: () => void;
   initialQuestionPool?: Top25Pool;
-  initialMode?: "practice" | "ranked";
   initialMealId?: string;
   autoStart?: boolean;
 }
