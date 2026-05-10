@@ -10,10 +10,8 @@ import {
 } from "react-native";
 import MEALS from "../types/meals";
 import COOKING_INSTRUCTIONS from "../types/preparations";
-import { QuizMode, QuizScore } from "../types/quiz";
 import {
   filterMealsByTop25Pool,
-  matchesTop25Pool,
   type Top25Pool,
 } from "../constants/topMeals";
 
@@ -34,15 +32,11 @@ interface NextStepQuizScreenProps {
 export default function NextStepQuizScreen({
   onBack,
 }: NextStepQuizScreenProps) {
-  const [mode, setMode] = useState<QuizMode | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const [questionPool, setQuestionPool] = useState<Top25Pool>("all");
   const [currentQuestion, setCurrentQuestion] = useState<NextStepQuestion | null>(null);
   const [hintsUsedCount, setHintsUsedCount] = useState(0);
-  const [attemptCount, setAttemptCount] = useState(0);
-  const [startTime, setStartTime] = useState<number>(0);
-  const [questionsAnswered, setQuestionsAnswered] = useState(0);
-  const [totalQuestions, setTotalQuestions] = useState(0);
-  const [currentScore, setCurrentScore] = useState<QuizScore | null>(null);
+  const [answerState, setAnswerState] = useState<"idle" | "correct" | "incorrect">("idle");
   const [userGuess, setUserGuess] = useState("");
   const [showCustomGuessInput, setShowCustomGuessInput] = useState(false);
   const [revealedPreviousStep, setRevealedPreviousStep] = useState(false);
@@ -122,66 +116,28 @@ export default function NextStepQuizScreen({
 
     setCurrentQuestion(question);
     setHintsUsedCount(0);
-    setAttemptCount(0);
-    setStartTime(Date.now());
+    setAnswerState("idle");
     setRevealedPreviousStep(false);
     setUserGuess("");
     setShowCustomGuessInput(false);
-    setCurrentScore(null);
   };
 
-  const startQuiz = (selectedMode: QuizMode) => {
-    const availableMeals = MEALS.filter((m) => {
-      if (!matchesTop25Pool(m.id, questionPool)) {
-        return false;
-      }
-
-      const instructions = COOKING_INSTRUCTIONS.find((ci) => ci.mealId === m.id);
-      return Boolean(instructions && instructions.steps.length >= 3);
-    });
-
-    setMode(selectedMode);
-    setQuestionsAnswered(0);
-    setCurrentScore(null);
-    setTotalQuestions(Math.min(10, availableMeals.length));
+  const startQuiz = () => {
+    setHasStarted(true);
     loadQuestion();
   };
 
   const submitAnswer = (selectedOption: string | null) => {
-    if (!currentQuestion || currentScore) {
+    if (!currentQuestion || answerState === "correct") {
       return;
     }
 
     const isCorrect = selectedOption === currentQuestion.correctNextStep;
 
-    const newAttemptCount = attemptCount + 1;
-    setAttemptCount(newAttemptCount);
-
     if (isCorrect) {
-      const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
-      const calculatedScore =
-        100 -
-        hintsUsedCount * 15 -
-        (newAttemptCount - 1) * 10 -
-        Math.floor(timeElapsed / 30);
-      const finalScore = Math.max(0, calculatedScore);
-
-      const quizScore: QuizScore = {
-        mode,
-        mealId: currentQuestion.mealId,
-        mealName: currentQuestion.mealName,
-        correctOnFirstTry: newAttemptCount === 1,
-        attempts: newAttemptCount,
-        timeSeconds: timeElapsed,
-        hintsUsed: revealedPreviousStep ? ["first_step"] : [],
-        score: finalScore,
-        timestamp: new Date(),
-      };
-
-      setCurrentScore(quizScore);
-      setQuestionsAnswered((previous) => previous + 1);
+      setAnswerState("correct");
     } else {
-      Alert.alert("Helytelen", "Sajnos nem ez a következő lépés. Próbáld újra!");
+      setAnswerState("incorrect");
     }
   };
 
@@ -195,7 +151,7 @@ export default function NextStepQuizScreen({
     setHintsUsedCount(hintsUsedCount + 1);
   };
 
-  if (!mode) {
+  if (!hasStarted) {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -245,16 +201,9 @@ export default function NextStepQuizScreen({
 
           <TouchableOpacity
             style={styles.modeButton}
-            onPress={() => startQuiz("practice")}
+            onPress={startQuiz}
           >
-            <Text style={styles.modeButtonText}>Gyakorlás</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.modeButton, styles.rankedButton]}
-            onPress={() => startQuiz("ranked")}
-          >
-            <Text style={styles.modeButtonText}>Verseny</Text>
+            <Text style={styles.modeButtonText}>Kvíz indítása</Text>
           </TouchableOpacity>
         </View>
 
@@ -277,10 +226,6 @@ export default function NextStepQuizScreen({
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Mi jön ezután?</Text>
-        <Text style={styles.modeIndicator}>
-          {mode === "practice" ? "Gyakorlás" : "Verseny"} • {questionsAnswered}/
-          {totalQuestions}
-        </Text>
         <Text style={styles.poolIndicator}>
           Kérdéskör: {questionPool === "top25" ? "Top 25" : "Összes"}
         </Text>
@@ -323,7 +268,7 @@ export default function NextStepQuizScreen({
             style={styles.optionButton}
             activeOpacity={0.7}
             onPress={() => submitAnswer(option)}
-            disabled={Boolean(currentScore)}
+            disabled={answerState === "correct"}
           >
             <Text style={styles.optionText}>{option}</Text>
           </TouchableOpacity>
@@ -352,7 +297,7 @@ export default function NextStepQuizScreen({
           <TouchableOpacity
             style={styles.submitGuessButton}
             onPress={() => submitAnswer(userGuess)}
-            disabled={Boolean(currentScore)}
+            disabled={answerState === "correct"}
           >
             <Text style={styles.submitGuessButtonText}>Küldés</Text>
           </TouchableOpacity>
@@ -375,28 +320,18 @@ export default function NextStepQuizScreen({
         </View>
       )}
 
-      {/* Pont info */}
-      {!currentScore && (
-        <View style={styles.scoreInfo}>
-          <Text style={styles.scoreLabel}>Szerzett pontok:</Text>
-          <Text style={styles.scoreValue}>
-            100 - {hintsUsedCount} × 15 - {attemptCount > 0 ? (attemptCount - 1) * 10 : 0} = ?
-          </Text>
-        </View>
-      )}
-
-      {currentScore && (
+      {answerState !== "idle" && (
         <View style={styles.resultCard}>
-          <Text style={styles.resultTitle}>Eredmény</Text>
-          <Text style={styles.resultLine}>Étel: {currentScore.mealName}</Text>
-          <Text style={styles.resultLine}>Pontszám: {currentScore.score}</Text>
-          <Text style={styles.resultLine}>Próbálkozások: {currentScore.attempts}</Text>
-          <Text style={styles.resultLine}>Idő: {currentScore.timeSeconds} mp</Text>
-          <Text style={styles.resultLine}>Segítségek: {hintsUsedCount}</Text>
-
-          <TouchableOpacity style={styles.nextQuestionButton} onPress={nextQuestion}>
-            <Text style={styles.nextQuestionButtonText}>Következő kérdés</Text>
-          </TouchableOpacity>
+          {answerState === "correct" ? (
+            <>
+              <Text style={styles.resultTitle}>Ügyes vagy! Ez volt a következő lépés. ✅</Text>
+              <TouchableOpacity style={styles.nextQuestionButton} onPress={nextQuestion}>
+                <Text style={styles.nextQuestionButtonText}>Következő kérdés</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <Text style={styles.resultLine}>Nem ez következik. Próbáld javítani. 🔁</Text>
+          )}
         </View>
       )}
 
@@ -428,11 +363,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: "#9ca3af",
-  },
-  modeIndicator: {
-    fontSize: 12,
-    color: "#38bdf8",
-    marginTop: 8,
   },
   poolIndicator: {
     fontSize: 12,
@@ -482,9 +412,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#38bdf8",
     alignItems: "center",
-  },
-  rankedButton: {
-    borderColor: "#f59e0b",
   },
   modeButtonText: {
     fontSize: 16,
@@ -629,22 +556,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "500",
     color: "#10b981",
-  },
-  scoreInfo: {
-    backgroundColor: "#1f2937",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  scoreLabel: {
-    fontSize: 11,
-    color: "#9ca3af",
-    marginBottom: 4,
-  },
-  scoreValue: {
-    fontSize: 13,
-    color: "#e5e7eb",
-    fontFamily: "monospace",
   },
   resultCard: {
     backgroundColor: "#0f172a",
