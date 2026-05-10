@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import MEALS from "../types/meals";
-import type { IngredientItem, MacroTotals, Meal } from "../types/nutrition";
+import type { MacroTotals } from "../types/nutrition";
 
 import type { CookingInstruction } from "../types/preparations";
 import COOKING_INSTRUCTIONS from "../types/preparations";
@@ -33,6 +33,11 @@ import {
 import { useTopMealFilters } from "../features/diet/hooks/useTopMealFilters";
 
 import {
+  buildShoppingList,
+  buildShoppingListByMeal,
+} from "../features/diet/utils/shoppingList";
+
+import {
   SUPPLEMENTS,
   SUPPLEMENT_TIME_SLOT_LABELS,
   getDailySupplementPlan,
@@ -51,26 +56,6 @@ type SajatEtrendScreenProps = {
 type SlotType = "Reggeli" | "Tízorai" | "Ebéd" | "Uzsonna" | "Vacsora";
 
 const SLOTS: SlotType[] = ["Reggeli", "Tízorai", "Ebéd", "Uzsonna", "Vacsora"];
-
-function parseIngredientsFromPortion(portion: string): IngredientItem[] {
-  const cleaned = portion
-    .replace(/Edzésnap:\s*/gi, "")
-    .replace(/Pihenőnap:\s*/gi, "")
-    .replace(/\([^)]*\)/g, "")
-    .replace(/\b(opcionális|opcionalis)\b/gi, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  return cleaned
-    .split(/\s*\+\s*|\s*,\s*/)
-    .map((chunk) => chunk.trim().replace(/[.;:]$/, ""))
-    .filter((chunk) => chunk.length >= 3)
-    .map((chunk) => ({ name: chunk }));
-}
-
-function normalizeIngredientName(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, " ").trim();
-}
 
 export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
   const [day, setDay] = useState<number>(1);
@@ -233,83 +218,15 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
     }, { ...EMPTY_TOTALS });
   }, [selectedMealsList, isWorkoutDay]);
 
-  const shoppingList = useMemo(() => {
-    const merged = new Map<string, { name: string; amounts: Set<string> }>();
+  const shoppingList = useMemo(
+    () => buildShoppingList(selectedMealsList, isWorkoutDay),
+    [selectedMealsList, isWorkoutDay]
+  );
 
-    selectedMealsList.forEach((meal) => {
-      if (!meal) return;
-
-      const structured = isWorkoutDay
-        ? meal.workoutIngredients
-        : meal.restIngredients;
-      const fallback = parseIngredientsFromPortion(
-        isWorkoutDay ? meal.workout.portion : meal.rest.portion
-      );
-      const source = structured && structured.length > 0 ? structured : fallback;
-
-      source.forEach((item) => {
-        const key = normalizeIngredientName(item.name);
-        if (!key) return;
-
-        const existing = merged.get(key);
-        if (!existing) {
-          merged.set(key, {
-            name: item.name,
-            amounts: new Set(item.amount ? [item.amount] : []),
-          });
-          return;
-        }
-
-        if (item.amount) existing.amounts.add(item.amount);
-      });
-    });
-
-    return Array.from(merged.values()).sort((a, b) =>
-      a.name.localeCompare(b.name, "hu")
-    );
-  }, [selectedMealsList, isWorkoutDay]);
-
-  const shoppingListByMeal = useMemo(() => {
-    return selectedMealsList
-      .filter((meal): meal is Meal => meal !== null)
-      .map((meal) => {
-        const structured = isWorkoutDay
-          ? meal.workoutIngredients
-          : meal.restIngredients;
-        const fallback = parseIngredientsFromPortion(
-          isWorkoutDay ? meal.workout.portion : meal.rest.portion
-        );
-        const source =
-          structured && structured.length > 0 ? structured : fallback;
-
-        const merged = new Map<string, { name: string; amounts: Set<string> }>();
-
-        source.forEach((item) => {
-          const key = normalizeIngredientName(item.name);
-          if (!key) return;
-
-          const existing = merged.get(key);
-          if (!existing) {
-            merged.set(key, {
-              name: item.name,
-              amounts: new Set(item.amount ? [item.amount] : []),
-            });
-            return;
-          }
-
-          if (item.amount) existing.amounts.add(item.amount);
-        });
-
-        return {
-          mealId: meal.id,
-          mealName: meal.name,
-          slot: meal.slot,
-          items: Array.from(merged.values()).sort((a, b) =>
-            a.name.localeCompare(b.name, "hu")
-          ),
-        };
-      });
-  }, [selectedMealsList, isWorkoutDay]);
+  const shoppingListByMeal = useMemo(
+    () => buildShoppingListByMeal(selectedMealsList, isWorkoutDay),
+    [selectedMealsList, isWorkoutDay]
+  );
 
   // --- NAPI KIEGÉSZÍTŐK ---
   const dailySupplements = useMemo(
