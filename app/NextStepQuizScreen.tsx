@@ -9,7 +9,9 @@ import {
     View,
 } from "react-native";
 import MEALS from "../types/meals";
-import COOKING_INSTRUCTIONS from "../types/preparations";
+import COOKING_INSTRUCTIONS, {
+  type CookingInstruction,
+} from "../types/preparations";
 import {
   filterMealsByTop25Pool,
   type Top25Pool,
@@ -41,6 +43,14 @@ export default function NextStepQuizScreen({
   const [showCustomGuessInput, setShowCustomGuessInput] = useState(false);
   const [revealedPreviousStep, setRevealedPreviousStep] = useState(false);
 
+  const getQuizSteps = (instruction: CookingInstruction): string[] => {
+    if (instruction.quizSteps && instruction.quizSteps.length > 0) {
+      return instruction.quizSteps;
+    }
+
+    return instruction.steps;
+  };
+
   const loadQuestion = (mealId?: string) => {
     let meal = null;
 
@@ -53,7 +63,7 @@ export default function NextStepQuizScreen({
         const instructions = COOKING_INSTRUCTIONS.find(
           (ci) => ci.mealId === m.id
         );
-        return instructions && instructions.steps.length >= 3;
+        return instructions && getQuizSteps(instructions).length >= 3;
       });
 
       if (mealsWithInstructions.length === 0) {
@@ -72,18 +82,19 @@ export default function NextStepQuizScreen({
     const instructions = COOKING_INSTRUCTIONS.find(
       (ci) => ci.mealId === meal!.id
     )!;
+    const sourceSteps = getQuizSteps(instructions);
 
-    if (instructions.steps.length < 2) {
+    if (sourceSteps.length < 2) {
       loadQuestion(); // Próbáljon egy másik ételt
       return;
     }
 
     // Random lépés kiválasztása (de nem az utolsó)
     const currentStepIndex = Math.floor(
-      Math.random() * (instructions.steps.length - 1)
+      Math.random() * (sourceSteps.length - 1)
     );
-    const currentStep = instructions.steps[currentStepIndex];
-    const correctNextStep = instructions.steps[currentStepIndex + 1];
+    const currentStep = sourceSteps[currentStepIndex];
+    const correctNextStep = sourceSteps[currentStepIndex + 1];
 
     // 2 random rossz opció (más ételekből vagy más lépésekből)
     const wrongOptions: Set<string> = new Set();
@@ -91,7 +102,7 @@ export default function NextStepQuizScreen({
 
     const allOtherSteps = sourceMeals.flatMap((m) => {
       const instrs = COOKING_INSTRUCTIONS.find((ci) => ci.mealId === m.id);
-      return instrs ? instrs.steps : [];
+      return instrs ? getQuizSteps(instrs) : [];
     }).filter((step) => step !== correctNextStep && step !== currentStep);
 
     while (wrongOptions.size < 2 && allOtherSteps.length > 0) {
@@ -110,7 +121,7 @@ export default function NextStepQuizScreen({
       currentStepIndex,
       currentStep,
       correctNextStep,
-      allSteps: instructions.steps,
+      allSteps: sourceSteps,
       options: shuffledOptions,
     };
 
