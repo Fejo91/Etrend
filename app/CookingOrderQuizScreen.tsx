@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import MEALS from "../types/meals";
 import COOKING_INSTRUCTIONS from "../types/preparations";
-import { HintType, QuizMode, QuizScore } from "../types/quiz";
 import { matchesTop25Pool, type Top25Pool } from "../constants/topMeals";
 
 interface Question {
@@ -21,7 +20,7 @@ interface Question {
 interface CookingOrderQuizScreenProps {
   onBack: () => void;
   initialQuestionPool?: Top25Pool;
-  initialMode?: QuizMode;
+  initialMode?: "practice" | "ranked";
   initialMealId?: string;
   autoStart?: boolean;
 }
@@ -29,21 +28,17 @@ interface CookingOrderQuizScreenProps {
 export default function CookingOrderQuizScreen({
   onBack,
   initialQuestionPool,
-  initialMode,
   initialMealId,
   autoStart = false,
 }: CookingOrderQuizScreenProps) {
-  const [mode, setMode] = useState<QuizMode | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
   const [questionPool, setQuestionPool] = useState<Top25Pool>(
     initialQuestionPool ?? "all"
   );
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [userOrder, setUserOrder] = useState<string[]>([]);
   const [hintsUsedCount, setHintsUsedCount] = useState(0);
-  const [attemptCount, setAttemptCount] = useState(0);
-  const [startTime, setStartTime] = useState<number>(0);
-  const [score, setScore] = useState<QuizScore | null>(null);
-  const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [answerState, setAnswerState] = useState<"idle" | "correct" | "incorrect">("idle");
   const [revealedFirstStep, setRevealedFirstStep] = useState(false);
   const [highlightedWrongSteps, setHighlightedWrongSteps] = useState<
     Set<string>
@@ -114,45 +109,39 @@ export default function CookingOrderQuizScreen({
 
     setCurrentQuestion(question);
     setUserOrder(shuffleArray(selectedSteps));
+    setAnswerState("idle");
     setHintsUsedCount(0);
-    setAttemptCount(0);
-    setStartTime(Date.now());
     setRevealedFirstStep(false);
     setHighlightedWrongSteps(new Set());
   };
 
-  const startQuiz = (selectedMode: QuizMode, forcedMealId?: string) => {
-    setMode(selectedMode);
-    setQuestionsAnswered(0);
-    setScore(null);
-    loadQuestion(forcedMealId);
+  const startQuiz = (forcedMealId?: string, poolOverride?: Top25Pool) => {
+    setHasStarted(true);
+    loadQuestion(forcedMealId, poolOverride);
   };
 
   useEffect(() => {
-    if (!autoStart || hasAutoStarted || mode || currentQuestion) {
+    if (!autoStart || hasAutoStarted || hasStarted || currentQuestion) {
       return;
     }
 
     const selectedPool = initialQuestionPool ?? "top25";
-    const selectedMode = initialMode ?? "practice";
 
     setQuestionPool(selectedPool);
-    setMode(selectedMode);
-    setQuestionsAnswered(0);
-    setScore(null);
-    loadQuestion(initialMealId, selectedPool);
+    startQuiz(initialMealId, selectedPool);
     setHasAutoStarted(true);
   }, [
     autoStart,
     hasAutoStarted,
-    mode,
+    hasStarted,
     currentQuestion,
     initialQuestionPool,
-    initialMode,
     initialMealId,
   ]);
 
   const moveStep = (fromIndex: number, direction: "up" | "down") => {
+    if (answerState === "correct") return;
+
     const newOrder = [...userOrder];
     const toIndex = direction === "up" ? fromIndex - 1 : fromIndex + 1;
 
@@ -166,43 +155,15 @@ export default function CookingOrderQuizScreen({
   };
 
   const submitAnswer = () => {
-    if (!currentQuestion) return;
+    if (!currentQuestion || answerState === "correct") return;
 
     const isCorrect =
       JSON.stringify(userOrder) === JSON.stringify(currentQuestion.correctOrder);
 
-    const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
-    const newAttemptCount = attemptCount + 1;
-    setAttemptCount(newAttemptCount);
-
     if (isCorrect) {
-      const calculatedScore =
-        100 -
-        hintsUsedCount * 15 -
-        (newAttemptCount - 1) * 10 -
-        Math.floor(timeElapsed / 30);
-      const finalScore = Math.max(0, calculatedScore);
-
-      const hintsUsed: HintType[] = [];
-      if (revealedFirstStep) hintsUsed.push("first_step");
-      if (highlightedWrongSteps.size > 0) hintsUsed.push("wrong_steps");
-
-      const quizScore: QuizScore = {
-        mode: mode!,
-        mealId: currentQuestion.mealId,
-        mealName: currentQuestion.mealName,
-        correctOnFirstTry: newAttemptCount === 1,
-        attempts: newAttemptCount,
-        timeSeconds: timeElapsed,
-        hintsUsed: hintsUsed,
-        score: finalScore,
-        timestamp: new Date(),
-      };
-
-      setScore(quizScore);
-      setQuestionsAnswered(questionsAnswered + 1);
+      setAnswerState("correct");
     } else {
-      Alert.alert("Helytelen", "Próbáld újra!");
+      setAnswerState("incorrect");
     }
   };
 
@@ -234,18 +195,19 @@ export default function CookingOrderQuizScreen({
   };
 
   const nextQuestion = () => {
-    setScore(null);
     loadQuestion();
   };
 
   const exitQuiz = () => {
-    setMode(null);
+    setHasStarted(false);
     setCurrentQuestion(null);
-    setScore(null);
-    setQuestionsAnswered(0);
+    setAnswerState("idle");
+    setHintsUsedCount(0);
+    setRevealedFirstStep(false);
+    setHighlightedWrongSteps(new Set());
   };
 
-  if (!mode) {
+  if (!hasStarted) {
     return (
       <View style={styles.container}>
         <ScrollView
@@ -254,7 +216,7 @@ export default function CookingOrderQuizScreen({
         >
           <Text style={styles.title}>Elkészítés Sorrend Kvíz</Text>
           <Text style={styles.description}>
-            Válaszd ki a módot, amelyben játszani szeretnél
+            Rendezd helyes sorrendbe az elkészítés lépéseit
           </Text>
 
           <Text style={styles.poolLabel}>Kérdéskör:</Text>
@@ -296,84 +258,14 @@ export default function CookingOrderQuizScreen({
 
           <TouchableOpacity
             style={styles.modeButton}
-            onPress={() => startQuiz("practice")}
+            onPress={() => startQuiz()}
           >
-            <Text style={styles.modeButtonTitle}>Gyakorló mód</Text>
-            <Text style={styles.modeButtonDescription}>
-              Gyakorolj nyomás nélkül, nincsenek következmények
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.modeButton, styles.rankedButton]}
-            onPress={() => startQuiz("ranked")}
-          >
-            <Text style={styles.modeButtonTitle}>Ranglista mód</Text>
-            <Text style={styles.modeButtonDescription}>
-              Az eredményeid mentésre kerülnek a ranglistán
-            </Text>
+            <Text style={styles.modeButtonTitle}>Kvíz indítása</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.backButton} onPress={onBack}>
             <Text style={styles.backButtonText}>Vissza a főmenübe</Text>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
-    );
-  }
-
-  if (score) {
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <Text style={styles.title}>
-            {score.correctOnFirstTry ? "Tökéletes! 🎉" : "Helyes! ✓"}
-          </Text>
-
-          <View style={styles.scoreCard}>
-            <Text style={styles.scoreMealName}>{score.mealName}</Text>
-
-            <View style={styles.scoreRow}>
-              <Text style={styles.scoreLabel}>Pontszám:</Text>
-              <Text style={styles.scoreValue}>{score.score}</Text>
-            </View>
-
-            <View style={styles.scoreRow}>
-              <Text style={styles.scoreLabel}>Próbálkozások:</Text>
-              <Text style={styles.scoreValue}>{score.attempts}</Text>
-            </View>
-
-            <View style={styles.scoreRow}>
-              <Text style={styles.scoreLabel}>Idő:</Text>
-              <Text style={styles.scoreValue}>{score.timeSeconds} mp</Text>
-            </View>
-
-            <View style={styles.scoreRow}>
-              <Text style={styles.scoreLabel}>Segítségek:</Text>
-              <Text style={styles.scoreValue}>{score.hintsUsed.length}/2</Text>
-            </View>
-
-            {mode === "ranked" && (
-              <Text style={styles.rankedNote}>
-                Az eredményed mentésre került a ranglistán
-              </Text>
-            )}
-          </View>
-
-          <TouchableOpacity style={styles.nextButton} onPress={nextQuestion}>
-            <Text style={styles.nextButtonText}>Következő kérdés</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.backButton} onPress={exitQuiz}>
-            <Text style={styles.backButtonText}>Kilépés a kvízből</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.questionsCount}>
-            Megválaszolt kérdések: {questionsAnswered}
-          </Text>
         </ScrollView>
       </View>
     );
@@ -393,15 +285,6 @@ export default function CookingOrderQuizScreen({
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
-        <View style={styles.header}>
-          <Text style={styles.modeLabel}>
-            {mode === "practice" ? "Gyakorló mód" : "Ranglista mód"}
-          </Text>
-          <Text style={styles.questionCount}>
-            Kérdés #{questionsAnswered + 1}
-          </Text>
-        </View>
-
         <Text style={styles.questionTitle}>{currentQuestion.mealName}</Text>
         <Text style={styles.instruction}>
           Rendezd helyes sorrendbe az elkészítés lépéseit!
@@ -430,7 +313,7 @@ export default function CookingOrderQuizScreen({
                 <TouchableOpacity
                   style={[styles.moveButton, index === 0 && styles.disabledButton]}
                   onPress={() => moveStep(index, "up")}
-                  disabled={index === 0}
+                  disabled={index === 0 || answerState === "correct"}
                 >
                   <Text style={styles.moveButtonText}>↑</Text>
                 </TouchableOpacity>
@@ -438,9 +321,10 @@ export default function CookingOrderQuizScreen({
                   style={[
                     styles.moveButton,
                     index === userOrder.length - 1 && styles.disabledButton,
+                    answerState === "correct" && styles.disabledButton,
                   ]}
                   onPress={() => moveStep(index, "down")}
-                  disabled={index === userOrder.length - 1}
+                  disabled={index === userOrder.length - 1 || answerState === "correct"}
                 >
                   <Text style={styles.moveButtonText}>↓</Text>
                 </TouchableOpacity>
@@ -453,27 +337,40 @@ export default function CookingOrderQuizScreen({
           <TouchableOpacity
             style={[styles.hintButton, hintsUsedCount >= 2 && styles.disabledButton]}
             onPress={getHint}
-            disabled={hintsUsedCount >= 2}
+            disabled={hintsUsedCount >= 2 || answerState === "correct"}
           >
             <Text style={styles.hintButtonText}>
               Segítség ({hintsUsedCount}/2)
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.submitButton} onPress={submitAnswer}>
+          <TouchableOpacity
+            style={[styles.submitButton, answerState === "correct" && styles.disabledButton]}
+            onPress={submitAnswer}
+            disabled={answerState === "correct"}
+          >
             <Text style={styles.submitButtonText}>Ellenőrzés</Text>
           </TouchableOpacity>
         </View>
 
+        {answerState !== "idle" && (
+          <View style={styles.feedbackCard}>
+            {answerState === "correct" ? (
+              <>
+                <Text style={styles.feedbackTitle}>Ügyes vagy! Jó sorrend. ✅</Text>
+                <TouchableOpacity style={styles.nextButton} onPress={nextQuestion}>
+                  <Text style={styles.nextButtonText}>Következő kérdés</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <Text style={styles.feedbackTitle}>Rossz sorrend. Javítsd ki. 🔁</Text>
+            )}
+          </View>
+        )}
+
         <TouchableOpacity style={styles.exitButton} onPress={exitQuiz}>
           <Text style={styles.exitButtonText}>Kilépés</Text>
         </TouchableOpacity>
-
-        {attemptCount > 0 && (
-          <Text style={styles.attemptText}>
-            Próbálkozások: {attemptCount}
-          </Text>
-        )}
       </ScrollView>
     </View>
   );
