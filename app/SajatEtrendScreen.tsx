@@ -11,10 +11,16 @@ import {
 } from "react-native";
 
 import MEALS from "../types/meals";
-import type { IngredientItem, Meal } from "../types/nutrition";
+import type { IngredientItem, MacroTotals, Meal } from "../types/nutrition";
 
 import type { CookingInstruction } from "../types/preparations";
 import COOKING_INSTRUCTIONS from "../types/preparations";
+
+import {
+  EMPTY_TOTALS,
+  addMacroTotals,
+  macrosFromMeal,
+} from "../features/diet/utils/macroTotals";
 
 import {
   SUPPLEMENTS,
@@ -33,21 +39,6 @@ type SajatEtrendScreenProps = {
 
 // ---- HELYI TÍPUSOK ----
 type SlotType = "Reggeli" | "Tízorai" | "Ebéd" | "Uzsonna" | "Vacsora";
-
-type MacroTotals = {
-  kcal: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-};
-
-// üres napi összesítő
-const EMPTY_TOTALS: MacroTotals = {
-  kcal: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
-};
 
 const SLOTS: SlotType[] = ["Reggeli", "Tízorai", "Ebéd", "Uzsonna", "Vacsora"];
 
@@ -96,28 +87,6 @@ const TOP_TIZORAI_FILTER_STORAGE_KEY = "@sajat_etrend_top_tizorai_only";
 const TOP_LUNCH_FILTER_STORAGE_KEY = "@sajat_etrend_top_lunch_only";
 const TOP_UZSONNA_FILTER_STORAGE_KEY = "@sajat_etrend_top_uzsonna_only";
 const TOP_DINNER_FILTER_STORAGE_KEY = "@sajat_etrend_top_dinner_only";
-
-// helper – összegzés
-function addMacroTotals(a: MacroTotals, b: MacroTotals): MacroTotals {
-  return {
-    kcal: a.kcal + b.kcal,
-    protein: a.protein + b.protein,
-    carbs: a.carbs + b.carbs,
-    fat: a.fat + b.fat,
-  };
-}
-
-// ételből makrók (workout vs rest szerint)
-function macrosFromMeal(meal: Meal, isWorkoutDay: boolean): MacroTotals {
-  const src = isWorkoutDay ? meal.workout : meal.rest;
-
-  return {
-    kcal: src.kcal,
-    protein: src.protein,
-    carbs: src.carbs,
-    fat: src.fat,
-  };
-}
 
 function parseIngredientsFromPortion(portion: string): IngredientItem[] {
   const cleaned = portion
