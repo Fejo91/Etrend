@@ -59,6 +59,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
       "Eheted így magában is, vagy feldobhatod pár szelet banánnal, kevés fahéjjal, esetleg 1 teáskanál mogyoróvajjal (ha belefér a napi keretbe).",
       "Ez a verzió a „reggel rohanok, de nem akarok szemetet enni” opció – 5–6 perc alatt kész, edzésnapra energiadúsabb, pihenőnapra kicsit visszafogottabb adaggal.",
     ],
+    quizSteps: [
+      "Mérd ki a zabpelyhet egy mikrózható tálba.",
+      "Öntsd rá a folyadékot, majd keverd át.",
+      "Tedd a tálat mikróba, és melegítsd rövid szakaszokban.",
+      "Melegítés közben időnként állítsd meg, és keverd át.",
+      "Vedd ki, majd hagyd 1–2 percig sűrűsödni és hűlni.",
+      "Add hozzá a fehérjeport, majd keverd csomómentesre.",
+      "Ha túl sűrű, lazítsd kevés vízzel vagy tejjel.",
+      "Tálalás előtt ízesítsd fahéjjal vagy gyümölccsel, ha szeretnéd.",
+    ],
   },
   {
   id: "1-R-baked",
@@ -163,6 +173,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Ha jobban szereted a nagyon ropogós textúrát, a puffasztott rizst törd kisebb darabokra, és a végén szórd a cottage + zöldség keverék tetejére, mint egy crunchy topping.",
     "Edzésnapos adag összefoglaló (kb. 220 g cottage, ~100–120 g paradicsom, ~80–100 g uborka, 3 szelet puffasztott rizs): kb. 290 kcal és ~30 g fehérje – könnyű, de fehérjében erős reggeli egy kis szénhidráttal a délelőttre.",
     "Pihenőnapos adag összefoglaló (kb. 200 g cottage, ~100 g paradicsom, ~100–120 g uborka, 2 szelet puffasztott rizs): kb. 250 kcal és ~27 g fehérje – hasonló fehérjeszinttel, egy kicsit visszafogottabb szénhidráttal."
+  ],
+  quizSteps: [
+    "Mosd meg a paradicsomot és az uborkát.",
+    "Vágd fel a paradicsomot és az uborkát falatnyi darabokra.",
+    "Mérd ki a cottage cheese-t egy tálba.",
+    "Sózd, borsozd, majd keverd át a cottage cheese-t.",
+    "Add hozzá a snidlinget vagy újhagymát, ha használsz.",
+    "Tedd a cottage cheese-t és a zöldségeket egy tányérra vagy keverd össze őket egy tálban.",
+    "Tedd mellé a puffasztott rizst vagy abonettet.",
+    "Evéskor mártogasd, kend vagy törd a szeleteket a cottage-zöldség keverékhez.",
   ],
 },
 {
@@ -286,6 +306,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Edzésnapos összefoglaló (200 g joghurt, 30 g zab, ~70 g bogyós, ~10 g méz): kb. 320 kcal és kb. 22 g fehérje – jó energiadúsabb, mégis clean reggeli edzéses napokra.",
     "Pihenőnapos összefoglaló (180 g joghurt, 20 g zab, ~60 g bogyós, ~5 g méz): kb. 250 kcal és kb. 19 g fehérje – kevesebb zab + kevesebb méz, így visszafogottabb kalória, de még mindig elég laktató és fehérjedús."
   ],
+  quizSteps: [
+    "Mérd ki a görög joghurtot egy tálba.",
+    "Szórd rá a zabpelyhet.",
+    "Add hozzá a bogyós gyümölcsöket.",
+    "Keverd össze óvatosan, vagy hagyd rétegezve.",
+    "Csorgasd a tetejére a mézet.",
+    "Tálalás előtt hagyd pár percig állni, hogy a zab kissé megpuhuljon.",
+  ],
 },
 {
   id: "5-R-high-protein",
@@ -344,6 +372,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Tálaláskor kanalazd a fahéjas-fehérjés túrókrémet egy tálba. Mellé tedd a pirítóst vagy abonettet. Eheted úgy, hogy a kenyérre vastagon rákened a túrókrémet, vagy külön kanalazod a túrót, és mellé harapod a kenyeret – ahogy jobban esik.",
     "Edzésnapos adag (kb. 180 g túró + 20 g whey + ~38 g teljes kiőrlésű kenyér) makrói: nagyjából 300 kcal és kb. 39 g fehérje – magas fehérje, egy kis hasznos CH, jó alap edzés elé.",
     "Pihenőnapos adag (kb. 165 g túró + 15 g whey + ~32 g kenyér vagy 2 abonett) makrói: kb. 260 kcal és kb. 33 g fehérje – a fehérje továbbra is magas, a kalória és a szénhidrát viszont picit visszafogva marad."
+  ],
+  quizSteps: [
+    "Mérd ki a zsírszegény túrót egy tálba.",
+    "Add hozzá a fehérjeport.",
+    "Szórd meg fahéjjal.",
+    "Adj hozzá kevés vizet vagy joghurtot a krémesítéshez.",
+    "Keverd simára vagy krémes, de enyhén darabos állagúra.",
+    "Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet.",
+    "Tálald a túrókrémet a kenyérrel vagy abonettel.",
   ],
 },
 {
