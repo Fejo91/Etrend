@@ -496,6 +496,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "A teljes kiőrlésű kenyeret (vagy extrudált kenyeret) készítsd elő: ha sima szeletelt TK kenyérrel dolgozol, akár meg is piríthatod pirítóban vagy száraz serpenyőben, hogy ropogós legyen. Edzésnapon 2 vékony szeletet eszel (kicsit több CH), pihenőnapon 1 kisebb szelet vagy 2 extrudált lap megy mellé.",
     "Tálalásnál tedd a cottage cheese-t a tál közepére, a paprikát és uborkát rendezd köré. A kenyeret külön tányérra vagy a zöldségek mellé rakhatod. Eheted úgy, hogy a kenyérre kensz egy adag cottage-ot és teszel rá pár paprikát/uborkát, vagy csak kanalazod a cottage-ot, közben zöldséget ropogtatsz és harapsz a kenyérből. Hideg, friss, 2 perc alatt összedobható tízórai."
   ],
+  quizSteps: [
+    "Mérd ki a cottage cheese-t egy tálba vagy tányérra.",
+    "Mosd meg a paprikát és az uborkát.",
+    "Vágd fel a paprikát és az uborkát falatnyi darabokra vagy hasábokra.",
+    "Sózd, borsozd a cottage cheese-t ízlés szerint.",
+    "Keverd át a cottage cheese-t, hogy krémesebb legyen.",
+    "Tedd a zöldségeket a cottage cheese mellé vagy keverd hozzá.",
+    "Készítsd elő mellé a teljes kiőrlésű kenyeret vagy abonettet.",
+    "Tálald a cottage-zöldség keveréket a kenyérrel vagy abonettel.",
+  ],
 },
 {
   id: "1-T-dip",
@@ -631,6 +641,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Evéskor csipegess felváltva: pár kocka pulykasonka, pár falat ropogós zöldség, időnként egy falat kenyér – olyan, mintha egy tányérnyi hideg ebédet nassolnál elosztva, csak fit bento box formában.",
     "Makró összkép: edzésnapos adaggal kb. 210–220 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 175–185 kcal és ~16–17 g fehérje."
   ],
+  quizSteps: [
+    "Készíts elő egy dobozt vagy tányért a bento jellegű tálaláshoz.",
+    "Mérd ki vagy készítsd elő a fő fehérjeforrást.",
+    "Mosd meg és vágd fel a zöldségeket vagy gyümölcsöket.",
+    "Rendezd külön rekeszekbe vagy külön kupacokba az összetevőket.",
+    "Add hozzá a ropogós vagy szénhidrátos elemet, ha tartozik hozzá.",
+    "Zárd le a dobozt, ha útra viszed, vagy tálald azonnal.",
+  ],
 },
 {
   id: "4-T-klasszikus",
@@ -647,6 +665,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Szórj a tetejére bőven fahéjat – jól passzol a banánhoz és a kefires alaphoz is.",
     "Ha munkába vagy útra viszed, zárható dobozba készítsd el; a banánt teheted rá csak evés előtt, hogy kevésbé barnuljon.",
     "Makró összkép: edzésnapos adaggal kb. 285 kcal és ~10 g fehérje, pihenőnapos adaggal kb. 240 kcal és ~9 g fehérje – könnyű, gyomorkímélő, inkább szénhidrát-dúsabb tízórai, nem fő fehérjeforrás, de szépen illeszkedik a napi összképbe."
+  ],
+  quizSteps: [
+    "Öntsd a kefirt egy tálba vagy mélyebb pohárba.",
+    "Szórd bele a zabpelyhet.",
+    "Keverd össze, hogy minden zabpelyhet érjen a kefir.",
+    "Hagyd röviden állni, hogy a zab kissé megszívja magát.",
+    "Hámozd meg és vágd fel a banánt.",
+    "Add a banánt a kefires-zabos alaphoz.",
+    "Szórd meg fahéjjal.",
+    "Tálald azonnal vagy dobozold el fogyasztásra.",
   ],
 },
 {
@@ -701,6 +729,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Tálalás: kanalazd, mint egy desszertet. Ha magaddal viszed, a joghurtot tedd egy zárható dobozba, a diót pedig külön kis zacskóba vagy mini dobozba, és csak evés előtt szórd a tetejére, hogy ropogós maradjon.",
     "Makró összkép: edzésnapos adaggal kb. 185–190 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 155 kcal és ~17 g fehérje – minimál, mégis tartalmas, gyomorkímélő tízórai."
   ],
+  quizSteps: [
+    "Mérd ki az alap krémes hozzávalót egy tálba.",
+    "Add hozzá a diót vagy diódarabokat.",
+    "Keverd át, hogy a dió egyenletesen eloszoljon.",
+    "Add hozzá a gyümölcsöt vagy egyéb kiegészítőt, ha a recept tartalmaz ilyet.",
+    "Keverd össze óvatosan, vagy hagyd rétegezve.",
+    "Tálalás előtt hagyd pár percig állni, hogy az ízek összeérjenek.",
+  ],
 },
 {
   id: "5-T-korte-fahejas-mezes",
@@ -753,6 +789,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Mérd ki a chia magot (edzésnapon kb. 1 tk ≈ 4 g, pihenőnapon ½–1 kk), majd szórd egyenletesen a banánkarikák tetejére. Nem kell belenyomni, a banán és a mogyoróvaj szépen 'megtartja' a szemeket.",
     "Az elkészült superfood tízórait azonnal megeheted, vagy egy lapos dobozba téve magaddal viheted. Ha dobozba csomagolod, ügyelj rá, hogy a két rizsszelet egymás mellé kerüljön, ne tedd őket egymásra, mert összeragadnak és eltörhetnek.",
     "Makró összkép – edzésnapos adag (2 rizsszelet, ~17 g mogyoróvaj, ~65 g banán, ~4 g chia): kb. 250 kcal és ≈ 7 g fehérje. Pihenőnapos adag (2 rizsszelet, ~12 g mogyoróvaj, ~50 g banán, ~3–4 g chia): kb. 205 kcal és ≈ 6 g fehérje. Ez inkább energiát adó, gyors tízórai, a fehérjét majd más étkezésekkel együtt hozod fel a kívánt szintre."
+  ],
+  quizSteps: [
+    "Mérd ki az alap joghurtos vagy krémes hozzávalót egy tálba.",
+    "Add hozzá a magvakat vagy superfood jellegű összetevőket.",
+    "Keverd át az alapot, hogy az összetevők egyenletesen eloszoljanak.",
+    "Add hozzá a gyümölcsöt vagy friss feltétet.",
+    "Keverd össze óvatosan, vagy hagyd a feltéteket a tetején.",
+    "Hagyd röviden állni, ha van benne zab vagy mag, hogy kissé megpuhuljon.",
+    "Tálald kanalas tízóraiként.",
   ],
 },
 {
