@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TOP_25_SHOPPING_MEAL_IDS } from "../constants/topMeals";
 
 interface Ingredient {
   name: string;
@@ -18,6 +19,29 @@ interface Meal {
 interface MealSelection {
   workoutDays: number;
   restDays: number;
+}
+
+const INGREDIENT_SYNONYMS: Record<string, string> = {
+  "tejsavó fehérjepor (whey)": "Whey fehérje",
+  "fehérjepor (whey)": "Whey fehérje",
+  "whey fehérje": "Whey fehérje",
+  "tejsavó fehérje": "Whey fehérje",
+  "2%-os görög joghurt": "Görög joghurt (2%)",
+  "görög joghurt (2%)": "Görög joghurt (2%)",
+  "görög joghurt": "Görög joghurt (2%)",
+};
+
+function normalizeIngredientName(name: string): string {
+  return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("hu-HU");
+}
+
+function canonicalIngredientName(name: string): string {
+  const normalized = normalizeIngredientName(name);
+  return INGREDIENT_SYNONYMS[normalized] ?? name.trim().replace(/\s+/g, " ");
+}
+
+function formatAmount(amount: number): string {
+  return amount.toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
 }
 
 const MEALS: Meal[] = [
@@ -2286,6 +2310,8 @@ const MEALS: Meal[] = [
 ];
 
 export default function ShoppingCartRoute() {
+  const EMPTY_SELECTION: MealSelection = { workoutDays: 0, restDays: 0 };
+
   const [mealSelections, setMealSelections] = useState<Record<string, MealSelection>>(
     Object.fromEntries(MEALS.map(m => [m.id, { workoutDays: 0, restDays: 0 }]))
   );
@@ -2293,6 +2319,7 @@ export default function ShoppingCartRoute() {
   const [selectedMealType, setSelectedMealType] = useState<
     "all" | "reggeli" | "tízórai" | "ebéd" | "uzsonna" | "vacsora"
   >("all");
+  const [selectedMealGroup, setSelectedMealGroup] = useState<"all" | "top25">("all");
 
   const dayOptions = [1, 2, 3, 4, 5, 6, 7];
   const mealTypeOptions: Array<"reggeli" | "tízórai" | "ebéd" | "uzsonna" | "vacsora"> = [
@@ -2303,54 +2330,84 @@ export default function ShoppingCartRoute() {
     "vacsora",
   ];
 
-  const parseDayAndType = (mealName: string): { day: number | null; type: string | null } => {
+  const parseDayAndType = (mealName?: string): { day: number | null; type: string | null } => {
+    if (!mealName) return { day: null, type: null };
     const match = mealName.toLowerCase().match(/^(\d+)\. napi .*? (reggeli|tízórai|ebéd|uzsonna|vacsora)/i);
     if (!match) return { day: null, type: null };
     return { day: Number(match[1]), type: match[2] };
   };
 
   const updateMealSelection = (mealId: string, type: 'workout' | 'rest', change: number) => {
+    const dayKey = type === "workout" ? "workoutDays" : "restDays";
+
     setMealSelections(prev => ({
       ...prev,
       [mealId]: {
-        ...prev[mealId],
-        [type === 'workout' ? 'workoutDays' : 'restDays']: 
-          Math.max(0, prev[mealId][type === 'workout' ? 'workoutDays' : 'restDays'] + change)
+        ...(prev[mealId] ?? EMPTY_SELECTION),
+        [dayKey]: Math.max(0, (prev[mealId]?.[dayKey] ?? 0) + change),
       }
     }));
   };
 
-  const calculateTotal = (): Map<string, { amount: number; unit: string }> => {
-    const totals = new Map<string, { amount: number; unit: string }>();
+  const calculateTotal = (): Map<string, { name: string; amount: number; unit: string }> => {
+    const totals = new Map<string, { name: string; amount: number; unit: string }>();
 
     MEALS.forEach(meal => {
-      const selection = mealSelections[meal.id];
+      const selection = mealSelections[meal.id] ?? EMPTY_SELECTION;
+      const workoutIngredients = meal.workoutIngredients ?? [];
+      const restIngredients = meal.restIngredients ?? [];
       
-      meal.workoutIngredients.forEach(ingredient => {
-        const current = totals.get(ingredient.name) || { amount: 0, unit: ingredient.unit };
+      workoutIngredients.forEach(ingredient => {
+        const canonicalName = canonicalIngredientName(ingredient.name);
+        const key = `${normalizeIngredientName(canonicalName)}__${ingredient.unit.toLocaleLowerCase("hu-HU")}`;
+        const current = totals.get(key) || { name: canonicalName, amount: 0, unit: ingredient.unit };
         current.amount += ingredient.amount * selection.workoutDays;
-        totals.set(ingredient.name, current);
+        totals.set(key, current);
       });
 
-      meal.restIngredients.forEach(ingredient => {
-        const current = totals.get(ingredient.name) || { amount: 0, unit: ingredient.unit };
+      restIngredients.forEach(ingredient => {
+        const canonicalName = canonicalIngredientName(ingredient.name);
+        const key = `${normalizeIngredientName(canonicalName)}__${ingredient.unit.toLocaleLowerCase("hu-HU")}`;
+        const current = totals.get(key) || { name: canonicalName, amount: 0, unit: ingredient.unit };
         current.amount += ingredient.amount * selection.restDays;
-        totals.set(ingredient.name, current);
+        totals.set(key, current);
       });
     });
 
     return totals;
   };
 
-  const totals = calculateTotal();
+  const totals = useMemo(
+    () =>
+      Array.from(calculateTotal().values())
+        .filter((item) => item.amount > 0)
+        .sort((a, b) => {
+          const nameCompare = a.name.localeCompare(b.name, "hu");
+          if (nameCompare !== 0) return nameCompare;
+          return a.unit.localeCompare(b.unit, "hu");
+        }),
+    [mealSelections]
+  );
+
+  const totalWorkoutSelections = useMemo(
+    () => Object.values(mealSelections).reduce((sum, item) => sum + item.workoutDays, 0),
+    [mealSelections]
+  );
+
+  const totalRestSelections = useMemo(
+    () => Object.values(mealSelections).reduce((sum, item) => sum + item.restDays, 0),
+    [mealSelections]
+  );
   const hasAnySelection = MEALS.some(m => 
-    mealSelections[m.id].workoutDays > 0 || mealSelections[m.id].restDays > 0
+    (mealSelections[m.id]?.workoutDays ?? 0) > 0 || (mealSelections[m.id]?.restDays ?? 0) > 0
   );
   const filteredMeals = MEALS.filter(meal => {
     const { day, type } = parseDayAndType(meal.name);
     const dayMatch = selectedDay === "all" || day === selectedDay;
     const typeMatch = selectedMealType === "all" || type === selectedMealType;
-    return dayMatch && typeMatch;
+    const groupMatch =
+      selectedMealGroup === "all" || TOP_25_SHOPPING_MEAL_IDS.has(meal.id);
+    return dayMatch && typeMatch && groupMatch;
   });
 
   return (
@@ -2366,6 +2423,10 @@ export default function ShoppingCartRoute() {
 
         <Text style={styles.instructions}>
           Válaszd ki, hogy mely ételekből hány adag kell edzésnapokon és pihenőnapokon:
+        </Text>
+
+        <Text style={styles.liveSummary}>
+          Élő összesítő: {totalWorkoutSelections} edzésnapi adag • {totalRestSelections} pihenőnapi adag
         </Text>
 
         <View style={styles.filterRow}>
@@ -2410,10 +2471,41 @@ export default function ShoppingCartRoute() {
           </ScrollView>
         </View>
 
+        <View style={styles.filterRow}>
+          <Text style={styles.filterLabel}>Csoport:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity
+              style={[styles.chip, selectedMealGroup === "all" && styles.chipActive]}
+              onPress={() => setSelectedMealGroup("all")}
+            >
+              <Text style={[styles.chipText, selectedMealGroup === "all" && styles.chipTextActive]}>Összes</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.chip, selectedMealGroup === "top25" && styles.chipActive]}
+              onPress={() => setSelectedMealGroup("top25")}
+            >
+              <Text style={[styles.chipText, selectedMealGroup === "top25" && styles.chipTextActive]}>Top 25</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+
         {/* Étkezések külön-külön kiválaszthatók */}
         {filteredMeals.map((meal) => (
           <View key={meal.id} style={styles.mealCard}>
             <Text style={styles.mealTitle}>🍽️ {meal.name}</Text>
+            {TOP_25_SHOPPING_MEAL_IDS.has(meal.id) && (
+              <Text style={styles.top25Badge}>Top 25</Text>
+            )}
+            {(() => {
+              const selection = mealSelections[meal.id] ?? EMPTY_SELECTION;
+              const workoutCount = selection.workoutDays;
+              const restCount = selection.restDays;
+              const workoutIngredients = meal.workoutIngredients ?? [];
+              const restIngredients = meal.restIngredients ?? [];
+
+              return (
+                <>
             
             <View style={styles.dayRow}>
               <Text style={styles.dayLabel}>Edzésnapok:</Text>
@@ -2424,7 +2516,7 @@ export default function ShoppingCartRoute() {
                 >
                   <Text style={styles.counterButtonText}>−</Text>
                 </TouchableOpacity>
-                <Text style={styles.counterValue}>{mealSelections[meal.id].workoutDays}</Text>
+                <Text style={styles.counterValue}>{workoutCount}</Text>
                 <TouchableOpacity
                   style={styles.counterButton}
                   onPress={() => updateMealSelection(meal.id, 'workout', 1)}
@@ -2443,7 +2535,7 @@ export default function ShoppingCartRoute() {
                 >
                   <Text style={styles.counterButtonText}>−</Text>
                 </TouchableOpacity>
-                <Text style={styles.counterValue}>{mealSelections[meal.id].restDays}</Text>
+                <Text style={styles.counterValue}>{restCount}</Text>
                 <TouchableOpacity
                   style={styles.counterButton}
                   onPress={() => updateMealSelection(meal.id, 'rest', 1)}
@@ -2455,19 +2547,22 @@ export default function ShoppingCartRoute() {
 
             {/* Egy adag tartalma */}
             <View style={styles.ingredientsPreview}>
-              <Text style={styles.previewTitle}>1 adag edzésnapon:</Text>
-              {meal.workoutIngredients.map((ing) => (
-                <Text key={ing.name} style={styles.previewItem}>
-                  • {ing.name}: {ing.amount} {ing.unit}
+              <Text style={styles.previewTitle}>Edzésnap összesen ({workoutCount} adag):</Text>
+              {workoutIngredients.map((ing) => (
+                <Text key={`${ing.name}-${ing.unit}-w`} style={styles.previewItem}>
+                  • {ing.name}: {formatAmount(ing.amount * workoutCount)} {ing.unit}
                 </Text>
               ))}
-              <Text style={styles.previewTitle}>1 adag pihenőnapon:</Text>
-              {meal.restIngredients.map((ing) => (
-                <Text key={ing.name} style={styles.previewItem}>
-                  • {ing.name}: {ing.amount} {ing.unit}
+              <Text style={styles.previewTitle}>Pihenőnap összesen ({restCount} adag):</Text>
+              {restIngredients.map((ing) => (
+                <Text key={`${ing.name}-${ing.unit}-r`} style={styles.previewItem}>
+                  • {ing.name}: {formatAmount(ing.amount * restCount)} {ing.unit}
                 </Text>
               ))}
             </View>
+                </>
+              );
+            })()}
           </View>
         ))}
 
@@ -2475,16 +2570,11 @@ export default function ShoppingCartRoute() {
         {hasAnySelection && (
           <View style={styles.totalSection}>
             <Text style={styles.sectionTitle}>📋 Összesített bevásárlólista</Text>
-            {Array.from(totals.entries()).map(([name, { amount, unit }]) => {
-              if (amount > 0) {
-                return (
-                  <Text key={name} style={styles.listItem}>
-                    {name}: {amount} {unit}
-                  </Text>
-                );
-              }
-              return null;
-            })}
+            {totals.map(({ name, amount, unit }) => (
+              <Text key={`${name}-${unit}`} style={styles.listItem}>
+                {name}: {formatAmount(amount)} {unit}
+              </Text>
+            ))}
           </View>
         )}
       </ScrollView>
@@ -2517,6 +2607,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  liveSummary: {
+    fontSize: 13,
+    color: "#38bdf8",
+    textAlign: "center",
+    marginBottom: 12,
+    fontWeight: "600",
   },
   filterRow: {
     marginBottom: 12,
@@ -2574,6 +2671,17 @@ const styles = StyleSheet.create({
     color: "#38bdf8",
     marginBottom: 12,
     textAlign: "center",
+  },
+  top25Badge: {
+    alignSelf: "center",
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#fef3c7",
+    backgroundColor: "#7c2d12",
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    marginBottom: 10,
   },
   dayRow: {
     flexDirection: "row",

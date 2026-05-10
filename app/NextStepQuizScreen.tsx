@@ -11,6 +11,11 @@ import {
 import MEALS from "../types/meals";
 import COOKING_INSTRUCTIONS from "../types/preparations";
 import { QuizMode, QuizScore } from "../types/quiz";
+import {
+  filterMealsByTop25Pool,
+  matchesTop25Pool,
+  type Top25Pool,
+} from "../constants/topMeals";
 
 interface NextStepQuestion {
   mealId: string;
@@ -30,6 +35,7 @@ export default function NextStepQuizScreen({
   onBack,
 }: NextStepQuizScreenProps) {
   const [mode, setMode] = useState<QuizMode | null>(null);
+  const [questionPool, setQuestionPool] = useState<Top25Pool>("all");
   const [currentQuestion, setCurrentQuestion] = useState<NextStepQuestion | null>(null);
   const [hintsUsedCount, setHintsUsedCount] = useState(0);
   const [attemptCount, setAttemptCount] = useState(0);
@@ -49,7 +55,7 @@ export default function NextStepQuizScreen({
       meal = MEALS.find((m) => m.id === mealId);
     } else {
       // Új véletlenszerű étel
-      const mealsWithInstructions = MEALS.filter((m) => {
+      const mealsWithInstructions = filterMealsByTop25Pool(MEALS, questionPool).filter((m) => {
         const instructions = COOKING_INSTRUCTIONS.find(
           (ci) => ci.mealId === m.id
         );
@@ -87,7 +93,9 @@ export default function NextStepQuizScreen({
 
     // 2 random rossz opció (más ételekből vagy más lépésekből)
     const wrongOptions: Set<string> = new Set();
-    const allOtherSteps = MEALS.flatMap((m) => {
+    const sourceMeals = filterMealsByTop25Pool(MEALS, questionPool);
+
+    const allOtherSteps = sourceMeals.flatMap((m) => {
       const instrs = COOKING_INSTRUCTIONS.find((ci) => ci.mealId === m.id);
       return instrs ? instrs.steps : [];
     }).filter((step) => step !== correctNextStep && step !== currentStep);
@@ -122,12 +130,19 @@ export default function NextStepQuizScreen({
   };
 
   const startQuiz = (selectedMode: QuizMode) => {
+    const availableMeals = MEALS.filter((m) => {
+      if (!matchesTop25Pool(m.id, questionPool)) {
+        return false;
+      }
+
+      const instructions = COOKING_INSTRUCTIONS.find((ci) => ci.mealId === m.id);
+      return Boolean(instructions && instructions.steps.length >= 3);
+    });
+
     setMode(selectedMode);
     setQuestionsAnswered(0);
     setScores([]);
-    setTotalQuestions(
-      Math.min(10, MEALS.length) // Max 10 kérdés vagy kevesebb
-    );
+    setTotalQuestions(Math.min(10, availableMeals.length));
     loadQuestion();
   };
 
@@ -172,6 +187,43 @@ export default function NextStepQuizScreen({
         </View>
 
         <View style={styles.modesContainer}>
+          <Text style={styles.poolLabel}>Kérdéskör:</Text>
+          <View style={styles.poolSelectorRow}>
+            <TouchableOpacity
+              style={[
+                styles.poolSelectorButton,
+                questionPool === "all" && styles.poolSelectorButtonActive,
+              ]}
+              onPress={() => setQuestionPool("all")}
+            >
+              <Text
+                style={[
+                  styles.poolSelectorButtonText,
+                  questionPool === "all" && styles.poolSelectorButtonTextActive,
+                ]}
+              >
+                Összes
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.poolSelectorButton,
+                questionPool === "top25" && styles.poolSelectorButtonActive,
+              ]}
+              onPress={() => setQuestionPool("top25")}
+            >
+              <Text
+                style={[
+                  styles.poolSelectorButtonText,
+                  questionPool === "top25" && styles.poolSelectorButtonTextActive,
+                ]}
+              >
+                Top 25
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity
             style={styles.modeButton}
             onPress={() => startQuiz("practice")}
@@ -209,6 +261,9 @@ export default function NextStepQuizScreen({
         <Text style={styles.modeIndicator}>
           {mode === "practice" ? "Gyakorlás" : "Verseny"} • {questionsAnswered}/
           {totalQuestions}
+        </Text>
+        <Text style={styles.poolIndicator}>
+          Kérdéskör: {questionPool === "top25" ? "Top 25" : "Összes"}
         </Text>
       </View>
 
@@ -344,9 +399,45 @@ const styles = StyleSheet.create({
     color: "#38bdf8",
     marginTop: 8,
   },
+  poolIndicator: {
+    fontSize: 12,
+    color: "#cbd5e1",
+    marginTop: 6,
+  },
   modesContainer: {
     gap: 12,
     marginBottom: 24,
+  },
+  poolLabel: {
+    fontSize: 13,
+    color: "#cbd5e1",
+    fontWeight: "700",
+    marginBottom: 2,
+  },
+  poolSelectorRow: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 4,
+  } as any,
+  poolSelectorButton: {
+    borderWidth: 1,
+    borderColor: "#334155",
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: "#0f172a",
+  },
+  poolSelectorButtonActive: {
+    borderColor: "#38bdf8",
+    backgroundColor: "#38bdf8",
+  },
+  poolSelectorButtonText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#e5e7eb",
+  },
+  poolSelectorButtonTextActive: {
+    color: "#0f172a",
   },
   modeButton: {
     paddingVertical: 16,

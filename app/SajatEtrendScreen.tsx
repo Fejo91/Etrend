@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   SafeAreaView,
   ScrollView,
@@ -10,7 +11,7 @@ import {
 } from "react-native";
 
 import MEALS from "../types/meals";
-import type { Meal } from "../types/nutrition";
+import type { IngredientItem, Meal } from "../types/nutrition";
 
 import type { CookingInstruction } from "../types/preparations";
 import COOKING_INSTRUCTIONS from "../types/preparations";
@@ -50,6 +51,52 @@ const EMPTY_TOTALS: MacroTotals = {
 
 const SLOTS: SlotType[] = ["Reggeli", "Tízorai", "Ebéd", "Uzsonna", "Vacsora"];
 
+const TOP_BREAKFAST_RANKS: Record<string, number> = {
+  "5-R-gyors-alap": 1,
+  "3-R-klasszikus": 2,
+  "1-R-overnight": 3,
+  "1-R-mikros": 4,
+  "6-R-alap": 5,
+};
+
+const TOP_TIZORAI_RANKS: Record<string, number> = {
+  "1-T-klasszikus": 1,
+  "5-T-kremes-dio": 2,
+  "4-T-klasszikus": 3,
+  "6-T-superfood": 4,
+  "3-T-bento": 5,
+};
+
+const TOP_LUNCH_RANKS: Record<string, number> = {
+  "1-E-alap": 1,
+  "2-E-suto": 2,
+  "3-E-suto-egyben": 3,
+  "5-E-alap": 4,
+  "6-E-klasszikus": 5,
+};
+
+const TOP_UZSONNA_RANKS: Record<string, number> = {
+  "2-U-dietas": 1,
+  "3-U-alap": 2,
+  "1-U-feherjes": 3,
+  "2-U-zabos": 4,
+  "5-U-fitnesz-alap": 5,
+};
+
+const TOP_DINNER_RANKS: Record<string, number> = {
+  "5-V-proteines": 1,
+  "5-V-kapros-uborkas": 2,
+  "7-V-salatas": 3,
+  "1-V-stirfry": 4,
+  "3-V-kremes": 5,
+};
+
+const TOP_BREAKFAST_FILTER_STORAGE_KEY = "@sajat_etrend_top_breakfast_only";
+const TOP_TIZORAI_FILTER_STORAGE_KEY = "@sajat_etrend_top_tizorai_only";
+const TOP_LUNCH_FILTER_STORAGE_KEY = "@sajat_etrend_top_lunch_only";
+const TOP_UZSONNA_FILTER_STORAGE_KEY = "@sajat_etrend_top_uzsonna_only";
+const TOP_DINNER_FILTER_STORAGE_KEY = "@sajat_etrend_top_dinner_only";
+
 // helper – összegzés
 function addMacroTotals(a: MacroTotals, b: MacroTotals): MacroTotals {
   return {
@@ -72,10 +119,71 @@ function macrosFromMeal(meal: Meal, isWorkoutDay: boolean): MacroTotals {
   };
 }
 
+function parseIngredientsFromPortion(portion: string): IngredientItem[] {
+  const cleaned = portion
+    .replace(/Edzésnap:\s*/gi, "")
+    .replace(/Pihenőnap:\s*/gi, "")
+    .replace(/\([^)]*\)/g, "")
+    .replace(/\b(opcionális|opcionalis)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return cleaned
+    .split(/\s*\+\s*|\s*,\s*/)
+    .map((chunk) => chunk.trim().replace(/[.;:]$/, ""))
+    .filter((chunk) => chunk.length >= 3)
+    .map((chunk) => ({ name: chunk }));
+}
+
+function normalizeIngredientName(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function getTopMealBadge(meal: Meal | null): string | null {
+  if (!meal) return null;
+
+  if (meal.slot === "Reggeli" && TOP_BREAKFAST_RANKS[meal.id]) {
+    return `🥇 Top reggeli #${TOP_BREAKFAST_RANKS[meal.id]}`;
+  }
+
+  if (meal.slot === "Tízorai" && TOP_TIZORAI_RANKS[meal.id]) {
+    return `🥇 Top tízórai #${TOP_TIZORAI_RANKS[meal.id]}`;
+  }
+
+  if (meal.slot === "Ebéd" && TOP_LUNCH_RANKS[meal.id]) {
+    return `🥇 Top ebéd #${TOP_LUNCH_RANKS[meal.id]}`;
+  }
+
+  if (meal.slot === "Uzsonna" && TOP_UZSONNA_RANKS[meal.id]) {
+    return `🥇 Top uzsonna #${TOP_UZSONNA_RANKS[meal.id]}`;
+  }
+
+  if (meal.slot === "Vacsora" && TOP_DINNER_RANKS[meal.id]) {
+    return `🥇 Top vacsora #${TOP_DINNER_RANKS[meal.id]}`;
+  }
+
+  return null;
+}
+
 export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
   const [day, setDay] = useState<number>(1);
   const [isWorkoutDay, setIsWorkoutDay] = useState<boolean>(true);
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
+  const [showTopBreakfastOnly, setShowTopBreakfastOnly] = useState<boolean>(false);
+  const [showTopTizoraiOnly, setShowTopTizoraiOnly] = useState<boolean>(false);
+  const [showTopLunchOnly, setShowTopLunchOnly] = useState<boolean>(false);
+  const [showTopUzsonnaOnly, setShowTopUzsonnaOnly] = useState<boolean>(false);
+  const [showTopDinnerOnly, setShowTopDinnerOnly] = useState<boolean>(false);
+  const [hasLoadedTopBreakfastPreference, setHasLoadedTopBreakfastPreference] =
+    useState<boolean>(false);
+  const [hasLoadedTopTizoraiPreference, setHasLoadedTopTizoraiPreference] =
+    useState<boolean>(false);
+  const [hasLoadedTopLunchPreference, setHasLoadedTopLunchPreference] =
+    useState<boolean>(false);
+  const [hasLoadedTopUzsonnaPreference, setHasLoadedTopUzsonnaPreference] =
+    useState<boolean>(false);
+  const [hasLoadedTopDinnerPreference, setHasLoadedTopDinnerPreference] =
+    useState<boolean>(false);
 
   // --- ÚJ: cycle phase + Béres nap + training kind ---
   const [cyclePhase, setCyclePhase] = useState<CyclePhase>("light");
@@ -93,13 +201,215 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
 
   const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTopBreakfastPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(
+          TOP_BREAKFAST_FILTER_STORAGE_KEY
+        );
+        if (!isMounted) return;
+
+        if (stored === "true" || stored === "false") {
+          setShowTopBreakfastOnly(stored === "true");
+        }
+      } catch {
+      } finally {
+        if (isMounted) setHasLoadedTopBreakfastPreference(true);
+      }
+    };
+
+    loadTopBreakfastPreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTopDinnerPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(
+          TOP_DINNER_FILTER_STORAGE_KEY
+        );
+        if (!isMounted) return;
+
+        if (stored === "true" || stored === "false") {
+          setShowTopDinnerOnly(stored === "true");
+        }
+      } catch {
+      } finally {
+        if (isMounted) setHasLoadedTopDinnerPreference(true);
+      }
+    };
+
+    loadTopDinnerPreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTopUzsonnaPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(
+          TOP_UZSONNA_FILTER_STORAGE_KEY
+        );
+        if (!isMounted) return;
+
+        if (stored === "true" || stored === "false") {
+          setShowTopUzsonnaOnly(stored === "true");
+        }
+      } catch {
+      } finally {
+        if (isMounted) setHasLoadedTopUzsonnaPreference(true);
+      }
+    };
+
+    loadTopUzsonnaPreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTopLunchPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(
+          TOP_LUNCH_FILTER_STORAGE_KEY
+        );
+        if (!isMounted) return;
+
+        if (stored === "true" || stored === "false") {
+          setShowTopLunchOnly(stored === "true");
+        }
+      } catch {
+      } finally {
+        if (isMounted) setHasLoadedTopLunchPreference(true);
+      }
+    };
+
+    loadTopLunchPreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadTopTizoraiPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(
+          TOP_TIZORAI_FILTER_STORAGE_KEY
+        );
+        if (!isMounted) return;
+
+        if (stored === "true" || stored === "false") {
+          setShowTopTizoraiOnly(stored === "true");
+        }
+      } catch {
+      } finally {
+        if (isMounted) setHasLoadedTopTizoraiPreference(true);
+      }
+    };
+
+    loadTopTizoraiPreference();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedTopBreakfastPreference) return;
+
+    AsyncStorage.setItem(
+      TOP_BREAKFAST_FILTER_STORAGE_KEY,
+      showTopBreakfastOnly ? "true" : "false"
+    ).catch(() => {});
+  }, [showTopBreakfastOnly, hasLoadedTopBreakfastPreference]);
+
+  useEffect(() => {
+    if (!hasLoadedTopTizoraiPreference) return;
+
+    AsyncStorage.setItem(
+      TOP_TIZORAI_FILTER_STORAGE_KEY,
+      showTopTizoraiOnly ? "true" : "false"
+    ).catch(() => {});
+  }, [showTopTizoraiOnly, hasLoadedTopTizoraiPreference]);
+
+  useEffect(() => {
+    if (!hasLoadedTopLunchPreference) return;
+
+    AsyncStorage.setItem(
+      TOP_LUNCH_FILTER_STORAGE_KEY,
+      showTopLunchOnly ? "true" : "false"
+    ).catch(() => {});
+  }, [showTopLunchOnly, hasLoadedTopLunchPreference]);
+
+  useEffect(() => {
+    if (!hasLoadedTopUzsonnaPreference) return;
+
+    AsyncStorage.setItem(
+      TOP_UZSONNA_FILTER_STORAGE_KEY,
+      showTopUzsonnaOnly ? "true" : "false"
+    ).catch(() => {});
+  }, [showTopUzsonnaOnly, hasLoadedTopUzsonnaPreference]);
+
+  useEffect(() => {
+    if (!hasLoadedTopDinnerPreference) return;
+
+    AsyncStorage.setItem(
+      TOP_DINNER_FILTER_STORAGE_KEY,
+      showTopDinnerOnly ? "true" : "false"
+    ).catch(() => {});
+  }, [showTopDinnerOnly, hasLoadedTopDinnerPreference]);
+
+  const getMealsForSlot = (slot: SlotType) => {
+    const slotMeals = mealsForDay.filter((meal) => meal.slot === slot);
+    if (slot === "Reggeli" && showTopBreakfastOnly) {
+      return slotMeals.filter((meal) => TOP_BREAKFAST_RANKS[meal.id]);
+    }
+    if (slot === "Tízorai" && showTopTizoraiOnly) {
+      return slotMeals.filter((meal) => TOP_TIZORAI_RANKS[meal.id]);
+    }
+    if (slot === "Ebéd" && showTopLunchOnly) {
+      return slotMeals.filter((meal) => TOP_LUNCH_RANKS[meal.id]);
+    }
+    if (slot === "Uzsonna" && showTopUzsonnaOnly) {
+      return slotMeals.filter((meal) => TOP_UZSONNA_RANKS[meal.id]);
+    }
+    if (slot === "Vacsora" && showTopDinnerOnly) {
+      return slotMeals.filter((meal) => TOP_DINNER_RANKS[meal.id]);
+    }
+    return slotMeals;
+  };
+
   // kezdeti napszak beállítása
   useEffect(() => {
-    const available = Array.from(new Set(mealsForDay.map((m) => m.slot)));
+    const available = SLOTS.filter((slot) => getMealsForSlot(slot).length > 0);
     setSelectedSlot((prev) =>
       prev && available.includes(prev) ? prev : available[0] ?? null
     );
-  }, [mealsForDay]);
+  }, [
+    mealsForDay,
+    showTopBreakfastOnly,
+    showTopTizoraiOnly,
+    showTopLunchOnly,
+    showTopUzsonnaOnly,
+    showTopDinnerOnly,
+  ]);
 
   // slotonként kiválasztott étel
   const [selectedMealsBySlot, setSelectedMealsBySlot] = useState<
@@ -122,7 +432,7 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
 
   // adott slotban lépkedés a variációk között
   const changeSlotSelection = (slot: SlotType, dir: -1 | 1) => {
-    const items = mealsForDay.filter((m) => m.slot === slot);
+    const items = getMealsForSlot(slot);
     if (items.length === 0) return;
     const currentId = selectedMealsBySlot[slot];
     const idx = items.findIndex((i) => i.id === currentId);
@@ -135,11 +445,20 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
 
   // aktuálisan kijelölt étel
   const currentMeal = useMemo(
-    () =>
-      mealsForDay.find((m) => m.id === selectedMealId) ??
-      mealsForDay[0] ??
-      null,
-    [mealsForDay, selectedMealId]
+    () => {
+      const pool = selectedSlot ? getMealsForSlot(selectedSlot) : mealsForDay;
+      return pool.find((m) => m.id === selectedMealId) ?? pool[0] ?? null;
+    },
+    [
+      mealsForDay,
+      selectedMealId,
+      selectedSlot,
+      showTopBreakfastOnly,
+      showTopTizoraiOnly,
+      showTopLunchOnly,
+      showTopUzsonnaOnly,
+      showTopDinnerOnly,
+    ]
   );
 
   const currentMacros = useMemo(
@@ -162,11 +481,19 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
   const selectedMealsList = useMemo(() => {
     return SLOTS.map(
       (slot) =>
-        mealsForDay.find((m) => m.id === selectedMealsBySlot[slot]) ??
-        mealsForDay.find((m) => m.slot === slot) ??
+        getMealsForSlot(slot).find((m) => m.id === selectedMealsBySlot[slot]) ??
+        getMealsForSlot(slot)[0] ??
         null
     );
-  }, [mealsForDay, selectedMealsBySlot]);
+  }, [
+    mealsForDay,
+    selectedMealsBySlot,
+    showTopBreakfastOnly,
+    showTopTizoraiOnly,
+    showTopLunchOnly,
+    showTopUzsonnaOnly,
+    showTopDinnerOnly,
+  ]);
 
   // teljes napi makrók a kiválasztott ételekre
   const selectedTotals = useMemo(() => {
@@ -174,6 +501,84 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
       if (!meal) return acc;
       return addMacroTotals(acc, macrosFromMeal(meal, isWorkoutDay));
     }, { ...EMPTY_TOTALS });
+  }, [selectedMealsList, isWorkoutDay]);
+
+  const shoppingList = useMemo(() => {
+    const merged = new Map<string, { name: string; amounts: Set<string> }>();
+
+    selectedMealsList.forEach((meal) => {
+      if (!meal) return;
+
+      const structured = isWorkoutDay
+        ? meal.workoutIngredients
+        : meal.restIngredients;
+      const fallback = parseIngredientsFromPortion(
+        isWorkoutDay ? meal.workout.portion : meal.rest.portion
+      );
+      const source = structured && structured.length > 0 ? structured : fallback;
+
+      source.forEach((item) => {
+        const key = normalizeIngredientName(item.name);
+        if (!key) return;
+
+        const existing = merged.get(key);
+        if (!existing) {
+          merged.set(key, {
+            name: item.name,
+            amounts: new Set(item.amount ? [item.amount] : []),
+          });
+          return;
+        }
+
+        if (item.amount) existing.amounts.add(item.amount);
+      });
+    });
+
+    return Array.from(merged.values()).sort((a, b) =>
+      a.name.localeCompare(b.name, "hu")
+    );
+  }, [selectedMealsList, isWorkoutDay]);
+
+  const shoppingListByMeal = useMemo(() => {
+    return selectedMealsList
+      .filter((meal): meal is Meal => meal !== null)
+      .map((meal) => {
+        const structured = isWorkoutDay
+          ? meal.workoutIngredients
+          : meal.restIngredients;
+        const fallback = parseIngredientsFromPortion(
+          isWorkoutDay ? meal.workout.portion : meal.rest.portion
+        );
+        const source =
+          structured && structured.length > 0 ? structured : fallback;
+
+        const merged = new Map<string, { name: string; amounts: Set<string> }>();
+
+        source.forEach((item) => {
+          const key = normalizeIngredientName(item.name);
+          if (!key) return;
+
+          const existing = merged.get(key);
+          if (!existing) {
+            merged.set(key, {
+              name: item.name,
+              amounts: new Set(item.amount ? [item.amount] : []),
+            });
+            return;
+          }
+
+          if (item.amount) existing.amounts.add(item.amount);
+        });
+
+        return {
+          mealId: meal.id,
+          mealName: meal.name,
+          slot: meal.slot,
+          items: Array.from(merged.values()).sort((a, b) =>
+            a.name.localeCompare(b.name, "hu")
+          ),
+        };
+      });
   }, [selectedMealsList, isWorkoutDay]);
 
   // --- NAPI KIEGÉSZÍTŐK ---
@@ -302,10 +707,112 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
             </View>
           </View>
 
+          <View style={styles.topFiltersWrap}>
+            <View style={styles.topBreakfastFilterRow}>
+              <Text style={styles.topBreakfastFilterLabel}>Top reggeli szűrő</Text>
+              <TouchableOpacity
+                onPress={() => setShowTopBreakfastOnly((prev) => !prev)}
+                style={[
+                  styles.topBreakfastFilterButton,
+                  showTopBreakfastOnly && styles.topBreakfastFilterButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.topBreakfastFilterButtonText,
+                    showTopBreakfastOnly && styles.topBreakfastFilterButtonTextActive,
+                  ]}
+                >
+                  {showTopBreakfastOnly ? "Csak Top 5" : "Összes reggeli"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.topBreakfastFilterRow}>
+              <Text style={styles.topBreakfastFilterLabel}>Top tízórai szűrő</Text>
+              <TouchableOpacity
+                onPress={() => setShowTopTizoraiOnly((prev) => !prev)}
+                style={[
+                  styles.topBreakfastFilterButton,
+                  showTopTizoraiOnly && styles.topBreakfastFilterButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.topBreakfastFilterButtonText,
+                    showTopTizoraiOnly && styles.topBreakfastFilterButtonTextActive,
+                  ]}
+                >
+                  {showTopTizoraiOnly ? "Csak Top 5" : "Összes tízórai"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.topBreakfastFilterRow}>
+              <Text style={styles.topBreakfastFilterLabel}>Top ebéd szűrő</Text>
+              <TouchableOpacity
+                onPress={() => setShowTopLunchOnly((prev) => !prev)}
+                style={[
+                  styles.topBreakfastFilterButton,
+                  showTopLunchOnly && styles.topBreakfastFilterButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.topBreakfastFilterButtonText,
+                    showTopLunchOnly && styles.topBreakfastFilterButtonTextActive,
+                  ]}
+                >
+                  {showTopLunchOnly ? "Csak Top 5" : "Összes ebéd"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.topBreakfastFilterRow}>
+              <Text style={styles.topBreakfastFilterLabel}>Top uzsonna szűrő</Text>
+              <TouchableOpacity
+                onPress={() => setShowTopUzsonnaOnly((prev) => !prev)}
+                style={[
+                  styles.topBreakfastFilterButton,
+                  showTopUzsonnaOnly && styles.topBreakfastFilterButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.topBreakfastFilterButtonText,
+                    showTopUzsonnaOnly && styles.topBreakfastFilterButtonTextActive,
+                  ]}
+                >
+                  {showTopUzsonnaOnly ? "Csak Top 5" : "Összes uzsonna"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.topBreakfastFilterRow}>
+              <Text style={styles.topBreakfastFilterLabel}>Top vacsora szűrő</Text>
+              <TouchableOpacity
+                onPress={() => setShowTopDinnerOnly((prev) => !prev)}
+                style={[
+                  styles.topBreakfastFilterButton,
+                  showTopDinnerOnly && styles.topBreakfastFilterButtonActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.topBreakfastFilterButtonText,
+                    showTopDinnerOnly && styles.topBreakfastFilterButtonTextActive,
+                  ]}
+                >
+                  {showTopDinnerOnly ? "Csak Top 5" : "Összes vacsora"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           {/* NAPSZAK VÁLASZTÓ – EZ MARADJON FIXEN FELÜL */}
           <View style={styles.slotSelectorRow}>
             {SLOTS.map((slot) => {
-              const count = mealsForDay.filter((m) => m.slot === slot).length;
+              const count = getMealsForSlot(slot).length;
               const disabled = count === 0;
               const active = selectedSlot === slot;
               return (
@@ -336,14 +843,21 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
 
           {/* NAPI SOR: 5 slot-kártya + jobbra makrók - ÚJ: FIXEN */}
           <View style={styles.daySlotsRowContainer}>
-            <View style={styles.slotCardsRow}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.slotCardsScroller}
+              contentContainerStyle={styles.slotCardsRow}
+            >
               {SLOTS.map((slot) => {
-                const items = mealsForDay.filter((m) => m.slot === slot);
+                const items = getMealsForSlot(slot);
                 const selectedId = selectedMealsBySlot[slot];
                 const selectedIndex = items.findIndex(
                   (m) => m.id === selectedId
                 );
                 const currentIndex = selectedIndex === -1 ? 0 : selectedIndex;
+                const currentSlotMeal = items[currentIndex] ?? null;
+                const topMealBadge = getTopMealBadge(currentSlotMeal);
 
                 return (
                   <View key={slot} style={styles.slotCard}>
@@ -370,6 +884,14 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
                     <Text style={styles.slotCardName} numberOfLines={2}>
                       {items[currentIndex]?.name ?? "—"}
                     </Text>
+
+                    {topMealBadge && (
+                      <View style={styles.topBreakfastBadge}>
+                        <Text style={styles.topBreakfastBadgeText}>
+                          {topMealBadge}
+                        </Text>
+                      </View>
+                    )}
 
                     <View style={styles.slotNavRow}>
                       <TouchableOpacity
@@ -401,7 +923,7 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
                   </View>
                 );
               })}
-            </View>
+            </ScrollView>
 
             <View style={styles.dailyTotalsBox}>
               <Text style={styles.dailyTotalsTitle}>Kiválasztott makrók</Text>
@@ -509,8 +1031,7 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.slotList}
               >
-                {mealsForDay
-                  .filter((m) => m.slot === selectedSlot)
+                {getMealsForSlot(selectedSlot)
                   .map((item) => {
                     const macros = isWorkoutDay ? item.workout : item.rest;
                     const isSelected = item.id === selectedMealId;
@@ -586,6 +1107,13 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
               <Text style={styles.mealDetailsTitle}>
                 {currentMeal.name}
               </Text>
+              {getTopMealBadge(currentMeal) && (
+                  <View style={styles.topBreakfastBadge}>
+                    <Text style={styles.topBreakfastBadgeText}>
+                      {getTopMealBadge(currentMeal)}
+                    </Text>
+                  </View>
+                )}
               <Text style={styles.mealDetailsSubtitle}>
                 {currentMeal.timeOfDay}
               </Text>
@@ -654,6 +1182,63 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
                 )}
             </View>
           )}
+
+          <View style={styles.shoppingListContainer}>
+            <Text style={styles.shoppingListTitle}>Napi bevásárlólista</Text>
+            <Text style={styles.shoppingListSubtitle}>
+              {isWorkoutDay ? "Edzésnap" : "Pihenőnap"} • {day}. nap
+            </Text>
+
+            {shoppingList.length === 0 ? (
+              <Text style={styles.shoppingListEmpty}>Nincs megjeleníthető tétel.</Text>
+            ) : (
+              shoppingList.map((item, index) => (
+                <View key={`${item.name}-${index}`} style={styles.shoppingListItemRow}>
+                  <Text style={styles.shoppingListBullet}>•</Text>
+                  <Text style={styles.shoppingListItemText}>
+                    {item.name}
+                    {item.amounts.size > 0
+                      ? ` (${Array.from(item.amounts).join(" / ")})`
+                      : ""}
+                  </Text>
+                </View>
+              ))
+            )}
+          </View>
+
+          <View style={styles.shoppingListContainer}>
+            <Text style={styles.shoppingListTitle}>Ételenkénti bevásárlólista</Text>
+            {shoppingListByMeal.length === 0 ? (
+              <Text style={styles.shoppingListEmpty}>Nincs kiválasztott étel.</Text>
+            ) : (
+              shoppingListByMeal.map((mealList) => (
+                <View key={mealList.mealId} style={styles.shoppingMealBlock}>
+                  <Text style={styles.shoppingMealTitle}>
+                    {mealList.slot} • {mealList.mealName}
+                  </Text>
+
+                  {mealList.items.length === 0 ? (
+                    <Text style={styles.shoppingListEmpty}>Nincs megjeleníthető tétel.</Text>
+                  ) : (
+                    mealList.items.map((item, index) => (
+                      <View
+                        key={`${mealList.mealId}-${item.name}-${index}`}
+                        style={styles.shoppingListItemRow}
+                      >
+                        <Text style={styles.shoppingListBullet}>•</Text>
+                        <Text style={styles.shoppingListItemText}>
+                          {item.name}
+                          {item.amounts.size > 0
+                            ? ` (${Array.from(item.amounts).join(" / ")})`
+                            : ""}
+                        </Text>
+                      </View>
+                    ))
+                  )}
+                </View>
+              ))
+            )}
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -673,17 +1258,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 16,
   },
-  slotCardsRow: {
+  slotCardsScroller: {
     flex: 1,
+    marginRight: 8,
+  },
+  slotCardsRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    // gap törölve a típushibák elkerülésére
+    paddingRight: 4,
   },
   slotCard: {
-    flex: 1,
-    minWidth: 0,
+    width: 132,
     padding: 10,
-    marginRight: 6,
+    marginRight: 8,
     marginBottom: 1,
     backgroundColor: "#f2f4f8",
     borderRadius: 8,
@@ -720,7 +1306,21 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#222",
     textAlign: "center",
+    marginBottom: 6,
+  },
+  topBreakfastBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: "#fef3c7",
+    borderWidth: 1,
+    borderColor: "#f59e0b",
     marginBottom: 8,
+  },
+  topBreakfastBadgeText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#92400e",
   },
   slotNavRow: {
     flexDirection: "row",
@@ -959,6 +1559,46 @@ const styles = StyleSheet.create({
     color: "#0f172a",
     fontWeight: "700",
   },
+  topFiltersWrap: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+  topBreakfastFilterRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "49%",
+    marginBottom: 6,
+  },
+  topBreakfastFilterLabel: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#111827",
+    marginRight: 6,
+    flexShrink: 1,
+  },
+  topBreakfastFilterButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    backgroundColor: "#ffffff",
+  },
+  topBreakfastFilterButtonActive: {
+    backgroundColor: "#fef3c7",
+    borderColor: "#f59e0b",
+  },
+  topBreakfastFilterButtonText: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: "#374151",
+  },
+  topBreakfastFilterButtonTextActive: {
+    color: "#92400e",
+  },
   // --- phase toggle + supplement styles ---
   phaseToggleRow: {
     flexDirection: "row",
@@ -1035,6 +1675,59 @@ const styles = StyleSheet.create({
   supplementItemTextPreWorkout: {
     fontWeight: "700",
     color: "#db2777", // sötét rózsaszín (dark pink)
+  },
+  shoppingListContainer: {
+    marginTop: 12,
+    marginBottom: 24,
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+  },
+  shoppingListTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginBottom: 4,
+  },
+  shoppingListSubtitle: {
+    fontSize: 12,
+    color: "#475569",
+    marginBottom: 8,
+  },
+  shoppingListItemRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 4,
+  },
+  shoppingListBullet: {
+    marginRight: 6,
+    fontSize: 14,
+    color: "#0f172a",
+    lineHeight: 20,
+  },
+  shoppingListItemText: {
+    flex: 1,
+    fontSize: 14,
+    color: "#1e293b",
+    lineHeight: 20,
+  },
+  shoppingListEmpty: {
+    fontSize: 13,
+    color: "#64748b",
+  },
+  shoppingMealBlock: {
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: "#e2e8f0",
+  },
+  shoppingMealTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginBottom: 4,
   },
   headerFixed: {
     paddingBottom: 8,

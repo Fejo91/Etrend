@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // ---- ALAP TÍPUSOK ----
 type CyclePhase = "light" | "heavy";
@@ -61,7 +62,7 @@ type ExerciseLog = {
 const DAY_TYPES_CYCLE: TrainingDayType[] = ["pushA", "legsCore", "pullA", "activeRest"];
 
 // ---- GYAKORLATOK ----
-const TRAINING_DAYS: TrainingDay[] = [
+const DEFAULT_TRAINING_DAYS: TrainingDay[] = [
   {
     id: "pushA",
     label: "Push A – Erő + felső mell",
@@ -175,14 +176,7 @@ const TRAINING_DAYS: TrainingDay[] = [
   { id: "activeRest", label: "Active rest nap (pl. súlyszán, core, mobilitás)", exercises: [] },
 ];
 
-// Helpers
-function findExerciseById(id: string): TrainingExercise | undefined {
-  for (const day of TRAINING_DAYS) {
-    const ex = day.exercises.find((e) => e.id === id);
-    if (ex) return ex;
-  }
-  return undefined;
-}
+const TRAINING_DAYS_STORAGE_KEY = "training.progression.days.v1";
 
 function calculateSuggestedNextWeight(
   exercise: TrainingExercise,
@@ -213,6 +207,41 @@ function calculateSuggestedNextWeight(
 // ------------- FŐ KOMPONENS -------------
 export default function TrainingProgressionScreen() {
   const [trainingDayIndex, setTrainingDayIndex] = useState<number>(1);
+  const [trainingDays, setTrainingDays] = useState<TrainingDay[]>(() => JSON.parse(JSON.stringify(DEFAULT_TRAINING_DAYS)));
+  const [newExerciseName, setNewExerciseName] = useState("");
+  const [newExerciseCategory, setNewExerciseCategory] = useState<ExerciseCategory>("medium");
+  const [editingExerciseId, setEditingExerciseId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState("");
+  const [editingCategory, setEditingCategory] = useState<ExerciseCategory>("medium");
+  const [editingLightSets, setEditingLightSets] = useState("3");
+  const [editingLightMin, setEditingLightMin] = useState("10");
+  const [editingLightMax, setEditingLightMax] = useState("12");
+  const [editingHeavySets, setEditingHeavySets] = useState("4");
+  const [editingHeavyMin, setEditingHeavyMin] = useState("6");
+  const [editingHeavyMax, setEditingHeavyMax] = useState("8");
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const raw = await AsyncStorage.getItem(TRAINING_DAYS_STORAGE_KEY);
+        if (!raw || !mounted) return;
+        const parsed = JSON.parse(raw) as TrainingDay[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setTrainingDays(parsed);
+        }
+      } catch {
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem(TRAINING_DAYS_STORAGE_KEY, JSON.stringify(trainingDays)).catch(() => {});
+  }, [trainingDays]);
+
   const phase: CyclePhase = trainingDayIndex <= 16 ? "light" : "heavy";
 
   const dayType: TrainingDayType = useMemo(() => {
@@ -241,8 +270,8 @@ export default function TrainingProgressionScreen() {
   }, [trainingDayIndex]);
 
   const currentDay: TrainingDay | undefined = useMemo(
-    () => TRAINING_DAYS.find((d) => d.id === dayType),
-    [dayType]
+    () => trainingDays.find((d) => d.id === dayType),
+    [dayType, trainingDays]
   );
 
   const [logs, setLogs] = useState<Record<string, ExerciseLog>>({});
@@ -255,6 +284,135 @@ export default function TrainingProgressionScreen() {
       return next;
     });
   };
+
+  function defaultConfigForCategory(category: ExerciseCategory) {
+    if (category === "big") {
+      return {
+        light: { sets: 4, reps: { min: 8, max: 10 } },
+        heavy: { sets: 5, reps: { min: 5, max: 6 } },
+      };
+    }
+    if (category === "medium") {
+      return {
+        light: { sets: 3, reps: { min: 10, max: 12 } },
+        heavy: { sets: 4, reps: { min: 6, max: 8 } },
+      };
+    }
+    return {
+      light: { sets: 3, reps: { min: 12, max: 15 } },
+      heavy: { sets: 3, reps: { min: 10, max: 12 } },
+    };
+  }
+
+  function updateCurrentDayExercises(updater: (items: TrainingExercise[]) => TrainingExercise[]) {
+    if (!currentDay) return;
+    setTrainingDays((prev) =>
+      prev.map((day) =>
+        day.id === currentDay.id
+          ? {
+              ...day,
+              exercises: updater(day.exercises),
+            }
+          : day
+      )
+    );
+  }
+
+  function addExerciseToCurrentDay() {
+    const name = newExerciseName.trim();
+    if (!name || !currentDay) return;
+
+    const cfg = defaultConfigForCategory(newExerciseCategory);
+    const nextExercise: TrainingExercise = {
+      id: `${currentDay.id}_custom_${Date.now()}`,
+      name,
+      category: newExerciseCategory,
+      light: cfg.light,
+      heavy: cfg.heavy,
+    };
+
+    updateCurrentDayExercises((items) => [...items, nextExercise]);
+    setNewExerciseName("");
+    setNewExerciseCategory("medium");
+  }
+
+  function deleteExerciseFromCurrentDay(exerciseId: string) {
+    updateCurrentDayExercises((items) => items.filter((item) => item.id !== exerciseId));
+    if (editingExerciseId === exerciseId) {
+      setEditingExerciseId(null);
+    }
+  }
+
+  function startEditExercise(exercise: TrainingExercise) {
+    setEditingExerciseId(exercise.id);
+    setEditingName(exercise.name);
+    setEditingCategory(exercise.category);
+    setEditingLightSets(String(exercise.light.sets));
+    setEditingLightMin(String(exercise.light.reps.min));
+    setEditingLightMax(String(exercise.light.reps.max));
+    setEditingHeavySets(String(exercise.heavy.sets));
+    setEditingHeavyMin(String(exercise.heavy.reps.min));
+    setEditingHeavyMax(String(exercise.heavy.reps.max));
+  }
+
+  function cancelEditExercise() {
+    setEditingExerciseId(null);
+  }
+
+  function saveEditedExercise(exerciseId: string) {
+    const name = editingName.trim();
+    if (!name) return;
+
+    const safeNum = (value: string, fallback: number) => {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+      return Math.round(parsed);
+    };
+
+    const nextLightSets = safeNum(editingLightSets, 3);
+    const nextLightMin = safeNum(editingLightMin, 8);
+    const nextLightMax = Math.max(nextLightMin, safeNum(editingLightMax, nextLightMin));
+
+    const nextHeavySets = safeNum(editingHeavySets, 3);
+    const nextHeavyMin = safeNum(editingHeavyMin, 5);
+    const nextHeavyMax = Math.max(nextHeavyMin, safeNum(editingHeavyMax, nextHeavyMin));
+
+    updateCurrentDayExercises((items) =>
+      items.map((item) =>
+        item.id === exerciseId
+          ? {
+              ...item,
+              name,
+              category: editingCategory,
+              light: {
+                sets: nextLightSets,
+                reps: {
+                  min: nextLightMin,
+                  max: nextLightMax,
+                },
+              },
+              heavy: {
+                sets: nextHeavySets,
+                reps: {
+                  min: nextHeavyMin,
+                  max: nextHeavyMax,
+                },
+              },
+            }
+          : item
+      )
+    );
+
+    setEditingExerciseId(null);
+  }
+
+  function findExerciseById(id: string): TrainingExercise | undefined {
+    for (const day of trainingDays) {
+      const ex = day.exercises.find((e) => e.id === id);
+      if (ex) return ex;
+    }
+    return undefined;
+  }
 
   const updateLog = (exerciseId: string, updater: (prev: ExerciseLog) => ExerciseLog) => {
     setLogs((prev) => {
@@ -313,6 +471,33 @@ export default function TrainingProgressionScreen() {
         <Text style={styles.helperText}>
           Töltsd ki a mai szériákat, a rendszer kiszámolja a következő edzés ajánlott súlyát.
         </Text>
+
+        <View style={styles.addExerciseBox}>
+          <Text style={styles.addExerciseTitle}>Gyakorlat hozzáadása az aktuális naphoz</Text>
+          <TextInput
+            style={styles.addExerciseInput}
+            placeholder="Új gyakorlat neve"
+            placeholderTextColor="#6b7280"
+            value={newExerciseName}
+            onChangeText={setNewExerciseName}
+          />
+          <View style={styles.categoryRow}>
+            {(["big", "medium", "isolation"] as ExerciseCategory[]).map((category) => (
+              <TouchableOpacity
+                key={category}
+                style={[styles.categoryChip, newExerciseCategory === category ? styles.categoryChipActive : null]}
+                onPress={() => setNewExerciseCategory(category)}
+              >
+                <Text style={styles.categoryChipText}>
+                  {category === "big" ? "Nagy" : category === "medium" ? "Közepes" : "Izoláció"}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TouchableOpacity style={styles.addExerciseButton} onPress={addExerciseToCurrentDay}>
+            <Text style={styles.addExerciseButtonText}>+ Hozzáadás</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
@@ -340,15 +525,68 @@ export default function TrainingProgressionScreen() {
             return (
               <View key={ex.id} style={styles.exerciseCard}>
                 <View style={styles.exerciseHeader}>
-                  <Text style={styles.exerciseName}>{ex.name}</Text>
-                  <Text style={styles.exerciseMeta}>
-                    {phaseCfg.sets} × {phaseCfg.reps.min}–{phaseCfg.reps.max} ism.{"  •  "}
-                    {ex.category === "big"
-                      ? "Nagy alapgyakorlat"
-                      : ex.category === "medium"
-                      ? "Közepes összetett"
-                      : "Izoláció / gumi"}
-                  </Text>
+                  {editingExerciseId === ex.id ? (
+                    <>
+                      <TextInput
+                        style={styles.editNameInput}
+                        value={editingName}
+                        onChangeText={setEditingName}
+                        placeholder="Gyakorlat neve"
+                        placeholderTextColor="#6b7280"
+                      />
+                      <View style={styles.categoryRow}>
+                        {(["big", "medium", "isolation"] as ExerciseCategory[]).map((category) => (
+                          <TouchableOpacity
+                            key={`edit-${ex.id}-${category}`}
+                            style={[styles.categoryChip, editingCategory === category ? styles.categoryChipActive : null]}
+                            onPress={() => setEditingCategory(category)}
+                          >
+                            <Text style={styles.categoryChipText}>
+                              {category === "big" ? "Nagy" : category === "medium" ? "Közepes" : "Izoláció"}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+
+                      <View style={styles.editGrid}>
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingLightSets} onChangeText={setEditingLightSets} placeholder="Light szett" placeholderTextColor="#6b7280" />
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingLightMin} onChangeText={setEditingLightMin} placeholder="Light min" placeholderTextColor="#6b7280" />
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingLightMax} onChangeText={setEditingLightMax} placeholder="Light max" placeholderTextColor="#6b7280" />
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingHeavySets} onChangeText={setEditingHeavySets} placeholder="Heavy szett" placeholderTextColor="#6b7280" />
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingHeavyMin} onChangeText={setEditingHeavyMin} placeholder="Heavy min" placeholderTextColor="#6b7280" />
+                        <TextInput style={styles.editMiniInput} keyboardType="numeric" value={editingHeavyMax} onChangeText={setEditingHeavyMax} placeholder="Heavy max" placeholderTextColor="#6b7280" />
+                      </View>
+
+                      <View style={styles.exerciseActionsRow}>
+                        <TouchableOpacity style={styles.saveButton} onPress={() => saveEditedExercise(ex.id)}>
+                          <Text style={styles.saveButtonText}>Mentés</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.cancelButton} onPress={cancelEditExercise}>
+                          <Text style={styles.cancelButtonText}>Mégse</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </>
+                  ) : (
+                    <>
+                      <Text style={styles.exerciseName}>{ex.name}</Text>
+                      <Text style={styles.exerciseMeta}>
+                        {phaseCfg.sets} × {phaseCfg.reps.min}–{phaseCfg.reps.max} ism.{"  •  "}
+                        {ex.category === "big"
+                          ? "Nagy alapgyakorlat"
+                          : ex.category === "medium"
+                          ? "Közepes összetett"
+                          : "Izoláció / gumi"}
+                      </Text>
+                      <View style={styles.exerciseActionsRow}>
+                        <TouchableOpacity style={styles.editButton} onPress={() => startEditExercise(ex)}>
+                          <Text style={styles.editButtonText}>Szerkesztés</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.deleteButton} onPress={() => deleteExerciseFromCurrentDay(ex.id)}>
+                          <Text style={styles.deleteButtonText}>Törlés</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </>
+                  )}
                 </View>
 
                 <View style={styles.weightRow}>
@@ -414,6 +652,47 @@ const styles = StyleSheet.create({
   dayTitle: { fontSize: 18, fontWeight: "700", color: "#e5e7eb" },
   daySubtitle: { fontSize: 12, color: "#9ca3af" },
   helperText: { fontSize: 12, color: "#9ca3af", marginTop: 4 },
+  addExerciseBox: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#0b1120",
+  },
+  addExerciseTitle: { color: "#e5e7eb", fontSize: 13, fontWeight: "700", marginBottom: 8 },
+  addExerciseInput: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    fontSize: 14,
+    color: "#e5e7eb",
+    backgroundColor: "#020617",
+    marginBottom: 8,
+  },
+  categoryRow: { flexDirection: "row", gap: 6, marginBottom: 8, flexWrap: "wrap" },
+  categoryChip: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    backgroundColor: "#020617",
+  },
+  categoryChipActive: {
+    borderColor: "#22c55e",
+    backgroundColor: "#052e16",
+  },
+  categoryChipText: { color: "#e5e7eb", fontSize: 12, fontWeight: "700" },
+  addExerciseButton: {
+    borderRadius: 8,
+    backgroundColor: "#166534",
+    alignItems: "center",
+    paddingVertical: 9,
+  },
+  addExerciseButtonText: { color: "#dcfce7", fontSize: 13, fontWeight: "800" },
   scroll: { flex: 1 },
   scrollContent: { paddingTop: 4, paddingBottom: 24 },
   emptyText: { color: "#e5e7eb", fontSize: 14, textAlign: "center", marginTop: 16 },
@@ -428,6 +707,68 @@ const styles = StyleSheet.create({
   exerciseHeader: { marginBottom: 8 },
   exerciseName: { fontSize: 16, fontWeight: "700", color: "#e5e7eb" },
   exerciseMeta: { fontSize: 12, color: "#9ca3af", marginTop: 2 },
+  editNameInput: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    fontSize: 14,
+    color: "#e5e7eb",
+    backgroundColor: "#020617",
+    marginBottom: 8,
+  },
+  editGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+    marginBottom: 8,
+  },
+  editMiniInput: {
+    width: "31%",
+    minWidth: 85,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    fontSize: 12,
+    color: "#e5e7eb",
+    backgroundColor: "#020617",
+  },
+  exerciseActionsRow: {
+    flexDirection: "row",
+    gap: 8,
+    marginTop: 8,
+  },
+  editButton: {
+    borderRadius: 8,
+    backgroundColor: "#1d4ed8",
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+  },
+  editButtonText: { color: "#dbeafe", fontSize: 12, fontWeight: "700" },
+  deleteButton: {
+    borderRadius: 8,
+    backgroundColor: "#7f1d1d",
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+  },
+  deleteButtonText: { color: "#fee2e2", fontSize: 12, fontWeight: "700" },
+  saveButton: {
+    borderRadius: 8,
+    backgroundColor: "#166534",
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+  },
+  saveButtonText: { color: "#dcfce7", fontSize: 12, fontWeight: "700" },
+  cancelButton: {
+    borderRadius: 8,
+    backgroundColor: "#374151",
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+  },
+  cancelButtonText: { color: "#e5e7eb", fontSize: 12, fontWeight: "700" },
   weightRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   weightLabel: { fontSize: 13, color: "#e5e7eb", marginRight: 8 },
   weightInput: {

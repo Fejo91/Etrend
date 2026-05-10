@@ -45,32 +45,22 @@ export default function MenuScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>4. Edzés</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => router.push("/training")}
-          >
-            <Text style={styles.buttonText}>4a. Edzés előrehaladás</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>5. Extra</Text>
+          <Text style={styles.sectionTitle}>4. Extra</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => router.push("/extra")}
           >
-            <Text style={styles.buttonText}>5a. Táplálékkiegészítők</Text>
+            <Text style={styles.buttonText}>4a. Táplálékkiegészítők</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>6. Bevásárlókocsi és hozzávalók</Text>
+          <Text style={styles.sectionTitle}>5. Bevásárlókocsi és hozzávalók</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => router.push("/shopping-cart")}
           >
-            <Text style={styles.buttonText}>6a. Bevásárlókocsi</Text>
+            <Text style={styles.buttonText}>5a. Bevásárlókocsi</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

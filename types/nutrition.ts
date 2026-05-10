@@ -13,6 +13,11 @@ export type Macros = {
   portion: string;
 };
 
+export type IngredientItem = {
+  name: string;
+  amount?: string;
+};
+
 export type Meal = {
   id: string;
   mealId: string;
@@ -22,6 +27,8 @@ export type Meal = {
   day: number;
   workout: Macros;
   rest: Macros;
+  workoutIngredients?: IngredientItem[];
+  restIngredients?: IngredientItem[];
   // ÚJ: milyen elkészítési stílushoz tartozik ez a variáció
   styles?: CookingStyleTag[];
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Alert,
     ScrollView,
@@ -10,6 +10,7 @@ import {
 import MEALS from "../types/meals";
 import COOKING_INSTRUCTIONS from "../types/preparations";
 import { HintType, QuizMode, QuizScore } from "../types/quiz";
+import { matchesTop25Pool, type Top25Pool } from "../constants/topMeals";
 
 interface Question {
   mealId: string;
@@ -19,12 +20,23 @@ interface Question {
 
 interface CookingOrderQuizScreenProps {
   onBack: () => void;
+  initialQuestionPool?: Top25Pool;
+  initialMode?: QuizMode;
+  initialMealId?: string;
+  autoStart?: boolean;
 }
 
 export default function CookingOrderQuizScreen({
   onBack,
+  initialQuestionPool,
+  initialMode,
+  initialMealId,
+  autoStart = false,
 }: CookingOrderQuizScreenProps) {
   const [mode, setMode] = useState<QuizMode | null>(null);
+  const [questionPool, setQuestionPool] = useState<Top25Pool>(
+    initialQuestionPool ?? "all"
+  );
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [userOrder, setUserOrder] = useState<string[]>([]);
   const [hintsUsedCount, setHintsUsedCount] = useState(0);
@@ -36,6 +48,7 @@ export default function CookingOrderQuizScreen({
   const [highlightedWrongSteps, setHighlightedWrongSteps] = useState<
     Set<string>
   >(new Set());
+  const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
@@ -46,8 +59,17 @@ export default function CookingOrderQuizScreen({
     return shuffled;
   };
 
-  const loadQuestion = () => {
+  const loadQuestion = (
+    forcedMealId?: string,
+    poolOverride?: Top25Pool
+  ) => {
+    const activePool = poolOverride ?? questionPool;
+
     const mealsWithInstructions = MEALS.filter((meal) => {
+      if (!matchesTop25Pool(meal.id, activePool)) {
+        return false;
+      }
+
       const instructions = COOKING_INSTRUCTIONS.find(
         (ci) => ci.mealId === meal.id
       );
@@ -59,7 +81,11 @@ export default function CookingOrderQuizScreen({
       return;
     }
 
+    const forcedMeal = forcedMealId
+      ? mealsWithInstructions.find((meal) => meal.id === forcedMealId)
+      : undefined;
     const randomMeal =
+      forcedMeal ??
       mealsWithInstructions[
         Math.floor(Math.random() * mealsWithInstructions.length)
       ];
@@ -95,12 +121,36 @@ export default function CookingOrderQuizScreen({
     setHighlightedWrongSteps(new Set());
   };
 
-  const startQuiz = (selectedMode: QuizMode) => {
+  const startQuiz = (selectedMode: QuizMode, forcedMealId?: string) => {
     setMode(selectedMode);
     setQuestionsAnswered(0);
     setScore(null);
-    loadQuestion();
+    loadQuestion(forcedMealId);
   };
+
+  useEffect(() => {
+    if (!autoStart || hasAutoStarted || mode || currentQuestion) {
+      return;
+    }
+
+    const selectedPool = initialQuestionPool ?? "top25";
+    const selectedMode = initialMode ?? "practice";
+
+    setQuestionPool(selectedPool);
+    setMode(selectedMode);
+    setQuestionsAnswered(0);
+    setScore(null);
+    loadQuestion(initialMealId, selectedPool);
+    setHasAutoStarted(true);
+  }, [
+    autoStart,
+    hasAutoStarted,
+    mode,
+    currentQuestion,
+    initialQuestionPool,
+    initialMode,
+    initialMealId,
+  ]);
 
   const moveStep = (fromIndex: number, direction: "up" | "down") => {
     const newOrder = [...userOrder];
@@ -206,6 +256,43 @@ export default function CookingOrderQuizScreen({
           <Text style={styles.description}>
             Válaszd ki a módot, amelyben játszani szeretnél
           </Text>
+
+          <Text style={styles.poolLabel}>Kérdéskör:</Text>
+          <View style={styles.poolSelectorRow}>
+            <TouchableOpacity
+              style={[
+                styles.poolSelectorButton,
+                questionPool === "all" && styles.poolSelectorButtonActive,
+              ]}
+              onPress={() => setQuestionPool("all")}
+            >
+              <Text
+                style={[
+                  styles.poolSelectorButtonText,
+                  questionPool === "all" && styles.poolSelectorButtonTextActive,
+                ]}
+              >
+                Összes
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.poolSelectorButton,
+                questionPool === "top25" && styles.poolSelectorButtonActive,
+              ]}
+              onPress={() => setQuestionPool("top25")}
+            >
+              <Text
+                style={[
+                  styles.poolSelectorButtonText,
+                  questionPool === "top25" && styles.poolSelectorButtonTextActive,
+                ]}
+              >
+                Top 25
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
             style={styles.modeButton}
@@ -416,6 +503,39 @@ const styles = StyleSheet.create({
     color: "#94a3b8",
     marginBottom: 30,
     textAlign: "center",
+  },
+  poolLabel: {
+    fontSize: 13,
+    color: "#cbd5e1",
+    fontWeight: "700",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  poolSelectorRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 8,
+    marginBottom: 16,
+  } as any,
+  poolSelectorButton: {
+    borderWidth: 1,
+    borderColor: "#334155",
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    backgroundColor: "#0f172a",
+  },
+  poolSelectorButtonActive: {
+    borderColor: "#38bdf8",
+    backgroundColor: "#38bdf8",
+  },
+  poolSelectorButtonText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#e5e7eb",
+  },
+  poolSelectorButtonTextActive: {
+    color: "#0f172a",
   },
   modeButton: {
     backgroundColor: "#1e293b",

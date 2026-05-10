@@ -86,8 +86,7 @@ export const SUPPLEMENTS: Supplement[] = [
   {
     id: "vitc",
     name: "C-vitamin",
-    description: "500–1000 mg / nap, főleg edzés után",
-    isPreWorkout: true, // ← hozzáadva
+    description: "Nap típusától függő dózis, vacsorával",
   },
   {
     id: "nac",
@@ -126,8 +125,7 @@ export const SUPPLEMENTS: Supplement[] = [
   {
     id: "creatine",
     name: "Kreatin-monohidrát",
-    description: "5 g heavy fázisban (edzés után / reggel)",
-    isPreWorkout: true, // ← hozzáadva
+    description: "5 g minden nap (edzésnap: edzés után, pihenőnap: ebéd után)",
   },
   {
     id: "magnesium",
@@ -139,6 +137,11 @@ export const SUPPLEMENTS: Supplement[] = [
     id: "collagen",
     name: "Kollagén",
     description: "10–15 g, ízület- és kötőszövet-támogatás",
+  },
+  {
+    id: "gelatin",
+    name: "Zselatin",
+    description: "5–10 g edzés előtt 30–45 perccel",
   },
   {
     id: "ashwagandha",
@@ -238,21 +241,12 @@ export function getDailySupplementPlan(
     });
   }
 
-  if (isHeavy && !isWorkoutDay) {
+  if (!isWorkoutDay) {
     rules.push({
-      id: "creatine_heavy_rest_lunch",
+      id: "creatine_rest_lunch_all",
       supplementId: "creatine",
       timeSlot: "after_lunch",
-      dose: "5 g (heavy pihenős nap)",
-    });
-  }
-
-  if (isHeavy && isWorkoutDay) {
-    rules.push({
-      id: "vitc_morning_heavy_weights",
-      supplementId: "vitc",
-      timeSlot: "after_breakfast",
-      dose: "500 mg (heavy súlyzós nap)",
+      dose: "5 g",
     });
   }
 
@@ -266,6 +260,21 @@ export function getDailySupplementPlan(
 
   // ---- 3) EDZÉS ELŐTT ----
   if (isWorkoutDay) {
+    rules.push(
+      {
+        id: "gelatin_pre_workout_all",
+        supplementId: "gelatin",
+        timeSlot: "pre_workout",
+        dose: "5–10 g (edzés előtt 30–45 perccel)",
+      },
+      {
+        id: "vitc_pre_workout_all",
+        supplementId: "vitc",
+        timeSlot: "pre_workout",
+        dose: "50–100 mg (edzés előtt 30–45 perccel)",
+      }
+    );
+
     if (isHeavy) {
       rules.push(
         {
@@ -288,12 +297,26 @@ export function getDailySupplementPlan(
         }
       );
     } else {
-      rules.push({
-        id: "jumbo_pre_light_optional",
-        supplementId: "jumbo",
-        timeSlot: "pre_workout",
-        dose: "½ adag (ha kell plusz energia light napon)",
-      });
+      rules.push(
+        {
+          id: "jumbo_pre_light_optional",
+          supplementId: "jumbo",
+          timeSlot: "pre_workout",
+          dose: "½ adag (ha kell plusz energia light napon)",
+        },
+        {
+          id: "arginine_pre_light_optional",
+          supplementId: "arginine",
+          timeSlot: "pre_workout",
+          dose: "3–4 g (opcionálisan light súlyzós napon)",
+        },
+        {
+          id: "citrulline_pre_light_optional",
+          supplementId: "citrulline",
+          timeSlot: "pre_workout",
+          dose: "5–6 g (opcionálisan light súlyzós napon)",
+        }
+      );
     }
   }
 
@@ -316,14 +339,14 @@ export function getDailySupplementPlan(
         {
           id: "vitc_post_heavy",
           supplementId: "vitc",
-          timeSlot: "post_workout",
-          dose: "500 mg (edzés után)",
+          timeSlot: "with_dinner",
+          dose: "500 mg vacsorával",
         },
         {
           id: "creatine_post_heavy",
           supplementId: "creatine",
           timeSlot: "post_workout",
-          dose: "5 g (heavy súlyzós nap)",
+          dose: "5 g",
         }
       );
     } else {
@@ -337,11 +360,35 @@ export function getDailySupplementPlan(
         {
           id: "vitc_post_light",
           supplementId: "vitc",
+          timeSlot: "with_dinner",
+          dose: "250 mg vacsorával",
+        },
+        {
+          id: "creatine_post_light",
+          supplementId: "creatine",
           timeSlot: "post_workout",
-          dose: "500 mg (edzés után)",
+          dose: "5 g",
         }
       );
     }
+  }
+
+  if (!isWorkoutDay && isHeavy) {
+    rules.push({
+      id: "vitc_with_dinner_heavy_rest",
+      supplementId: "vitc",
+      timeSlot: "with_dinner",
+      dose: "500 mg vacsorával",
+    });
+  }
+
+  if (!isWorkoutDay && isLight) {
+    rules.push({
+      id: "vitc_with_dinner_light_rest",
+      supplementId: "vitc",
+      timeSlot: "with_dinner",
+      dose: "0 vagy 250 mg vacsorával",
+    });
   }
 
   // ---- 5) VACSORA UTÁN / LEFEKVÉS ELŐTT ----
