@@ -8,7 +8,9 @@ import {
     View,
 } from "react-native";
 import MEALS from "../types/meals";
-  import COOKING_INSTRUCTIONS, { type CookingInstruction } from "../types/preparations";
+import COOKING_INSTRUCTIONS, {
+  type CookingInstruction,
+} from "../types/preparations";
 import { matchesTop25Pool, type Top25Pool } from "../constants/topMeals";
 
 interface Question {
