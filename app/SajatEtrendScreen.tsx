@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -56,6 +58,19 @@ type SajatEtrendScreenProps = {
 type SlotType = "Reggeli" | "Tízorai" | "Ebéd" | "Uzsonna" | "Vacsora";
 
 const SLOTS: SlotType[] = ["Reggeli", "Tízorai", "Ebéd", "Uzsonna", "Vacsora"];
+const SAVED_DAILY_PLAN_STORAGE_KEY = "@sajat_etrend_saved_daily_plan_v1";
+
+type SavedDailyPlan = {
+  day: number;
+  isWorkoutDay: boolean;
+  cyclePhase: CyclePhase;
+  selectedMealsBySlot: Record<SlotType, string | null>;
+  selectedSlot: SlotType | null;
+  selectedMealId: string | null;
+};
+
+const isSlotType = (value: unknown): value is SlotType =>
+  typeof value === "string" && SLOTS.includes(value as SlotType);
 
 export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
   const [day, setDay] = useState<number>(1);
@@ -134,6 +149,91 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
     SLOTS.forEach((s) => (init[s] = null));
     return init;
   });
+
+  const handleSaveDailyPlan = async () => {
+    const payload: SavedDailyPlan = {
+      day,
+      isWorkoutDay,
+      cyclePhase,
+      selectedMealsBySlot,
+      selectedSlot,
+      selectedMealId,
+    };
+
+    try {
+      await AsyncStorage.setItem(
+        SAVED_DAILY_PLAN_STORAGE_KEY,
+        JSON.stringify(payload)
+      );
+      Alert.alert("Siker", "Napi terv elmentve.");
+    } catch {
+      Alert.alert("Hiba", "Nem sikerült a napi terv mentése.");
+    }
+  };
+
+  const handleLoadDailyPlan = async () => {
+    try {
+      const raw = await AsyncStorage.getItem(SAVED_DAILY_PLAN_STORAGE_KEY);
+
+      if (!raw) {
+        Alert.alert("Nincs mentett terv", "Még nincs elmentett napi terved.");
+        return;
+      }
+
+      const parsed = JSON.parse(raw) as Partial<SavedDailyPlan>;
+
+      const restoredSelectedMealsBySlot: Record<SlotType, string | null> = {
+        Reggeli: selectedMealsBySlot.Reggeli,
+        Tízorai: selectedMealsBySlot.Tízorai,
+        Ebéd: selectedMealsBySlot.Ebéd,
+        Uzsonna: selectedMealsBySlot.Uzsonna,
+        Vacsora: selectedMealsBySlot.Vacsora,
+      };
+
+      if (
+        parsed.selectedMealsBySlot &&
+        typeof parsed.selectedMealsBySlot === "object"
+      ) {
+        SLOTS.forEach((slot) => {
+          const value = parsed.selectedMealsBySlot?.[slot];
+          if (typeof value === "string" || value === null) {
+            restoredSelectedMealsBySlot[slot] = value;
+          }
+        });
+      }
+
+      setDay(
+        typeof parsed.day === "number" && parsed.day >= 1 && parsed.day <= 7
+          ? parsed.day
+          : day
+      );
+      setIsWorkoutDay(
+        typeof parsed.isWorkoutDay === "boolean"
+          ? parsed.isWorkoutDay
+          : isWorkoutDay
+      );
+      setCyclePhase(
+        parsed.cyclePhase === "light" || parsed.cyclePhase === "heavy"
+          ? parsed.cyclePhase
+          : cyclePhase
+      );
+      setSelectedMealsBySlot(restoredSelectedMealsBySlot);
+      setSelectedSlot(
+        parsed.selectedSlot === null || isSlotType(parsed.selectedSlot)
+          ? parsed.selectedSlot
+          : selectedSlot
+      );
+      setSelectedMealId(
+        typeof parsed.selectedMealId === "string" || parsed.selectedMealId === null
+          ? parsed.selectedMealId
+          : selectedMealId
+      );
+
+      Alert.alert("Siker", "Mentett napi terv betöltve.");
+    } catch {
+      Alert.alert("Hiba", "Nem sikerült betölteni a mentett napi tervet.");
+    }
+  };
 
   // nap léptetése (1–7 között körbe)
   const changeDay = (dir: -1 | 1) => {
@@ -340,6 +440,22 @@ export default function SajatEtrendScreen({ onBack }: SajatEtrendScreenProps) {
                 </Text>
               </TouchableOpacity>
             </View>
+          </View>
+
+          <View style={styles.planActionsRow}>
+            <TouchableOpacity
+              onPress={handleSaveDailyPlan}
+              style={styles.planActionButton}
+            >
+              <Text style={styles.planActionButtonText}>Napi terv mentése</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleLoadDailyPlan}
+              style={styles.planActionButton}
+            >
+              <Text style={styles.planActionButtonText}>Mentett terv betöltése</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.topFiltersWrap}>
@@ -1268,6 +1384,26 @@ const styles = StyleSheet.create({
   },
   phaseToggleButtonTextActive: {
     color: "#0f172a",
+  },
+  planActionsRow: {
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 8,
+  },
+  planActionButton: {
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#d1d5db",
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+  },
+  planActionButtonText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#111827",
   },
   supplementContainer: {
     marginTop: 8,
