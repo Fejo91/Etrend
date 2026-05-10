@@ -173,7 +173,7 @@ export default function NextStepQuizScreen({
         correctOnFirstTry: newAttemptCount === 1,
         attempts: newAttemptCount,
         timeSeconds: timeElapsed,
-        hintsUsed: revealedPreviousStep ? ["first_step"] : ["none"],
+        hintsUsed: revealedPreviousStep ? ["first_step"] : [],
         score: finalScore,
         timestamp: new Date(),
       };
@@ -376,12 +376,14 @@ export default function NextStepQuizScreen({
       )}
 
       {/* Pont info */}
-      <View style={styles.scoreInfo}>
-        <Text style={styles.scoreLabel}>Szerzett pontok:</Text>
-        <Text style={styles.scoreValue}>
-          100 - {hintsUsedCount} × 15 - {attemptCount > 0 ? (attemptCount - 1) * 10 : 0} = ?
-        </Text>
-      </View>
+      {!currentScore && (
+        <View style={styles.scoreInfo}>
+          <Text style={styles.scoreLabel}>Szerzett pontok:</Text>
+          <Text style={styles.scoreValue}>
+            100 - {hintsUsedCount} × 15 - {attemptCount > 0 ? (attemptCount - 1) * 10 : 0} = ?
+          </Text>
+        </View>
+      )}
 
       {currentScore && (
         <View style={styles.resultCard}>
