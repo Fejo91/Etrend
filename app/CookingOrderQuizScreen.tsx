@@ -8,7 +8,7 @@ import {
     View,
 } from "react-native";
 import MEALS from "../types/meals";
-import COOKING_INSTRUCTIONS from "../types/preparations";
+  import COOKING_INSTRUCTIONS, { type CookingInstruction } from "../types/preparations";
 import { matchesTop25Pool, type Top25Pool } from "../constants/topMeals";
 
 interface Question {
@@ -53,6 +53,14 @@ export default function CookingOrderQuizScreen({
     return shuffled;
   };
 
+  const getQuizSteps = (instruction: CookingInstruction): string[] => {
+    if (instruction.quizSteps && instruction.quizSteps.length > 0) {
+      return instruction.quizSteps;
+    }
+
+    return instruction.steps;
+  };
+
   const loadQuestion = (
     forcedMealId?: string,
     poolOverride?: Top25Pool
@@ -67,7 +75,7 @@ export default function CookingOrderQuizScreen({
       const instructions = COOKING_INSTRUCTIONS.find(
         (ci) => ci.mealId === meal.id
       );
-      return instructions && instructions.steps.length >= 4;
+      return instructions && getQuizSteps(instructions).length >= 4;
     });
 
     if (mealsWithInstructions.length === 0) {
@@ -86,19 +94,20 @@ export default function CookingOrderQuizScreen({
     const instructions = COOKING_INSTRUCTIONS.find(
       (ci) => ci.mealId === randomMeal.id
     )!;
+    const sourceSteps = getQuizSteps(instructions);
 
     // Lépésszám: 4-7 között, de maximum az összes lépés száma
     const stepCount = Math.min(
       Math.floor(Math.random() * 4) + 4,
-      instructions.steps.length
+      sourceSteps.length
     );
     
     // Random kezdőpont: az utolsó (stepCount) lépésig lehet kezdeni
-    const maxStartIndex = Math.max(0, instructions.steps.length - stepCount);
+    const maxStartIndex = Math.max(0, sourceSteps.length - stepCount);
     const startIndex = Math.floor(Math.random() * (maxStartIndex + 1));
     
     // Összefüggő szekvencia kiválasztása a random pontból
-    const selectedSteps = instructions.steps.slice(startIndex, startIndex + stepCount);
+    const selectedSteps = sourceSteps.slice(startIndex, startIndex + stepCount);
 
     const question: Question = {
       mealId: randomMeal.id,
