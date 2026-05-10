@@ -42,7 +42,7 @@ export default function NextStepQuizScreen({
   const [startTime, setStartTime] = useState<number>(0);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
-  const [scores, setScores] = useState<QuizScore[]>([]);
+  const [currentScore, setCurrentScore] = useState<QuizScore | null>(null);
   const [userGuess, setUserGuess] = useState("");
   const [showCustomGuessInput, setShowCustomGuessInput] = useState(false);
   const [revealedPreviousStep, setRevealedPreviousStep] = useState(false);
@@ -127,6 +127,7 @@ export default function NextStepQuizScreen({
     setRevealedPreviousStep(false);
     setUserGuess("");
     setShowCustomGuessInput(false);
+    setCurrentScore(null);
   };
 
   const startQuiz = (selectedMode: QuizMode) => {
@@ -141,33 +142,51 @@ export default function NextStepQuizScreen({
 
     setMode(selectedMode);
     setQuestionsAnswered(0);
-    setScores([]);
+    setCurrentScore(null);
     setTotalQuestions(Math.min(10, availableMeals.length));
     loadQuestion();
   };
 
   const submitAnswer = (selectedOption: string | null) => {
-    if (!currentQuestion) {
-      console.log("No current question");
+    if (!currentQuestion || currentScore) {
       return;
     }
 
-    console.log("Answer submitted:", selectedOption);
-    console.log("Correct answer:", currentQuestion.correctNextStep);
-
     const isCorrect = selectedOption === currentQuestion.correctNextStep;
-    
-    // Teszt: window.alert helyett
-    if (isCorrect) {
-      window.alert(`✓ Helyes!\n\nA helyes válasz: "${currentQuestion.correctNextStep}"`);
-    } else {
-      window.alert(`✗ Sajnos helytelen!\n\nA helyes válasz: "${currentQuestion.correctNextStep}"`);
-    }
 
-    // Következő kérdés betöltése
-    setTimeout(() => {
-      loadQuestion();
-    }, 500);
+    const newAttemptCount = attemptCount + 1;
+    setAttemptCount(newAttemptCount);
+
+    if (isCorrect) {
+      const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
+      const calculatedScore =
+        100 -
+        hintsUsedCount * 15 -
+        (newAttemptCount - 1) * 10 -
+        Math.floor(timeElapsed / 30);
+      const finalScore = Math.max(0, calculatedScore);
+
+      const quizScore: QuizScore = {
+        mode,
+        mealId: currentQuestion.mealId,
+        mealName: currentQuestion.mealName,
+        correctOnFirstTry: newAttemptCount === 1,
+        attempts: newAttemptCount,
+        timeSeconds: timeElapsed,
+        hintsUsed: revealedPreviousStep ? ["first_step"] : ["none"],
+        score: finalScore,
+        timestamp: new Date(),
+      };
+
+      setCurrentScore(quizScore);
+      setQuestionsAnswered((previous) => previous + 1);
+    } else {
+      Alert.alert("Helytelen", "Sajnos nem ez a következő lépés. Próbáld újra!");
+    }
+  };
+
+  const nextQuestion = () => {
+    loadQuestion();
   };
 
   const revealPreviousStep = () => {
@@ -303,10 +322,8 @@ export default function NextStepQuizScreen({
             key={index}
             style={styles.optionButton}
             activeOpacity={0.7}
-            onPress={() => {
-              console.log("Kattintás:", option);
-              submitAnswer(option);
-            }}
+            onPress={() => submitAnswer(option)}
+            disabled={Boolean(currentScore)}
           >
             <Text style={styles.optionText}>{option}</Text>
           </TouchableOpacity>
@@ -335,6 +352,7 @@ export default function NextStepQuizScreen({
           <TouchableOpacity
             style={styles.submitGuessButton}
             onPress={() => submitAnswer(userGuess)}
+            disabled={Boolean(currentScore)}
           >
             <Text style={styles.submitGuessButtonText}>Küldés</Text>
           </TouchableOpacity>
@@ -364,6 +382,21 @@ export default function NextStepQuizScreen({
           100 - {hintsUsedCount} × 15 - {attemptCount > 0 ? (attemptCount - 1) * 10 : 0} = ?
         </Text>
       </View>
+
+      {currentScore && (
+        <View style={styles.resultCard}>
+          <Text style={styles.resultTitle}>Eredmény</Text>
+          <Text style={styles.resultLine}>Étel: {currentScore.mealName}</Text>
+          <Text style={styles.resultLine}>Pontszám: {currentScore.score}</Text>
+          <Text style={styles.resultLine}>Próbálkozások: {currentScore.attempts}</Text>
+          <Text style={styles.resultLine}>Idő: {currentScore.timeSeconds} mp</Text>
+          <Text style={styles.resultLine}>Segítségek: {hintsUsedCount}</Text>
+
+          <TouchableOpacity style={styles.nextQuestionButton} onPress={nextQuestion}>
+            <Text style={styles.nextQuestionButtonText}>Következő kérdés</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Text style={styles.backButtonText}>← Vissza</Text>
@@ -610,6 +643,37 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#e5e7eb",
     fontFamily: "monospace",
+  },
+  resultCard: {
+    backgroundColor: "#0f172a",
+    borderWidth: 1,
+    borderColor: "#38bdf8",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    gap: 4,
+  },
+  resultTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#38bdf8",
+    marginBottom: 4,
+  },
+  resultLine: {
+    fontSize: 13,
+    color: "#e5e7eb",
+  },
+  nextQuestionButton: {
+    marginTop: 8,
+    paddingVertical: 10,
+    borderRadius: 6,
+    backgroundColor: "#38bdf8",
+    alignItems: "center",
+  },
+  nextQuestionButtonText: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#0f172a",
   },
   backButton: {
     paddingVertical: 12,
