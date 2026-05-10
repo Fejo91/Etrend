@@ -7,6 +7,7 @@ export type CookingInstruction = {
   title?: string;
   timeMinutes?: number;
   steps: string[];
+  quizSteps?: string[];
 };
 
 // IDE FOGJUK FELVINNI KÉSŐBB A TÉNYLEGES LEÍRÁSOKAT
@@ -29,6 +30,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
       "A banánt karikázd fel: edzésnapon 1 közepes (~100 g), pihenőnapon ½ közepes (~50 g). Szórd a tetejére, vagy keverd bele a zabos alapba.",
       "Ha szeretnél extra jó zsírokat: edzésnapon szórhatsz rá 1 teáskanál lenmagot vagy chiát (opcionális). Pihenőnapon ezt el is hagyhatod, vagy csak egy nagyon vékony szórást tegyél.",
       "Hidegen is eheted, de ha nem bírod a teljesen hideget, tedd 10–15 másodpercre mikróba, csak langyosítsd meg, ne főzd meg a zabot.",
+    ],
+    quizSteps: [
+      "Mérd ki a zabpelyhet egy zárható dobozba vagy befőttes üvegbe.",
+      "Öntsd rá a folyadékot, majd szórd bele a fahéjat.",
+      "Keverd össze alaposan, hogy minden zabpelyhet érjen a folyadék.",
+      "Zárd le a dobozt vagy üveget, és tedd a hűtőbe egy éjszakára.",
+      "Reggel vedd ki a hűtőből, keverd át, és ellenőrizd az állagát.",
+      "Add hozzá a fehérjeport, majd keverd simára.",
+      "Karikázd fel a banánt, és tedd a tetejére vagy keverd bele.",
+      "Ha túl sűrű, lazítsd kevés tejjel vagy vízzel.",
     ],
   },
    // ⬇⬇⬇ ÚJ: 1. napi 2. reggeli – mikrós gyors verzió
