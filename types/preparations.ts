@@ -178,11 +178,9 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Mosd meg a paradicsomot és az uborkát.",
     "Vágd fel a paradicsomot és az uborkát falatnyi darabokra.",
     "Mérd ki a cottage cheese-t egy tálba.",
-    "Sózd, borsozd, majd keverd át a cottage cheese-t.",
-    "Add hozzá a snidlinget vagy újhagymát, ha használsz.",
-    "Tedd a cottage cheese-t és a zöldségeket egy tányérra vagy keverd össze őket egy tálban.",
+    "Sózd, borsozd, majd keverd át a cottage cheese-t snidlinggel vagy újhagymával, ha használsz.",
+    "Állítsd össze a cottage cheese-t és a felvágott zöldségeket egy tányéron vagy tálban.",
     "Tedd mellé a puffasztott rizst vagy abonettet.",
-    "Evéskor mártogasd, kend vagy törd a szeleteket a cottage-zöldség keverékhez.",
   ],
 },
 {
