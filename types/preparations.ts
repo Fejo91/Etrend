@@ -725,11 +725,9 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
   ],
   quizSteps: [
     "Kanalazd a görög joghurtot egy tálba.",
-    "Keverd át a joghurtot, hogy simább, krémesebb legyen.",
+    "Keverd át a joghurtot, hogy krémesebb legyen.",
     "Mérd ki a diót, majd vágd vagy törd durvább darabokra.",
-    "Simítsd el a joghurtot a tálban.",
-    "Szórd a diót a joghurt tetejére.",
-    "Tálald azonnal, vagy külön tartsd a diót, ha később eszed meg.",
+    "Szórd a diót a joghurt tetejére, majd tálald.",
   ],
 },
 {
