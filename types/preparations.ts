@@ -492,14 +492,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Tálalásnál tedd a cottage cheese-t a tál közepére, a paprikát és uborkát rendezd köré. A kenyeret külön tányérra vagy a zöldségek mellé rakhatod. Eheted úgy, hogy a kenyérre kensz egy adag cottage-ot és teszel rá pár paprikát/uborkát, vagy csak kanalazod a cottage-ot, közben zöldséget ropogtatsz és harapsz a kenyérből. Hideg, friss, 2 perc alatt összedobható tízórai."
   ],
   quizSteps: [
-    "Mérd ki a cottage cheese-t egy tálba vagy tányérra.",
+    "Mérd ki a cottage cheese-t egy tálba.",
     "Mosd meg a paprikát és az uborkát.",
-    "Vágd fel a paprikát és az uborkát falatnyi darabokra vagy hasábokra.",
-    "Sózd, borsozd a cottage cheese-t ízlés szerint.",
-    "Keverd át a cottage cheese-t, hogy krémesebb legyen.",
+    "Vágd fel a paprikát és az uborkát falatnyi darabokra.",
+    "Sózd, borsozd, majd keverd át a cottage cheese-t.",
     "Tedd a zöldségeket a cottage cheese mellé vagy keverd hozzá.",
-    "Készítsd elő mellé a teljes kiőrlésű kenyeret vagy abonettet.",
-    "Tálald a cottage-zöldség keveréket a kenyérrel vagy abonettel.",
+    "Készítsd elő mellé a teljes kiőrlésű kenyeret vagy abonettet, majd tálald.",
   ],
 },
 {
