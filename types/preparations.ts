@@ -1990,6 +1990,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 1-U – Fehérjés verzió (kb. értékek):",
     "• Edzésnapos adag (≈165 g túró, 10 g whey, 100 g gyümölcs, 10 g dió/mandula, méz nélkül vagy max. 1 tk)\n  ≈ 295 kcal\n  ≈ 30 g fehérje",
     "• Pihenőnapos adag (≈150 g túró, 10 g whey, ≈90 g gyümölcs, 7 g dió/mandula, méz nélkül számolva)\n  ≈ 250 kcal\n  ≈ 28 g fehérje\n  (Ha mégis ráteszel 1 tk mézet, az +≈15 kcal.)"
+  ],
+  quizSteps: [
+    "Mérd ki a túrót egy keverőtálba.",
+    "Add hozzá a fehérjeport.",
+    "Adj hozzá kevés folyadékot, majd keverd krémesre.",
+    "Készítsd elő a gyümölcsöt falatnyi darabokra.",
+    "Mérd ki és aprítsd fel a magvakat.",
+    "Rétegezd vagy keverd össze a fehérjés túrót és a gyümölcsöt.",
+    "Szórd a tetejére a magvakat, majd tálald.",
   ]
 },
 {
@@ -2076,6 +2085,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 2-U – Diétásabb verzió (kb. értékek, vízzel számolva):",
     "• Edzésnapos adag (30 g whey, 80 g bogyós gyümölcs, víz / víz+kevés tej)\n  ≈ 155 kcal\n  ≈ 24–25 g fehérje",
     "• Pihenőnapos adag (ugyanazok a mennyiségek – ez eleve a „light” opció)\n  ≈ 155 kcal\n  ≈ 24–25 g fehérje\n  (Ha több tejet használsz víz helyett, a kalória kicsit feljebb mehet, +20–40 kcal körül.)"
+  ],
+  quizSteps: [
+    "Öntsd a folyadékot a turmixgépbe vagy shakerbe.",
+    "Mérd ki és add hozzá a whey-t.",
+    "Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.",
+    "Turmixold vagy rázd össze csomómentesre.",
+    "Szükség esetén állíts az állagon kevés vízzel.",
+    "Öntsd pohárba, és fogyaszd frissen.",
   ]
 },
 {
@@ -2164,6 +2181,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 2-U – Zabpelyhes verzió (whey + zab + banán):",
     "• Edzésnapos adag (30 g zab + 1 közepes banán ~100 g, 30 g whey)\n  ≈ 315–320 kcal\n  ≈ 29 g fehérje",
     "• Pihenőnapos adag (20 g zab + ½ banán ~50 g, 30 g whey)\n  ≈ 230–235 kcal\n  ≈ 27 g fehérje\n  (Ha a banánt elhagyod pihenőnapon, még lejjebb megy a ch és a kcal, cserébe extra diétás lesz.)"
+  ],
+  quizSteps: [
+    "Öntsd a folyadékot a turmixgépbe.",
+    "Mérd ki és add hozzá a zabpelyhet.",
+    "Szórd bele a fehérjeport.",
+    "Add hozzá a felaprított banánt.",
+    "Turmixold simára a keveréket.",
+    "Szükség esetén állíts az állagon kevés folyadékkal.",
+    "Öntsd pohárba, és tálald frissen.",
   ]
 },
 {
@@ -2202,6 +2228,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 3-U – Alap verzió (Abonett + cottage + uborka/retek):",
     "• Edzésnapos adag (3 abonett + 120 g cottage + kevés zöldség)\n  ≈ 170 kcal\n  ≈ 18,5 g fehérje",
     "• Pihenőnapos adag (2 abonett + 100 g cottage + több zöldség)\n  ≈ 130 kcal\n  ≈ 15 g fehérje"
+  ],
+  quizSteps: [
+    "Mosd meg és szeleteld fel az uborkát vagy retket.",
+    "Mérd ki a cottage cheese-t egy tálba.",
+    "Ízesítsd, majd keverd át a cottage cheese-t.",
+    "Készítsd elő az abonettet.",
+    "Kend rá egyenletesen a cottage cheese-t az abonett lapokra.",
+    "Tedd rá a zöldségszeleteket, majd tálald.",
   ]
 },
 {
@@ -2443,6 +2477,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 5-U – Fitnesz alap (főtt tojás + paprika + uborka):",
     "• Edzésnapos adag (2 tojás, ~90 g paprika, ~90 g uborka)\n  ≈ 180 kcal\n  ≈ 13,5 g fehérje",
     "• Pihenőnapos adag (1 tojás, ~110 g paprika, ~110 g uborka)\n  ≈ 120 kcal\n  ≈ 8 g fehérje"
+  ],
+  quizSteps: [
+    "Főzd keményre a tojásokat.",
+    "Hűtsd le, pucold meg, majd vágd félbe vagy cikkekre.",
+    "Mosd meg a paprikát és az uborkát.",
+    "Vágd hasábokra a zöldségeket.",
+    "Rendezd tányérra a tojást és a zöldségeket.",
+    "Ízesítsd sóval és borssal, majd tálald.",
   ]
 },
 {
