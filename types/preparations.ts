@@ -2081,7 +2081,7 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Mérd ki és add hozzá a whey-t.",
     "Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.",
     "Turmixold vagy rázd össze csomómentesre.",
-    "Szükség esetén állíts az állagon kevés vízzel.",
+    "Állítsd be az állagát kevés vízzel, ha szükséges.",
     "Öntsd pohárba, és fogyaszd frissen.",
   ]
 },
