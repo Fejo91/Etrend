@@ -2178,7 +2178,7 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Szórd bele a fehérjeport.",
     "Add hozzá a felaprított banánt.",
     "Turmixold simára a keveréket.",
-    "Szükség esetén állíts az állagon kevés folyadékkal.",
+    "Állítsd be az állagát kevés folyadékkal, ha szükséges.",
     "Öntsd pohárba, és tálald frissen.",
   ]
 },
