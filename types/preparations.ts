@@ -3601,12 +3601,10 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
   ],
   quizSteps: [
     "Mosd meg az uborkát.",
-    "Vágd apró kockákra vagy reszeld le az uborkát.",
+    "Vágd apró kockákra az uborkát.",
     "Mérd ki a túrót egy keverőtálba.",
     "Add hozzá a kaprot, sót és borsot.",
-    "Keverd hozzá az uborkát a túróhoz.",
-    "Adj hozzá kevés joghurtot vagy olívaolajat, ha a recept szerint krémesíteni kell.",
-    "Keverd össze alaposan a kapros-uborkás túrókrémet.",
+    "Keverd össze a túrót az uborkával krémes kapros túrókrémmé.",
     "Készítsd elő mellé a pirítóst vagy abonettet, majd tálald.",
   ]
 },
