@@ -2918,12 +2918,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
   quizSteps: [
     "Vágd csíkokra a csirkemellet.",
     "Fűszerezd be a csirkecsíkokat.",
-    "Készítsd elő a brokkolit, répát és a többi zöldséget.",
+    "Készítsd elő a brokkolit, répát, paprikát, cukkinit és hagymát.",
     "Hevítsd fel a wokot vagy serpenyőt, majd add hozzá az olajat.",
     "Pirítsd meg a csirkecsíkokat.",
     "Add hozzá a zöldségeket, és pirítsd roppanós-puhára.",
     "Locsold meg szójaszósszal, majd keverd át.",
-    "Tálald önmagában, vagy a recept szerinti kenyérrel/rizzsel.",
+    "Tálald a csirkés-zöldséges stir-fry-t.",
   ]
 },
 {
