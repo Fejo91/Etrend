@@ -936,6 +936,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 1-E – Alap grillezett csirkemell és barna rizs (kb. értékek):",
     "• Edzésnapos adag (≈175 g csirke, ≈72,5 g barna rizs, 150 g brokkoli, 90 g répa, ~1 ek olívaolaj)\n  ≈ 620 kcal\n  ≈ 51 g fehérje",
     "• Pihenőnapos adag (≈155 g csirke, ≈52,5 g barna rizs, 190 g brokkoli, 90 g répa, ~1 tk olívaolaj)\n  ≈ 505 kcal\n  ≈ 46 g fehérje"
+  ],
+  quizSteps: [
+    "Mérd ki a barna rizst, majd öblítsd át folyó víz alatt.",
+    "Tedd fel főni a barna rizst sós vízben, majd pihentesd lefedve.",
+    "Mosd meg a brokkolit és a sárgarépát, majd darabold fel őket.",
+    "Párold roppanós-puhára a brokkolit és a sárgarépát.",
+    "Tisztítsd meg és fűszerezd be a csirkemellet mindkét oldalon.",
+    "Süsd meg a csirkemellet grillserpenyőben vagy kontaktgrillen.",
+    "Pihentesd a csirkét röviden, majd szeleteld fel.",
+    "Tálald együtt a barna rizst, a párolt brokkolit-répát és a szeletelt csirkemellet.",
   ]
 },
 {
@@ -1072,6 +1082,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 2-E – Sütőben egyben (pulykamell + édesburgonya + zöldbab) (kb. értékek):",
     "• Edzésnapos adag (≈175 g pulyka, ≈210 g édesburgonya, 150 g zöldbab, ≈10 g olívaolaj)\n  ≈ 510 kcal\n  ≈ 48 g fehérje",
     "• Pihenőnapos adag (≈155 g pulyka, 150 g édesburgonya, ≈185 g zöldbab, ≈5 g olívaolaj)\n  ≈ 400 kcal\n  ≈ 43 g fehérje"
+  ],
+  quizSteps: [
+    "Melegítsd elő a sütőt, és készíts elő egy sütőpapíros tepsit.",
+    "Tisztítsd meg és fűszerezd be a pulykamellet.",
+    "Hámozd meg, darabold fel és fűszerezd be az édesburgonyát.",
+    "Rendezd tepsibe a pulykamellet és az édesburgonyát, majd indítsd az első sütést.",
+    "Készítsd elő a zöldbabot, és fűszerezd enyhén.",
+    "Az első sütés után forgasd át az édesburgonyát, majd add a tepsibe a zöldbabot.",
+    "Süsd készre az egészet, amíg a pulykamell teljesen átsül.",
+    "Tálald együtt a sült pulykamellet, édesburgonyát és zöldbabot.",
   ]
 },
 {
@@ -1262,6 +1282,16 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 3-E – Sütőben egyben változat (kb. értékek):",
     "• Edzésnapos adag (≈155 g lazac, ≈200 g édesburgonya, ≈200 g zöldség, ≈9 g olívaolaj)\n  ≈ 620 kcal\n  ≈ 38 g fehérje",
     "• Pihenőnapos adag (≈135 g lazac, ≈150 g édesburgonya, ≈220 g zöldség, ≈5,5 g olívaolaj)\n  ≈ 515 kcal\n  ≈ 34 g fehérje"
+  ],
+  quizSteps: [
+    "Melegítsd elő a sütőt, és béleld ki a tepsit sütőpapírral.",
+    "Hámozd meg és darabold fel az édesburgonyát.",
+    "Készítsd elő a brokkolit, répát, cukkinit és lilahagymát.",
+    "Fűszerezd és olajozd be az édesburgonya-zöldség keveréket.",
+    "Tisztítsd meg és fűszerezd be a lazacfilét.",
+    "Terítsd tepsibe az édesburgonya-zöldség keveréket, majd helyezd rá a lazacot.",
+    "Süsd készre az egészet, amíg a lazac átsül és az édesburgonya megpuhul.",
+    "Tálald a sült lazacot az édesburgonyás-zöldséges körettel.",
   ]
 },
 {
@@ -1487,6 +1517,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 5-E – Alap tonhalsaláta (kb. értékek):",
     "• Edzésnapos adag (120 g tonhal, 2 tojás, ~250–300 g zöldség, ~8 g olívaolaj)\n  ≈ 440 kcal\n  ≈ 47 g fehérje",
     "• Pihenőnapos adag (120 g tonhal, 1 tojás, ~260–300 g zöldség, ~5 g olívaolaj)\n  ≈ 340 kcal\n  ≈ 41 g fehérje"
+  ],
+  quizSteps: [
+    "Főzd keményre a tojásokat, majd hűtsd le és szeleteld fel őket.",
+    "Vágd fel a paradicsomot, uborkát, paprikát, lilahagymát és a salátát.",
+    "Csepegtesd le a tonhalat, majd lazítsd fel villával.",
+    "Keverd ki az öntetet olívaolajjal, citromlével, sóval és borssal.",
+    "Forgasd össze a felvágott zöldségeket a tonhallal.",
+    "Öntsd rá az öntetet, majd keverd át a salátát.",
+    "Tálald a tonhalsalátát a szeletelt főtt tojással.",
   ]
 },
 {
@@ -1621,6 +1660,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 6-E – Klasszikus grillezett csirkemell (kb. értékek):",
     "• Edzésnapos adag (≈180 g csirke, 70 g száraz basmati rizs, 200 g borsó–répa, ≈5 g olaj)\n  ≈ 610 kcal\n  ≈ 52 g fehérje",
     "• Pihenőnapos adag (≈170 g csirke, 50 g száraz basmati rizs, 230 g borsó–répa, ≈3–4 g olaj)\n  ≈ 530 kcal\n  ≈ 50 g fehérje"
+  ],
+  quizSteps: [
+    "Mérd ki és öblítsd át a basmati rizst.",
+    "Főzd meg a basmati rizst, majd pihentesd lefedve.",
+    "Párold roppanós-puhára a borsó-répa keveréket.",
+    "Tisztítsd meg és fűszerezd be a csirkemellet.",
+    "Hevítsd fel a serpenyőt, majd süsd meg a csirkemellet mindkét oldalon.",
+    "Pihentesd röviden a csirkét, majd szeleteld fel.",
+    "Tálald együtt a basmati rizst, a párolt borsó-répát és a szeletelt csirkemellet.",
   ]
 },
 {
@@ -1942,6 +1990,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 1-U – Fehérjés verzió (kb. értékek):",
     "• Edzésnapos adag (≈165 g túró, 10 g whey, 100 g gyümölcs, 10 g dió/mandula, méz nélkül vagy max. 1 tk)\n  ≈ 295 kcal\n  ≈ 30 g fehérje",
     "• Pihenőnapos adag (≈150 g túró, 10 g whey, ≈90 g gyümölcs, 7 g dió/mandula, méz nélkül számolva)\n  ≈ 250 kcal\n  ≈ 28 g fehérje\n  (Ha mégis ráteszel 1 tk mézet, az +≈15 kcal.)"
+  ],
+  quizSteps: [
+    "Mérd ki a túrót egy keverőtálba.",
+    "Add hozzá a fehérjeport.",
+    "Adj hozzá kevés folyadékot, majd keverd krémesre.",
+    "Készítsd elő a gyümölcsöt falatnyi darabokra.",
+    "Mérd ki és aprítsd fel a magvakat.",
+    "Rétegezd a fehérjés túrót és a gyümölcsöt.",
+    "Szórd a tetejére a magvakat, majd tálald.",
   ]
 },
 {
@@ -2028,6 +2085,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 2-U – Diétásabb verzió (kb. értékek, vízzel számolva):",
     "• Edzésnapos adag (30 g whey, 80 g bogyós gyümölcs, víz / víz+kevés tej)\n  ≈ 155 kcal\n  ≈ 24–25 g fehérje",
     "• Pihenőnapos adag (ugyanazok a mennyiségek – ez eleve a „light” opció)\n  ≈ 155 kcal\n  ≈ 24–25 g fehérje\n  (Ha több tejet használsz víz helyett, a kalória kicsit feljebb mehet, +20–40 kcal körül.)"
+  ],
+  quizSteps: [
+    "Öntsd a folyadékot a turmixgépbe vagy shakerbe.",
+    "Mérd ki és add hozzá a whey-t.",
+    "Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.",
+    "Turmixold vagy rázd össze csomómentesre.",
+    "Szükség esetén állíts az állagon kevés vízzel.",
+    "Öntsd pohárba, és fogyaszd frissen.",
   ]
 },
 {
@@ -2116,6 +2181,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 2-U – Zabpelyhes verzió (whey + zab + banán):",
     "• Edzésnapos adag (30 g zab + 1 közepes banán ~100 g, 30 g whey)\n  ≈ 315–320 kcal\n  ≈ 29 g fehérje",
     "• Pihenőnapos adag (20 g zab + ½ banán ~50 g, 30 g whey)\n  ≈ 230–235 kcal\n  ≈ 27 g fehérje\n  (Ha a banánt elhagyod pihenőnapon, még lejjebb megy a ch és a kcal, cserébe extra diétás lesz.)"
+  ],
+  quizSteps: [
+    "Öntsd a folyadékot a turmixgépbe.",
+    "Mérd ki és add hozzá a zabpelyhet.",
+    "Szórd bele a fehérjeport.",
+    "Add hozzá a felaprított banánt.",
+    "Turmixold simára a keveréket.",
+    "Állíts az állagon, majd tálald.",
   ]
 },
 {
@@ -2154,6 +2227,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 3-U – Alap verzió (Abonett + cottage + uborka/retek):",
     "• Edzésnapos adag (3 abonett + 120 g cottage + kevés zöldség)\n  ≈ 170 kcal\n  ≈ 18,5 g fehérje",
     "• Pihenőnapos adag (2 abonett + 100 g cottage + több zöldség)\n  ≈ 130 kcal\n  ≈ 15 g fehérje"
+  ],
+  quizSteps: [
+    "Mosd meg és szeleteld fel az uborkát vagy retket.",
+    "Mérd ki a cottage cheese-t egy tálba.",
+    "Ízesítsd, majd keverd át a cottage-ot.",
+    "Készítsd elő az abonettet.",
+    "Kend rá egyenletesen a cottage-ot.",
+    "Tedd rá a zöldségszeleteket, majd tálald.",
   ]
 },
 {
@@ -2395,6 +2476,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 5-U – Fitnesz alap (főtt tojás + paprika + uborka):",
     "• Edzésnapos adag (2 tojás, ~90 g paprika, ~90 g uborka)\n  ≈ 180 kcal\n  ≈ 13,5 g fehérje",
     "• Pihenőnapos adag (1 tojás, ~110 g paprika, ~110 g uborka)\n  ≈ 120 kcal\n  ≈ 8 g fehérje"
+  ],
+  quizSteps: [
+    "Főzd keményre a tojásokat.",
+    "Hűtsd le, pucold meg, majd vágd félbe vagy cikkekre.",
+    "Mosd meg a paprikát és az uborkát.",
+    "Vágd hasábokra a zöldségeket.",
+    "Rendezd tányérra a tojást és a zöldségeket.",
+    "Ízesítsd sóval, borssal, majd tálald.",
   ]
 },
 {
@@ -2834,6 +2923,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "• Edzésnapos adag (kb. 165 g csirkemell, 135 g brokkoli, 70 g répa, ~40 g extra zöldség, 5 g olaj)\n  ≈ 330 kcal\n  ≈ 43 g fehérje",
     "• Pihenőnapos adag (kb. 145 g csirkemell, 165 g brokkoli, 80 g répa, ~40 g extra zöldség, 5 g olaj)\n  ≈ 320 kcal\n  ≈ 39–40 g fehérje",
     "Ha edzésnapon mellé eszel 1 kisebb (~30 g) szelet teljes kiőrlésű kenyeret, az + ~70 kcal és + ~2–3 g fehérje; 50–60 g főtt rizs pedig + ~70–80 kcal és + ~1,5–2 g fehérje körül mozog."
+  ],
+  quizSteps: [
+    "Vágd csíkokra és fűszerezd be a csirkemellet.",
+    "Készítsd elő a brokkolit, répát és a többi zöldséget.",
+    "Hevítsd fel a wokot, majd add hozzá az olajat.",
+    "Pirítsd meg a csirkecsíkokat.",
+    "Add hozzá a zöldségeket, és wokozd roppanós-puhára.",
+    "Locsold meg szójaszósszal, majd keverd át.",
+    "Tálald opcionális kenyérrel vagy rizzsel.",
   ]
 },
 {
@@ -3097,6 +3195,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 3-V – Puha, krémes rántotta (tojás + avokádó + kenyér):",
     "• Edzésnapos adag (3 tojás, 1 tk olaj, 50 g avokádó, ~35 g teljes kiőrlésű kenyér)\n  ≈ 420 kcal\n  ≈ 23 g fehérje",
     "• Pihenőnapos adag (2 tojás + 1 fehérje, ~1/2 tk olaj, 40 g avokádó, ~25 g kenyér)\n  ≈ 300 kcal\n  ≈ 19 g fehérje"
+  ],
+  quizSteps: [
+    "Üsd a tojásokat tálba, fűszerezd, majd keverd fel.",
+    "Melegíts elő egy serpenyőt alacsony lángon.",
+    "Adj hozzá kevés zsiradékot.",
+    "Öntsd bele a tojást, és lassan keverve süsd krémesre.",
+    "Vedd le a tűzről, mielőtt teljesen kiszáradna.",
+    "Szeleteld fel az avokádót és készítsd elő a kenyeret.",
+    "Tálald együtt a rántottát, avokádót és kenyeret.",
   ]
 },
 {
@@ -3426,6 +3533,14 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 5-V – Túrókrém – proteines vaníliás:",
     "• Edzésnapos adag (≈185 g túró, 15 g whey, ~38 g tk. kenyér)\n  ≈ 300 kcal\n  ≈ 38 g fehérje",
     "• Pihenőnapos adag (≈175 g túró, 15 g whey, ~32 g tk. kenyér)\n  ≈ 280 kcal\n  ≈ 36 g fehérje"
+  ],
+  quizSteps: [
+    "Mérd ki a túrót egy tálba.",
+    "Add hozzá a fehérjeport.",
+    "Kevés vízzel vagy joghurttal keverd krémesre.",
+    "Igény szerint állítsd be az ízt és az állagot.",
+    "Készítsd elő a pirítóst vagy abonettet.",
+    "Tálald a túrókrémet a kenyérrel vagy abonettel.",
   ]
 },
 {
@@ -3490,6 +3605,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 5-V – Túrókrém – sós kapros-uborkás:",
     "• Edzésnapos adag (≈200 g túró, ~4 g olívaolaj, ~38 g tk. kenyér)\n  ≈ 290 kcal\n  ≈ 27 g fehérje",
     "• Pihenőnapos adag (≈180 g túró, ~2 g olívaolaj, ~32 g tk. kenyér)\n  ≈ 240–245 kcal\n  ≈ 24 g fehérje"
+  ],
+  quizSteps: [
+    "Mosd meg és vágd apró kockákra az uborkát.",
+    "Mérd ki a túrót egy keverőtálba.",
+    "Add hozzá a kaprot, sót és borsot.",
+    "Opcióként csorgass rá kevés olívaolajat.",
+    "Keverd össze alaposan a krémet.",
+    "Készítsd elő a pirítóst vagy abonettet.",
+    "Tálald a kapros-uborkás túrókrémet.",
   ]
 },
 {
@@ -3912,6 +4036,15 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összefoglaló – 3️⃣ 7-V – Rakott hidegtál verzió:",
     "• Edzésnapos adag (≈200 g cottage, 60 g sonka, 200 g zöldség, ~1 tk olaj, + ~30 g TK kenyér):\n  ≈ 415 kcal\n  ≈ 39 g fehérje",
     "• Pihenőnapos adag (≈200 g cottage, 50 g sonka, 220–250 g zöldség, kevés olaj, + max. ~20 g kenyér):\n  ≈ 370 kcal\n  ≈ 36 g fehérje"
+  ],
+  quizSteps: [
+    "Mosd meg és vágd fel a zöldségeket.",
+    "Rendezd el a zöldségeket tálon zöldségágyként.",
+    "Locsold meg kevés olívaolajjal, majd ízesítsd.",
+    "Kanalazd rá a cottage cheese-t kisebb halmokban.",
+    "Vágd csíkokra a csirkemellsonkát.",
+    "Szórd a sonkacsíkokat a cottage és a zöldségek tetejére.",
+    "Igény szerint tálald mellé kevés teljes kiőrlésű kenyeret.",
   ]
 },
 
