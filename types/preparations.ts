@@ -62,12 +62,10 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     quizSteps: [
       "Mérd ki a zabpelyhet egy mikrózható tálba.",
       "Öntsd rá a folyadékot, majd keverd át.",
-      "Tedd a tálat mikróba, és melegítsd rövid szakaszokban.",
-      "Melegítés közben időnként állítsd meg, és keverd át.",
+      "Mikrózd rövid szakaszokban, közben időnként állítsd meg és keverd át.",
       "Vedd ki, majd hagyd 1–2 percig sűrűsödni és hűlni.",
       "Add hozzá a fehérjeport, majd keverd csomómentesre.",
-      "Ha túl sűrű, lazítsd kevés vízzel vagy tejjel.",
-      "Tálalás előtt ízesítsd fahéjjal vagy gyümölccsel, ha szeretnéd.",
+      "Állítsd be az állagát kevés vízzel vagy tejjel, ha szükséges.",
     ],
   },
   {
