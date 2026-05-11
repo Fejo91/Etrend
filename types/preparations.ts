@@ -310,9 +310,9 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Mérd ki a görög joghurtot egy tálba.",
     "Szórd rá a zabpelyhet.",
     "Add hozzá a bogyós gyümölcsöket.",
-    "Keverd össze óvatosan, vagy hagyd rétegezve.",
+    "Keverd össze óvatosan a joghurtot, zabot és gyümölcsöt.",
     "Csorgasd a tetejére a mézet.",
-    "Tálalás előtt hagyd pár percig állni, hogy a zab kissé megpuhuljon.",
+    "Hagyd pár percig állni, hogy a zab kissé megpuhuljon.",
   ],
 },
 {
