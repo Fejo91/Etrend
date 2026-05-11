@@ -4030,14 +4030,13 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "• Pihenőnapos adag (≈200 g cottage, 50 g sonka, 220–250 g zöldség, kevés olaj, + max. ~20 g kenyér):\n  ≈ 370 kcal\n  ≈ 36 g fehérje"
   ],
   quizSteps: [
-    "Mosd meg és vágd fel a zöldségeket.",
+    "Mosd meg és vágd fel az uborkát, a paprikát, a paradicsomot és a retket.",
     "Rendezd el a zöldségeket egy tányéron salátaalapként.",
     "Ízesítsd a zöldségeket sóval, borssal és kevés olívaolajjal.",
     "Kanalazd rá a cottage cheese-t kisebb halmokban.",
     "Vágd csíkokra a csirkemellsonkát.",
     "Szórd a sonkacsíkokat a cottage cheese és a zöldségek tetejére.",
-    "Készítsd elő mellé a teljes kiőrlésű kenyeret, ha a recept tartalmazza.",
-    "Tálald hideg salátás vacsoraként.",
+    "Készítsd elő mellé a teljes kiőrlésű kenyeret, majd tálald.",
   ]
 },
 
