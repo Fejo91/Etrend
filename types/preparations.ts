@@ -374,9 +374,8 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Add hozzá a fehérjeport.",
     "Szórd meg fahéjjal.",
     "Adj hozzá kevés vizet vagy joghurtot a krémesítéshez.",
-    "Keverd simára vagy krémes, de enyhén darabos állagúra.",
-    "Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet.",
-    "Tálald a túrókrémet a kenyérrel vagy abonettel.",
+    "Keverd krémes állagúra a túrós keveréket.",
+    "Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet, majd tálald.",
   ],
 },
 {
