@@ -38,8 +38,8 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
       "Zárd le a dobozt vagy üveget, és tedd a hűtőbe egy éjszakára.",
       "Reggel vedd ki a hűtőből, keverd át, és ellenőrizd az állagát.",
       "Add hozzá a fehérjeport, majd keverd simára.",
-      "Karikázd fel a banánt, és tedd a tetejére vagy keverd bele.",
-      "Ha túl sűrű, lazítsd kevés tejjel vagy vízzel.",
+      "Karikázd fel a banánt, majd add a zabos alaphoz.",
+      "Állítsd be az állagát kevés tejjel vagy vízzel, ha szükséges.",
     ],
   },
    // ⬇⬇⬇ ÚJ: 1. napi 2. reggeli – mikrós gyors verzió
