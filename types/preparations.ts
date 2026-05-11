@@ -668,7 +668,7 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Hámozd meg és vágd fel a banánt.",
     "Add a banánt a kefires-zabos alaphoz.",
     "Szórd meg fahéjjal.",
-    "Tálald azonnal vagy dobozold el fogyasztásra.",
+    "Tálald a kefires-zabos banános tízórait.",
   ],
 },
 {
