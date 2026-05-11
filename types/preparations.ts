@@ -783,13 +783,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép – edzésnapos adag (2 rizsszelet, ~17 g mogyoróvaj, ~65 g banán, ~4 g chia): kb. 250 kcal és ≈ 7 g fehérje. Pihenőnapos adag (2 rizsszelet, ~12 g mogyoróvaj, ~50 g banán, ~3–4 g chia): kb. 205 kcal és ≈ 6 g fehérje. Ez inkább energiát adó, gyors tízórai, a fehérjét majd más étkezésekkel együtt hozod fel a kívánt szintre."
   ],
   quizSteps: [
-    "Készítsd elő a puffasztott rizsszeleteket egy tányérra vagy dobozba.",
+    "Készítsd elő a puffasztott rizsszeleteket egy tányérra.",
     "Mérd ki a mogyoróvajat, és kend el egyenletesen a rizsszeleteken.",
-    "Hámozd meg a banánt.",
-    "Vágd fel a banánt karikákra.",
-    "Rendezd el a banánkarikákat a mogyoróvajas rizsszeletek tetején.",
+    "Hámozd meg és karikázd fel a banánt.",
+    "Rendezd el a banánkarikákat a mogyoróvajas rizsszeleteken.",
     "Szórd meg a tetejét chia maggal.",
-    "Tálald azonnal, vagy dobozold úgy, hogy a rizsszeletek ne ázzanak el és ne törjenek össze.",
+    "Tálald a mogyoróvajas-banános rizsszeleteket.",
   ],
 },
 {
