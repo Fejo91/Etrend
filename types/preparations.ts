@@ -635,13 +635,13 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép: edzésnapos adaggal kb. 210–220 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 175–185 kcal és ~16–17 g fehérje."
   ],
   quizSteps: [
-    "Készíts elő egy rekeszes dobozt vagy egy tányért a bento tálaláshoz.",
-    "Rakd egymásra a pulykasonka-szeleteket, és vágd fel őket falatnyi kockákra.",
+    "Készíts elő egy dobozt vagy tányért a bento tálaláshoz.",
+    "Rakd egymásra a pulykasonka-szeleteket, és vágd fel őket falatnyi darabokra.",
     "Mosd meg a répát, az uborkát és a paprikát.",
-    "Vágd fel a répát, az uborkát és a paprikát hasábokra vagy falatnyi darabokra.",
-    "Készítsd elő a teljes kiőrlésű kenyeret külön.",
-    "Rendezd külön rekeszekbe vagy kupacokba a pulykasonkát, a zöldségeket és a kenyeret.",
-    "Zárd le a dobozt, ha útra viszed, vagy tálald azonnal.",
+    "Vágd fel a répát, az uborkát és a paprikát hasábokra.",
+    "Készítsd elő külön a teljes kiőrlésű kenyeret.",
+    "Rendezd el külön részekbe a pulykasonkát, a zöldségeket és a kenyeret.",
+    "Tálald vagy zárd le a bento dobozt.",
   ],
 },
 {
