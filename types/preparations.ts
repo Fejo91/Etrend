@@ -1984,10 +1984,10 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
   quizSteps: [
     "Mérd ki a túrót egy keverőtálba.",
     "Add hozzá a fehérjeport.",
-    "Adj hozzá kevés folyadékot, majd keverd krémesre.",
+    "Adj hozzá kevés folyadékot, majd keverd krémesre a túrós-fehérjés alapot.",
     "Készítsd elő a gyümölcsöt falatnyi darabokra.",
     "Mérd ki és aprítsd fel a magvakat.",
-    "Rétegezd vagy keverd össze a fehérjés túrót és a gyümölcsöt.",
+    "Rétegezd a fehérjés túrót és a gyümölcsöt.",
     "Szórd a tetejére a magvakat, majd tálald.",
   ]
 },
