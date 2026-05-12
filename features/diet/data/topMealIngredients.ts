@@ -472,4 +472,84 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon is nagyobb teltségérzet kell, a túró maradhat 180 g körül, miközben a kenyér vagy abonett mennyisége továbbra is csökkentett marad.",
     },
   },
+  {
+    mealVariantId: "1-T-klasszikus",
+    displayName: "Klasszikus cottage tízórai",
+    slot: "Tízórai",
+    rank: 1,
+
+    workout: [
+      {
+        name: "Zsírszegény cottage cheese",
+        amount: 200,
+        unit: "g",
+        kitchenAmount: "kb. 1 normál doboz / kb. 9–10 evőkanál",
+        note: "Fő fehérjeforrás, ez adja a tízórai alapját.",
+      },
+      {
+        name: "Paprika",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes paprika",
+        note: "Ropogós, friss zöldség a cottage mellé.",
+      },
+      {
+        name: "Uborka",
+        amount: 110,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kígyóuborka alatt",
+        note: "Alacsony kalóriás, laktató zöldség.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 70,
+        unit: "g",
+        kitchenAmount: "kb. 2 vékony szelet",
+        note: "Edzésnapon nagyobb szénhidrátforrás a cottage mellé.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Zsírszegény cottage cheese",
+        amount: 150,
+        unit: "g",
+        kitchenAmount: "kb. 3/4 normál doboz / kb. 7–8 evőkanál",
+        note: "Pihenőnapon csökkentett, de még értelmes fehérjebázis.",
+      },
+      {
+        name: "Paprika",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes paprika",
+        note: "A zöldségmennyiség pihenőnapon is maradhat bőséges.",
+      },
+      {
+        name: "Uborka",
+        amount: 130,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kígyóuborka",
+        note: "Pihenőnapon több zöldség segíti a teltségérzetet kevés kalóriával.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 35,
+        unit: "g",
+        kitchenAmount: "kb. 1 vékony szelet",
+        note: "Csökkentett pihenőnapi szénhidrátforrás.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több cottage cheese-t és több teljes kiőrlésű kenyeret tartalmaz.",
+        "A pihenőnapi adag főleg a kenyér csökkentésével vesz vissza a szénhidrátból.",
+        "A pihenőnapos cottage mennyiség alacsonyabb, de 150 g még elfogadható tízórai fehérjebázisnak.",
+        "A zöldségmennyiség pihenőnapon is bőséges, ami jó teltségérzetet ad kevés kalóriával.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon kevésnek érződik a fehérje vagy a teltségérzet, a cottage cheese emelhető 180–200 g körülre, miközben a kenyér maradhat 35 g.",
+    },
+  },
 ];
