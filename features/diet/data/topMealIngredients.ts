@@ -17,6 +17,9 @@ export type MealIngredientAmount = {
 
 export type MealIngredientPlan = {
   mealVariantId: string;
+  displayName?: string;
+  slot?: "Reggeli" | "Tízórai" | "Ebéd" | "Uzsonna" | "Vacsora";
+  rank?: number;
   workout: MealIngredientAmount[];
   rest: MealIngredientAmount[];
   audit?: {
@@ -29,34 +32,37 @@ export type MealIngredientPlan = {
 export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
   {
     mealVariantId: "5-R-gyors-alap",
+    displayName: "Gyors alapverzió",
+    slot: "Reggeli",
+    rank: 1,
     workout: [
       {
         name: "Görög joghurt (2%)",
         amount: 200,
         unit: "g",
-        kitchenAmount: "kb. 1 kisebb doboz vagy kb. 8-10 evőkanál",
-        note: "Alap fehérjeforrás",
+        kitchenAmount: "kb. 1 kisebb doboz vagy kb. 8–10 evőkanál",
+        note: "Alap fehérjeforrás, krémes joghurtos alap.",
       },
       {
         name: "Zabpehely",
         amount: 30,
         unit: "g",
         kitchenAmount: "kb. 3 evőkanál",
-        note: "Lassú szénhidrát edzésnapra",
+        note: "Edzésnapon több lassabb szénhidrátot ad.",
       },
       {
         name: "Bogyós gyümölcs",
         amount: 70,
         unit: "g",
         kitchenAmount: "kb. 1 kisebb marék vagy kb. fél bögre",
-        note: "Áfonya, málna vagy eper",
+        note: "Áfonya, málna vagy eper.",
       },
       {
         name: "Méz",
         amount: 10,
         unit: "g",
-        kitchenAmount: "kb. 1,5-2 teáskanál",
-        note: "Tetejére csorgatva",
+        kitchenAmount: "kb. 1,5–2 teáskanál",
+        note: "Vékonyan a tetejére csorgatva.",
       },
     ],
     rest: [
@@ -64,42 +70,42 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         name: "Görög joghurt (2%)",
         amount: 180,
         unit: "g",
-        kitchenAmount: "kb. 3/4-1 kisebb doboz vagy kb. 7-9 evőkanál",
-        note: "Fehérjebázis mérsékelten csökkentve",
+        kitchenAmount: "kb. 3/4–1 kisebb doboz vagy kb. 7–9 evőkanál",
+        note: "Fehérjebázis, pihenőnapon mérsékelten csökkentve.",
       },
       {
         name: "Zabpehely",
         amount: 20,
         unit: "g",
         kitchenAmount: "kb. 2 evőkanál",
-        note: "Csökkentett pihenőnapi szénhidrát",
+        note: "Csökkentett pihenőnapi szénhidrát.",
       },
       {
         name: "Bogyós gyümölcs",
         amount: 60,
         unit: "g",
         kitchenAmount:
-          "kb. 1 kisebb marék alatti mennyiség vagy kb. 1/3-1/2 bögre",
-        note: "Kisebb pihenőnapi adag",
+          "kb. 1 kisebb marék alatti mennyiség vagy kb. 1/3–1/2 bögre",
+        note: "Kisebb pihenőnapi gyümölcsadag.",
       },
       {
         name: "Méz",
         amount: 5,
         unit: "g",
         kitchenAmount: "kb. 1 teáskanál",
-        note: "Csökkentett pihenőnapi édesítés",
+        note: "Csökkentett pihenőnapi édesítés.",
       },
     ],
     audit: {
       status: "PASS",
       notes: [
-        "Az edzésnapos adag több zabot, gyümölcsöt és mézet tartalmaz, ezért több hasznos szénhidrátot ad.",
-        "A pihenőnapi csökkentés főként a szénhidrátforrásokon történik.",
-        "A fehérje csökkenése mérsékelt, nem kritikus.",
-        "A megadott makrók és a hozzávalók összhangban vannak.",
+        "Az edzésnapos adag logikusan több zabot, gyümölcsöt és mézet tartalmaz, ezért több hasznos szénhidrátot ad.",
+        "A pihenőnapi csökkentés főként a szénhidrátforrásokon és az édesítésen történik.",
+        "A fehérje mérsékelten csökken, de nem esik vissza problémásan.",
+        "A megadott makrók és a hozzávalóarányok összhangban vannak.",
       ],
       optionalSuggestion:
-        "Ha pihenőnapon fontosabb a teltségérzet és a fehérje, a görög joghurt opcionálisan 200 g-ra emelhető, miközben a zab és méz marad csökkentve.",
+        "Ha pihenőnapon fontosabb a teltségérzet és a fehérje, a görög joghurt opcionálisan 200 g-ra emelhető, miközben a zab és a méz marad csökkentve.",
     },
   },
 ];
