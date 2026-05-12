@@ -552,4 +552,56 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon kevésnek érződik a fehérje vagy a teltségérzet, a cottage cheese emelhető 180–200 g körülre, miközben a kenyér maradhat 35 g.",
     },
   },
+  {
+    mealVariantId: "5-T-kremes-dio",
+    displayName: "Görög joghurt dióval – krémes verzió",
+    slot: "Tízórai",
+    rank: 2,
+
+    workout: [
+      {
+        name: "Görög joghurt (2%)",
+        amount: 180,
+        unit: "g",
+        kitchenAmount: "kb. 3/4–1 kisebb doboz vagy kb. 7–9 evőkanál",
+        note: "Krémes, magas fehérjetartalmú alap a tízóraihoz.",
+      },
+      {
+        name: "Dió",
+        amount: 12,
+        unit: "g",
+        kitchenAmount: "kb. 5–6 fél dió",
+        note: "Durvára vágva kerüljön a joghurt tetejére, főleg egészséges zsírt és ropogós textúrát ad.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Görög joghurt (2%)",
+        amount: 160,
+        unit: "g",
+        kitchenAmount: "kb. 2/3–3/4 kisebb doboz vagy kb. 6–8 evőkanál",
+        note: "Pihenőnapon csökkentett, de még jó fehérjebázis.",
+      },
+      {
+        name: "Dió",
+        amount: 9,
+        unit: "g",
+        kitchenAmount: "kb. 3–4 fél dió",
+        note: "Pihenőnapos középérték a 8–10 g-os tartományból.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag egyszerű, jól kontrollálható fehérje + zsír tízórai.",
+        "A pihenőnapi adag logikusan csökkenti a joghurtot és a diót is, így kevesebb kalóriát és zsírt ad.",
+        "A dió mennyisége kicsi, de elég ahhoz, hogy ropogós textúrát és teltebb ízt adjon.",
+        "Az étel szénhidrátban alacsony, ezért inkább stabil, könnyű tízórai, nem edzés előtti nagy energialöket.",
+      ],
+      optionalSuggestion:
+        "Ha edzésnapon több szénhidrátra van szükség, ehhez az ételhez külön gyümölcs adható, de az már extra kiegészítésként kezelendő, nem az alap verzió része.",
+    },
+  },
 ];
