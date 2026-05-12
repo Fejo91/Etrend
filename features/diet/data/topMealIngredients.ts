@@ -304,4 +304,81 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon túl sűrű lenne az állag, kevés extra vízzel vagy tejjel lazítható, de az alap adaglogikán nem szükséges változtatni.",
     },
   },
+  {
+    mealVariantId: "1-R-mikros",
+    displayName: "Mikrós gyors zabkása",
+    slot: "Reggeli",
+    rank: 4,
+    workout: [
+      {
+        name: "Zabpehely",
+        amount: 67.5,
+        unit: "g",
+        kitchenAmount: "kb. 6,5–7 evőkanál",
+        note: "Edzésnapos középérték a 65–70 g-os tartományból.",
+      },
+      {
+        name: "Tej",
+        amount: 200,
+        unit: "ml",
+        kitchenAmount: "kb. 1 kisebb pohár",
+        note: "A zab mikrós főzéséhez és krémesítéséhez.",
+      },
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "A mikrózás után érdemes hozzákeverni, hogy ne csomósodjon túl.",
+      },
+      {
+        name: "Fahéj",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1 kis szórás",
+        note: "Ízesítő, kalóriában elhanyagolható.",
+      },
+    ],
+    rest: [
+      {
+        name: "Zabpehely",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 5 evőkanál",
+        note: "Pihenőnapon visszafogottabb, de még laktató zabmennyiség.",
+      },
+      {
+        name: "Tej",
+        amount: 170,
+        unit: "ml",
+        kitchenAmount: "kb. 3/4 kisebb pohár",
+        note: "A kisebb zabmennyiséghez igazított folyadék.",
+      },
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "Pihenőnapon is stabil fehérjebázis.",
+      },
+      {
+        name: "Fahéj",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1 kis szórás",
+        note: "Ízesítő, elhagyható.",
+      },
+    ],
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan magasabb zabmennyiséget tartalmaz, ezért több lassabb szénhidrátot ad.",
+        "A pihenőnapi adag főleg a zab és kisebb részben a tej csökkentésével vesz vissza a kalóriából és szénhidrátból.",
+        "A whey fehérje mindkét napon 30 g marad, ezért a fehérjebázis stabil.",
+        "A banán opcionális, ezért nem kerül az alap hozzávalólistába, mert a megadott makrókat jelentősen megváltoztatná.",
+      ],
+      optionalSuggestion:
+        "Ha edzésnapon több energiára van szükség, opcionálisan hozzáadható banán, de ezt külön extra szénhidrátként érdemes kezelni.",
+    },
+  },
 ];
