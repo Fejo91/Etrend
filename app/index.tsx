@@ -62,6 +62,12 @@ export default function MenuScreen() {
           >
             <Text style={styles.buttonText}>5a. Bevásárlókocsi</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.newButton]}
+            onPress={() => router.push("/top-meal-ingredients")}
+          >
+            <Text style={styles.buttonText}>5b. Top25 hozzávaló-adagok</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
