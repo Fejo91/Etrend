@@ -1829,4 +1829,84 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha edzésnapon vagy pihenőnapon száraznak érződik, 1 teáskanál mustár vagy kevés natúr joghurtos mártogatós adható hozzá, de ezt extra kiegészítésként érdemes kezelni.",
     },
   },
-];
+  {
+    mealVariantId: "5-V-proteines",
+    displayName: "Túrókrém – proteines vaníliás",
+    slot: "Vacsora",
+    rank: 1,
+
+    workout: [
+      {
+        name: "Zsírszegény túró",
+        amount: 185,
+        unit: "g",
+        kitchenAmount: "kb. 8–9 evőkanál",
+        note: "Edzésnapos középérték a 180–190 g-os tartományból, ez adja a fő fehérjebázist.",
+      },
+      {
+        name: "Vaníliás whey",
+        amount: 15,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 adagolókanál",
+        note: "A túrókrém fehérjetartalmát és desszertes ízét erősíti.",
+      },
+      {
+        name: "Víz vagy natúr joghurt",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1–2 evőkanál",
+        note: "Csak krémesítéshez kell, az állag alapján adagold.",
+      },
+      {
+        name: "Teljes kiőrlésű pirítós vagy abonett",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "1 szelet, kb. 35–40 g, vagy 3 db abonett",
+        note: "Edzésnapon mérsékelt esti szénhidrátforrás a túrókrém mellé.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Zsírszegény túró",
+        amount: 175,
+        unit: "g",
+        kitchenAmount: "kb. 7–8 evőkanál",
+        note: "Pihenőnapos középérték a 170–180 g-os tartományból, továbbra is erős fehérjebázis.",
+      },
+      {
+        name: "Vaníliás whey",
+        amount: 15,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 adagolókanál",
+        note: "Pihenőnapon is marad a stabil fehérjekiegészítés.",
+      },
+      {
+        name: "Víz vagy natúr joghurt",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1–2 evőkanál",
+        note: "Csak lazításhoz/krémesítéshez kell.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér vagy abonett",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "1 vékonyabb szelet, kb. 30–35 g, vagy 2 db abonett",
+        note: "Pihenőnapon csökkentett esti szénhidrátforrás.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag nagyon erős fehérjebázist ad a túró és vaníliás whey kombinációjával.",
+        "A pihenőnapi adag csak kis mértékben csökkenti a túrót, ezért a fehérjetartalom továbbra is magas marad.",
+        "A kenyér vagy abonett pihenőnapon kisebb mennyiségű, így a szénhidrát és kalória picit visszafogottabb.",
+        "A víz vagy natúr joghurt csak állagjavító, ezért nem fő tápanyagként, hanem krémesítési segítségként szerepel.",
+        "Ez a vacsora esti fit desszertként jól működik: magas fehérje, mérsékelt szénhidrát, alacsony zsír.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon még alacsonyabb szénhidrát a cél, a kenyér vagy abonett elhagyható, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
+    },
+  },];
