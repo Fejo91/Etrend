@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { isTop25Meal, TOP_25_SHOPPING_MEAL_IDS } from "../constants/topMeals";
-import COOKING_INSTRUCTIONS from "../types/preparations";
 import MEALS from "../types/meals";
+import COOKING_INSTRUCTIONS from "../types/preparations";
 
 const THIRTY_MINUTES_IN_MS = 30 * 60 * 1000;
 const SCHEDULED_HALF_HOURS_AHEAD = 48;
@@ -227,6 +227,7 @@ export default function RootLayout() {
         <Stack.Screen name="training" />
         <Stack.Screen name="modal" />
         <Stack.Screen name="shopping-cart" />
+        <Stack.Screen name="top25-shopping-list" />
       </Stack>
     </GestureHandlerRootView>
   );
