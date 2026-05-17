@@ -35,7 +35,7 @@ type AggregationBucket = {
   notes: Set<string>;
 };
 
-const SLOT_ORDER: Exclude<ShoppingSlotFilter, "Mind">[] = [
+export const TOP25_SLOT_ORDER: Exclude<ShoppingSlotFilter, "Mind">[] = [
   "Reggeli",
   "Tízórai",
   "Ebéd",
@@ -87,25 +87,27 @@ function toSortedItems(buckets: Map<string, AggregationBucket>): AggregatedShopp
     .sort((a, b) => a.name.localeCompare(b.name, "hu"));
 }
 
-export function buildTop25ShoppingList(params: {
-  slotFilter: ShoppingSlotFilter;
-  dayMode: ShoppingDayMode;
-}): {
+type PlanContribution = {
+  plan: MealIngredientPlan;
+  count: number;
+  sourceLabel: string;
+};
+
+function buildAggregatedShoppingListFromContributions(
+  contributions: PlanContribution[],
+  dayMode: ShoppingDayMode,
+): {
   measuredItems: AggregatedShoppingItem[];
   portionItems: AggregatedShoppingItem[];
-  totalMeals: number;
 } {
-  const { slotFilter, dayMode } = params;
-  const selectedPlans = getFilteredPlans(slotFilter);
-
   const allBuckets = new Map<string, AggregationBucket>();
 
-  selectedPlans.forEach((plan) => {
-    const mealLabel = getMealLabel(plan);
+  contributions.forEach(({ plan, count, sourceLabel }) => {
     const ingredients = getIngredientsByDayMode(plan, dayMode);
 
     ingredients.forEach((ingredient) => {
       const key = normalizeKey(ingredient.name, ingredient.unit);
+      const scaledAmount = Number((ingredient.amount * count).toFixed(3));
       const existing = allBuckets.get(key);
 
       if (!existing) {
@@ -113,16 +115,16 @@ export function buildTop25ShoppingList(params: {
           key,
           name: ingredient.name,
           unit: ingredient.unit,
-          totalAmount: ingredient.amount,
-          sourceMeals: new Set([mealLabel]),
+          totalAmount: scaledAmount,
+          sourceMeals: new Set([sourceLabel]),
           kitchenAmounts: new Set(ingredient.kitchenAmount ? [ingredient.kitchenAmount] : []),
           notes: new Set(ingredient.note ? [ingredient.note] : []),
         });
         return;
       }
 
-      existing.totalAmount = amountWithSafePrecision(existing.totalAmount, ingredient.amount);
-      existing.sourceMeals.add(mealLabel);
+      existing.totalAmount = amountWithSafePrecision(existing.totalAmount, scaledAmount);
+      existing.sourceMeals.add(sourceLabel);
 
       if (ingredient.kitchenAmount) {
         existing.kitchenAmounts.add(ingredient.kitchenAmount);
@@ -135,8 +137,34 @@ export function buildTop25ShoppingList(params: {
   });
 
   const sortedItems = toSortedItems(allBuckets);
-  const measuredItems = sortedItems.filter((item) => item.unit !== "adag");
-  const portionItems = sortedItems.filter((item) => item.unit === "adag");
+
+  return {
+    measuredItems: sortedItems.filter((item) => item.unit !== "adag"),
+    portionItems: sortedItems.filter((item) => item.unit === "adag"),
+  };
+}
+
+export function buildTop25ShoppingList(params: {
+  slotFilter: ShoppingSlotFilter;
+  dayMode: ShoppingDayMode;
+}): {
+  measuredItems: AggregatedShoppingItem[];
+  portionItems: AggregatedShoppingItem[];
+  totalMeals: number;
+} {
+  const { slotFilter, dayMode } = params;
+  const selectedPlans = getFilteredPlans(slotFilter);
+
+  const contributions: PlanContribution[] = selectedPlans.map((plan) => ({
+    plan,
+    count: 1,
+    sourceLabel: getMealLabel(plan),
+  }));
+
+  const { measuredItems, portionItems } = buildAggregatedShoppingListFromContributions(
+    contributions,
+    dayMode,
+  );
 
   return {
     measuredItems,
@@ -145,4 +173,41 @@ export function buildTop25ShoppingList(params: {
   };
 }
 
-export const TOP25_SLOT_FILTERS: ShoppingSlotFilter[] = ["Mind", ...SLOT_ORDER];
+export function buildCustomTop25ShoppingList(params: {
+  selectedCounts: Record<string, number>;
+  dayMode: ShoppingDayMode;
+}): {
+  measuredItems: AggregatedShoppingItem[];
+  portionItems: AggregatedShoppingItem[];
+  totalMeals: number;
+} {
+  const { selectedCounts, dayMode } = params;
+
+  const contributions: PlanContribution[] = TOP_MEAL_INGREDIENT_PLANS
+    .filter((plan) => (selectedCounts[plan.mealVariantId] ?? 0) > 0)
+    .map((plan) => {
+      const count = selectedCounts[plan.mealVariantId] ?? 1;
+      const baseLabel = getMealLabel(plan);
+      const sourceLabel = count > 1 ? `${count}\u00d7 ${baseLabel}` : baseLabel;
+
+      return { plan, count, sourceLabel };
+    });
+
+  const { measuredItems, portionItems } = buildAggregatedShoppingListFromContributions(
+    contributions,
+    dayMode,
+  );
+
+  const totalMeals = Object.values(selectedCounts).reduce(
+    (sum, c) => sum + Math.max(0, c),
+    0,
+  );
+
+  return {
+    measuredItems,
+    portionItems,
+    totalMeals,
+  };
+}
+
+export const TOP25_SLOT_FILTERS: ShoppingSlotFilter[] = ["Mind", ...TOP25_SLOT_ORDER];
