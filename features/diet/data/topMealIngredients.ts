@@ -1320,5 +1320,100 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon nagyobb ételvolumen kell, az uborka, jégsaláta vagy rukkola tovább emelhető, miközben a tojás és az olívaolaj maradhat csökkentett mennyiségben.",
     },
   },
+  {
+    mealVariantId: "6-E-klasszikus",
+    displayName: "Klasszikus grillezett csirkemell",
+    slot: "Ebéd",
+    rank: 5,
+
+    workout: [
+      {
+        name: "Csirkemell",
+        amount: 180,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb csirkemellfilé adag",
+        note: "Nyersen mérendő fő fehérjeforrás, grillezve vagy serpenyőben sütve.",
+      },
+      {
+        name: "Basmati rizs",
+        amount: 70,
+        unit: "g",
+        kitchenAmount: "kb. 5 evőkanál száraz rizs",
+        note: "Szárazon mérendő edzésnapos fő szénhidrátforrás.",
+      },
+      {
+        name: "Zöldborsó",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb marék",
+        note: "A borsó-répa zöldségköret fele.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb répa",
+        note: "A borsó-répa zöldségköret másik fele.",
+      },
+      {
+        name: "Olívaolaj vagy kókuszolaj",
+        amount: 5,
+        unit: "g",
+        kitchenAmount: "kb. 1 teáskanál",
+        note: "Sütéshez használt edzésnapos zsiradék.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Csirkemell",
+        amount: 170,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes-nagyobb csirkemellfilé adag",
+        note: "Pihenőnapon is erős, szinte változatlan fehérjebázis.",
+      },
+      {
+        name: "Basmati rizs",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 3,5 evőkanál száraz rizs",
+        note: "Csökkentett pihenőnapi szénhidrátforrás, szárazon mérve.",
+      },
+      {
+        name: "Zöldborsó",
+        amount: 120,
+        unit: "g",
+        kitchenAmount: "kb. 1–1,5 nagyobb marék",
+        note: "Pihenőnapon emelt zöldségmennyiség része.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 120,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb répa vagy 2 kisebb répa",
+        note: "Pihenőnapon több zöldség a kisebb rizsadag mellé.",
+      },
+      {
+        name: "Olívaolaj vagy kókuszolaj",
+        amount: 3.5,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb teáskanál",
+        note: "Csökkentett pihenőnapi zsiradék a serpenyőben.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag klasszikus csirke-rizs-zöldség felépítésű, magas fehérjével és erős szénhidrátbázissal.",
+        "A pihenőnapi adag logikusan a rizst és az olajat csökkenti, miközben a csirkemell mennyisége szinte változatlan marad.",
+        "A pihenőnapos zöldségmennyiség magasabb, ami jól növeli az étel térfogatát a kisebb rizsadag mellett.",
+        "A basmati rizst szárazon kell mérni, mert főzés után a tömege vízfelvételtől függően jelentősen változhat.",
+        "Ez az ebéd jó, tiszta fitnesz alapétel: könnyen ismételhető, jól mérhető és jól illik edzésnap/pihenőnap bontásba.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon nagyobb teltségérzet kell, a répa vagy a borsó tovább emelhető, miközben a rizs és az olaj maradhat csökkentett mennyiségben.",
+    },
+  },
 
 ];
