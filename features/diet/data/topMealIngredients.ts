@@ -604,4 +604,84 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha edzésnapon több szénhidrátra van szükség, ehhez az ételhez külön gyümölcs adható, de az már extra kiegészítésként kezelendő, nem az alap verzió része.",
     },
   },
+  {
+    mealVariantId: "4-T-klasszikus",
+    displayName: "Klasszikus kefires zabos banán",
+    slot: "Tízórai",
+    rank: 3,
+
+    workout: [
+      {
+        name: "Kefir (1,5–2%)",
+        amount: 200,
+        unit: "ml",
+        kitchenAmount: "kb. 1 kisebb pohár",
+        note: "Savanykás, könnyen iható/kanalazható alap, a zabot is lágyítja.",
+      },
+      {
+        name: "Zabpehely",
+        amount: 25,
+        unit: "g",
+        kitchenAmount: "kb. 2,5 evőkanál",
+        note: "Edzésnapon mérsékelt lassabb szénhidrátforrás.",
+      },
+      {
+        name: "Banán",
+        amount: 80,
+        unit: "g",
+        kitchenAmount: "kb. 3/4 közepes banán",
+        note: "Banánkarikákra vágva ad természetes édességet és gyorsabb szénhidrátot.",
+      },
+      {
+        name: "Fahéj",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1 kis szórás",
+        note: "Ízesítő, kalóriában elhanyagolható.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Kefir (1,5–2%)",
+        amount: 200,
+        unit: "ml",
+        kitchenAmount: "kb. 1 kisebb pohár",
+        note: "Pihenőnapon is marad az alap mennyiség, könnyű tejtermékes bázisként.",
+      },
+      {
+        name: "Zabpehely",
+        amount: 20,
+        unit: "g",
+        kitchenAmount: "kb. 2 evőkanál",
+        note: "Csökkentett pihenőnapi zabmennyiség.",
+      },
+      {
+        name: "Banán",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kisebb banán",
+        note: "Pihenőnapon kisebb banánadag a visszafogottabb szénhidrát miatt.",
+      },
+      {
+        name: "Fahéj",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "kb. 1 kis szórás",
+        note: "Ízesítő, elhagyható.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több zabot és banánt tartalmaz, ezért több szénhidrátot és energiát ad.",
+        "A pihenőnapi adag a zab és a banán csökkentésével vesz vissza a kalóriából és szénhidrátból.",
+        "A kefir mennyisége mindkét napon 200 ml marad, így az étel alapja stabil és egyszerűen adagolható.",
+        "Ez az étel inkább könnyű, szénhidrátosabb tízórai, nem kifejezetten magas fehérjetartalmú opció.",
+      ],
+      optionalSuggestion:
+        "Ha ennél a tízórai opciónál magasabb fehérje lenne a cél, külön fehérjeforrással egészíthető ki, de az már extra kiegészítésként kezelendő, nem az alap verzió része.",
+    },
+  },
 ];
