@@ -1,4 +1,4 @@
-export type IngredientUnit =
+﻿export type IngredientUnit =
   | "g"
   | "ml"
   | "db"
@@ -1665,4 +1665,86 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
     },
   },
 
+
+  {
+    mealVariantId: "2-U-zabos",
+    displayName: "Zabpelyhes fehérjeshake / mini gainer",
+    slot: "Uzsonna",
+    rank: 4,
+
+    workout: [
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "Fő fehérjebázis, ez adja a shake protein részét.",
+      },
+      {
+        name: "Zabpehely",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 3 evőkanál",
+        note: "Edzésnapos lassabb szénhidrátforrás a mini gainer jelleghez.",
+      },
+      {
+        name: "Banán",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes banán",
+        note: "Edzésnapon teljes banán ad gyorsabb szénhidrátot és krémesebb állagot.",
+      },
+      {
+        name: "Folyadék",
+        amount: 235,
+        unit: "ml",
+        kitchenAmount: "kb. 1 nagyobb pohár",
+        note: "Edzésnapos középérték a 220–250 ml-es tartományból; lehet víz, tej vagy vegyesen.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "Pihenőnapon is stabil fehérjebázis.",
+      },
+      {
+        name: "Zabpehely",
+        amount: 20,
+        unit: "g",
+        kitchenAmount: "kb. 2 evőkanál",
+        note: "Csökkentett pihenőnapi zabmennyiség.",
+      },
+      {
+        name: "Banán",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 közepes banán",
+        note: "Pihenőnapon kisebb banánadag a visszafogottabb szénhidrát miatt.",
+      },
+      {
+        name: "Folyadék",
+        amount: 220,
+        unit: "ml",
+        kitchenAmount: "kb. 1 nagyobb pohár alatt",
+        note: "Standard pihenőnapi folyadékalap; lehet víz, tej vagy vegyesen.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag mini gainer jellegű: több zabot és teljes banánt tartalmaz.",
+        "A pihenőnapi adag logikusan a zabot és a banánt csökkenti, miközben a whey mennyisége stabil marad.",
+        "A 30 g whey mindkét napon erős fehérjebázist ad.",
+        "A folyadékmennyiség az edzésnapos tartományból középértékként lett rögzítve, így jól használható a hozzávaló-adag nézetben.",
+        "Ez az uzsonna inkább energiadúsabb shake, nem annyira diétás opció, ezért edzésnapon különösen jól illik.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon alacsonyabb kalória a cél, a folyadék legyen inkább víz vagy víz-tej keverék, ne teljes adag tej.",
+    },
+  },
 ];
