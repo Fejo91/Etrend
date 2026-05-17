@@ -228,6 +228,8 @@ export default function RootLayout() {
         <Stack.Screen name="modal" />
         <Stack.Screen name="shopping-cart" />
         <Stack.Screen name="top25-shopping-list" />
+        <Stack.Screen name="top25-quiz-hub" />
+        <Stack.Screen name="top25-order-quiz" />
       </Stack>
     </GestureHandlerRootView>
   );

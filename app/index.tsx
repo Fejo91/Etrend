@@ -32,6 +32,12 @@ export default function MenuScreen() {
           >
             <Text style={styles.buttonText}>2b. Elkészítés kvíz - ÚJ</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.newButton]}
+            onPress={() => router.push("/top25-quiz-hub")}
+          >
+            <Text style={styles.buttonText}>2c. Top25 kvízek</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
