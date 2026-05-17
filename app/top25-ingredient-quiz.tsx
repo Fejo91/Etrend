@@ -12,7 +12,7 @@ import {
     type Top25IngredientQuizQuestion,
 } from "../features/diet/utils/top25QuizData";
 
-type QuizState = "idle" | "checking" | "correct" | "incorrect";
+type QuizState = "idle" | "correct" | "incorrect";
 
 type IngredientQuizState = {
   question: Top25IngredientQuizQuestion;
@@ -61,13 +61,14 @@ export default function Top25IngredientQuizScreen() {
       return {
         ...prev,
         selectedIngredients: newSelected,
+        quizState: prev.quizState === "incorrect" ? "idle" : prev.quizState,
       };
     });
   }, []);
 
   const handleCheck = useCallback(() => {
     setQuiz((prev) => {
-      if (!prev || prev.quizState !== "idle") {
+      if (!prev || prev.quizState === "correct") {
         return prev;
       }
 
@@ -137,10 +138,6 @@ export default function Top25IngredientQuizScreen() {
               quizState === "incorrect" &&
               isSelected &&
               !isCorrectIngredient;
-            const isAnswerWrongUnselected =
-              quizState === "incorrect" &&
-              !isSelected &&
-              isCorrectIngredient;
 
             let containerStyle = [styles.optionContainer];
             if (isCorrect) {
@@ -155,8 +152,6 @@ export default function Top25IngredientQuizScreen() {
               checkboxStyle.push(styles.checkboxCorrect);
             } else if (isAnswerWrong) {
               checkboxStyle.push(styles.checkboxWrong);
-            } else if (isAnswerWrongUnselected) {
-              checkboxStyle.push(styles.checkboxMissed);
             }
 
             return (
@@ -196,7 +191,7 @@ export default function Top25IngredientQuizScreen() {
 
         {/* Action buttons */}
         <View style={styles.actionRow}>
-          {quizState === "idle" && (
+          {quizState !== "correct" && (
             <TouchableOpacity
               style={styles.primaryBtn}
               onPress={handleCheck}
@@ -328,10 +323,6 @@ const styles = StyleSheet.create({
   checkboxWrong: {
     backgroundColor: "#ef4444",
     borderColor: "#fca5a5",
-  },
-  checkboxMissed: {
-    backgroundColor: "#eab308",
-    borderColor: "#facc15",
   },
   checkmark: {
     color: "#fff",
