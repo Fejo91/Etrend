@@ -2170,4 +2170,5 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
       optionalSuggestion:
         "Ha pihenőnapon még alacsonyabb szénhidrát a cél, a kenyér vagy abonett/puffasztott szelet elhagyható, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
     },
-  },];
+  },
+];
