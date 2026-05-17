@@ -47,7 +47,7 @@ export default function Top25NextStepQuizScreen() {
 
   const handleAnswerPress = useCallback((answer: string) => {
     setQuiz((prev) => {
-      if (!prev || prev.answerState !== "idle") {
+      if (!prev || prev.answerState === "correct") {
         return prev;
       }
       const isCorrect = answer === prev.question.correctNextStep;
@@ -106,14 +106,14 @@ export default function Top25NextStepQuizScreen() {
           {question.options.map((option, idx) => {
             const isSelected = selectedAnswer === option;
             const isAnswerCorrect = isCorrect && isSelected;
-            const isAnswerWrong = !isCorrect && isSelected;
+            const isAnswerWrong = answerState === "incorrect" && isSelected;
 
             let buttonStyle = [styles.optionButton];
             if (isAnswerCorrect) {
               buttonStyle.push(styles.optionButtonCorrect);
             } else if (isAnswerWrong) {
               buttonStyle.push(styles.optionButtonWrong);
-            } else if (isAnswered) {
+            } else if (isCorrect && !isSelected) {
               buttonStyle.push(styles.optionButtonDisabled);
             }
 
@@ -124,8 +124,8 @@ export default function Top25NextStepQuizScreen() {
                 key={`${idx}-${option.slice(0, 20)}`}
                 style={buttonStyle}
                 onPress={() => handleAnswerPress(option)}
-                disabled={isAnswered}
-                activeOpacity={isAnswered ? 1 : 0.7}
+                disabled={isCorrect}
+                activeOpacity={isCorrect ? 1 : 0.7}
               >
                 <Text style={styles.optionLabel}>{labels[idx]}.</Text>
                 <Text style={styles.optionText}>{option}</Text>
