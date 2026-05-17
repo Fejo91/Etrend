@@ -724,10 +724,12 @@ const COOKING_INSTRUCTIONS: CookingInstruction[] = [
     "Makró összkép: edzésnapos adaggal kb. 185–190 kcal és ~20 g fehérje, pihenőnapos adaggal kb. 155 kcal és ~17 g fehérje – minimál, mégis tartalmas, gyomorkímélő tízórai."
   ],
   quizSteps: [
-    "Kanalazd a görög joghurtot egy tálba.",
-    "Keverd át a joghurtot, hogy krémesebb legyen.",
-    "Mérd ki a diót, majd vágd vagy törd durvább darabokra.",
-    "Szórd a diót a joghurt tetejére, majd tálald.",
+    "Mérd ki a görög joghurtot egy kisebb tálba.",
+    "Keverd át a joghurtot, hogy krémesebb állagú legyen.",
+    "Vágd durvább darabokra a diót.",
+    "Szórd a diót a joghurt tetejére.",
+    "Keverd össze óvatosan, hogy a dió egyenletesen eloszoljon.",
+    "Tálald azonnal, vagy tedd rövid időre hűtőbe, ha hidegebben szeretnéd enni.",
   ],
 },
 {

@@ -26,6 +26,14 @@ type QuizItem = {
   text: string;
 };
 
+const getQuizSteps = (instruction: CookingInstruction): string[] => {
+  if (instruction.quizSteps && instruction.quizSteps.length > 0) {
+    return instruction.quizSteps;
+  }
+
+  return instruction.steps;
+};
+
 export default function QuizScreen({ onBack }: QuizScreenProps) {
   const [meal, setMeal] = useState<Meal | null>(null);
   const [instruction, setInstruction] = useState<CookingInstruction | null>(
@@ -40,7 +48,7 @@ export default function QuizScreen({ onBack }: QuizScreenProps) {
     // csak olyan ételek, amelyekhez van elkészítés és legalább 2 lépés
     const candidates = filterMealsByTop25Pool(MEALS, questionPool).filter((m) => {
       const ci = COOKING_INSTRUCTIONS.find((c) => c.id === m.id);
-      return ci && ci.steps && ci.steps.length >= 2;
+      return ci && getQuizSteps(ci).length >= 2;
     });
 
     if (!candidates.length) {
@@ -55,7 +63,7 @@ export default function QuizScreen({ onBack }: QuizScreenProps) {
       candidates[Math.floor(Math.random() * candidates.length)];
     const ci = COOKING_INSTRUCTIONS.find((c) => c.id === randomMeal.id)!;
 
-    const orig = ci.steps;
+    const orig = getQuizSteps(ci);
     let shuffled = [...orig].sort(() => Math.random() - 0.5);
 
     // ha véletlen pont ugyanaz a sorrend, keverjük újra egyszer
