@@ -764,4 +764,98 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha magasabb fehérjetartalmú tízórai kell, ezt az ételt külön fehérjeforrással lehet kiegészíteni, de az már extra kiegészítésként kezelendő, nem az alap superfood verzió része.",
     },
   },
+  {
+    mealVariantId: "3-T-bento",
+    displayName: "Pulykás bento box zöldségekkel",
+    slot: "Tízórai",
+    rank: 5,
+
+    workout: [
+      {
+        name: "Pulykasonka",
+        amount: 75,
+        unit: "g",
+        kitchenAmount: "kb. 4–5 vékony szelet, kockákra vágva",
+        note: "Edzésnapos középérték a 70–80 g-os tartományból, ez adja a fő fehérjeforrást.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 55,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb répa fele hasábokra vágva",
+        note: "Ropogós zöldségelem a bento rekeszbe.",
+      },
+      {
+        name: "Uborka",
+        amount: 55,
+        unit: "g",
+        kitchenAmount: "kb. 1/4 kígyóuborka hasábokra vágva",
+        note: "Friss, alacsony kalóriás zöldségelem.",
+      },
+      {
+        name: "Paprika",
+        amount: 55,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kisebb paprika csíkokra vágva",
+        note: "Ropogós, édesebb zöldségelem a bento boxba.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 32.5,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb-vékony szelet",
+        note: "Külön rekeszben, edzésnapon mérsékelt szénhidrátforrásként.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Pulykasonka",
+        amount: 58,
+        unit: "g",
+        kitchenAmount: "kb. 3–4 vékony szelet, kockákra vágva",
+        note: "Pihenőnapos középérték az 55–60 g-os tartományból.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 60,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb répa fele-kétharmada hasábokra vágva",
+        note: "Pihenőnapon is bőséges zöldség a teltségérzethez.",
+      },
+      {
+        name: "Uborka",
+        amount: 60,
+        unit: "g",
+        kitchenAmount: "kb. 1/4–1/3 kígyóuborka hasábokra vágva",
+        note: "Friss, alacsony kalóriás zöldségelem.",
+      },
+      {
+        name: "Paprika",
+        amount: 55,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kisebb paprika csíkokra vágva",
+        note: "Ropogós zöldség, pihenőnapon is maradhat bőségesen.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 22.5,
+        unit: "g",
+        kitchenAmount: "kb. 1/2–1 kisebb vékony szelet",
+        note: "Csökkentett pihenőnapi szénhidrátforrás külön rekeszben.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több pulykasonkát és több teljes kiőrlésű kenyeret tartalmaz.",
+        "A pihenőnapi adag főleg a pulykasonkát és a kenyér mennyiségét csökkenti, miközben a zöldség bőséges marad.",
+        "A zöldségmennyiség külön bontása praktikusabbá teszi a hozzávaló-adag nézetet, mint egyetlen vegyes zöldség sor.",
+        "Ez az étel jól működik hideg, rekeszes tízórai formában, mert a fehérje, zöldség és kenyér külön tartható.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon nagyobb teltségérzet kell, a zöldségmennyiség tovább emelhető, miközben a kenyér maradhat csökkentett mennyiségben.",
+    },
+  },
 ];
