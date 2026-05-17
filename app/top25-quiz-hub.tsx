@@ -50,18 +50,20 @@ export default function Top25QuizHubScreen() {
           </View>
         </TouchableOpacity>
 
-        {/* 3. Alapanyag felismerő — hamarosan */}
-        <View style={[styles.card, styles.cardDisabled]}>
-          <Text style={[styles.cardTitle, styles.textDisabled]}>
-            Alapanyag felismerő
+        {/* 3. Alapanyag felismerő — aktív */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/top25-ingredient-quiz")}
+          activeOpacity={0.75}
+        >
+          <Text style={styles.cardTitle}>Alapanyag felismerő</Text>
+          <Text style={styles.cardDescription}>
+            Válaszd ki, mely alapanyagok kellenek az adott Top25 ételhez.
           </Text>
-          <Text style={[styles.cardDescription, styles.textDisabled]}>
-            Találd ki, mely alapanyagok kellenek az adott Top25 ételhez.
-          </Text>
-          <View style={styles.soonBadge}>
-            <Text style={styles.soonBadgeText}>Hamarosan</Text>
+          <View style={styles.activeBadge}>
+            <Text style={styles.activeBadgeText}>Játssz most →</Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.backButton}

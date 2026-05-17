@@ -231,6 +231,7 @@ export default function RootLayout() {
         <Stack.Screen name="top25-quiz-hub" />
         <Stack.Screen name="top25-order-quiz" />
         <Stack.Screen name="top25-next-step-quiz" />
+        <Stack.Screen name="top25-ingredient-quiz" />
       </Stack>
     </GestureHandlerRootView>
   );

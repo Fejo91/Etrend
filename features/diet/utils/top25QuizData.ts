@@ -3,6 +3,10 @@ import MEALS from "../../../types/meals";
 import COOKING_INSTRUCTIONS, {
     type CookingInstruction,
 } from "../../../types/preparations";
+import {
+    TOP_MEAL_INGREDIENT_PLANS,
+    type MealIngredientAmount,
+} from "../data/topMealIngredients";
 
 export type Top25QuizMealSteps = {
   mealId: string;
@@ -122,4 +126,150 @@ export function buildTop25NextStepQuestion(): Top25NextStepQuestion | null {
     correctNextStep,
     options: shuffledOptions,
   };
+}
+
+export type Top25IngredientQuizQuestion = {
+  mealId: string;
+  mealName: string;
+  correctIngredients: string[];
+  options: string[];
+};
+
+function isFilteredOutIngredient(name: string): boolean {
+  const normalized = name.toLowerCase().trim();
+
+  // Exclude generic/seasoning ingredients
+  const excludePatterns = [
+    "só",
+    "bors",
+    "citromlé",
+    "ízlés szerint",
+    "fahéj",
+    "fűszer",
+    "öntet",
+    "fokhagymapor",
+    "oregánó",
+    "kapor",
+  ];
+
+  return excludePatterns.some((pattern) => normalized.includes(pattern));
+}
+
+function normalizeIngredientName(name: string): string {
+  return name.toLowerCase().trim();
+}
+
+export function buildTop25IngredientQuestion(): Top25IngredientQuizQuestion | null {
+  // Gather all Top25 meals with ingredients
+  const top25MealsWithIngredients = TOP_MEAL_INGREDIENT_PLANS.filter((plan) => {
+    const mealId = plan.mealVariantId.split("-").slice(1).join("-");
+    return isTop25Meal(mealId);
+  });
+
+  if (top25MealsWithIngredients.length === 0) {
+    return null;
+  }
+
+  // Try to build a valid question
+  const shuffledMeals = shuffleArray(top25MealsWithIngredients);
+
+  for (const selectedPlan of shuffledMeals) {
+    // Get correct ingredients for this meal
+    const combinedIngredients: MealIngredientAmount[] = [
+      ...selectedPlan.workout,
+      ...selectedPlan.rest,
+    ];
+
+    // Filter and deduplicate ingredients
+    const seenNormalized = new Set<string>();
+    const correctIngredientsList: string[] = [];
+
+    for (const ingredient of combinedIngredients) {
+      if (ingredient.unit === "adag" || isFilteredOutIngredient(ingredient.name)) {
+        continue;
+      }
+
+      const normalized = normalizeIngredientName(ingredient.name);
+      if (!seenNormalized.has(normalized)) {
+        seenNormalized.add(normalized);
+        correctIngredientsList.push(ingredient.name);
+      }
+    }
+
+    // Skip if not enough correct ingredients
+    if (correctIngredientsList.length < 1) {
+      continue;
+    }
+
+    // Randomly choose 1-3 correct ingredients
+    const numCorrect = Math.min(
+      Math.floor(Math.random() * 3) + 1,
+      correctIngredientsList.length
+    );
+    const shuffledCorrect = shuffleArray(correctIngredientsList);
+    const selectedCorrectIngredients = shuffledCorrect.slice(0, numCorrect);
+
+    // Gather wrong ingredients from other Top25 meals
+    const wrongIngredientsSet = new Set<string>();
+    const correctNormalized = new Set(
+      selectedCorrectIngredients.map(normalizeIngredientName)
+    );
+
+    for (const otherPlan of top25MealsWithIngredients) {
+      if (otherPlan.mealVariantId === selectedPlan.mealVariantId) {
+        continue;
+      }
+
+      const otherIngredients: MealIngredientAmount[] = [
+        ...otherPlan.workout,
+        ...otherPlan.rest,
+      ];
+
+      for (const ingredient of otherIngredients) {
+        if (
+          ingredient.unit === "adag" ||
+          isFilteredOutIngredient(ingredient.name)
+        ) {
+          continue;
+        }
+
+        const normalized = normalizeIngredientName(ingredient.name);
+        if (!correctNormalized.has(normalized)) {
+          wrongIngredientsSet.add(ingredient.name);
+        }
+      }
+    }
+
+    // We need exactly 4 options total (1-3 correct + rest wrong)
+    const numWrongNeeded = 4 - selectedCorrectIngredients.length;
+    const wrongIngredientsList = Array.from(wrongIngredientsSet);
+
+    if (wrongIngredientsList.length < numWrongNeeded) {
+      continue; // Not enough wrong options
+    }
+
+    const shuffledWrong = shuffleArray(wrongIngredientsList);
+    const selectedWrongIngredients = shuffledWrong.slice(0, numWrongNeeded);
+
+    // Combine and shuffle all options
+    const allOptions = [
+      ...selectedCorrectIngredients,
+      ...selectedWrongIngredients,
+    ];
+    const shuffledOptions = shuffleArray(allOptions);
+
+    // Get meal info
+    const mealId = selectedPlan.mealVariantId.split("-").slice(1).join("-");
+    const mealData = MEALS.find((m) => m.id === mealId);
+    const mealName = mealData?.name || selectedPlan.displayName || selectedPlan.mealVariantId;
+
+    return {
+      mealId,
+      mealName,
+      correctIngredients: selectedCorrectIngredients,
+      options: shuffledOptions,
+    };
+  }
+
+  return null;
 }
