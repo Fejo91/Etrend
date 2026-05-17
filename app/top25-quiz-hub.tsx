@@ -35,18 +35,20 @@ export default function Top25QuizHubScreen() {
           </View>
         </TouchableOpacity>
 
-        {/* 2. Mi jön ezután? — hamarosan */}
-        <View style={[styles.card, styles.cardDisabled]}>
-          <Text style={[styles.cardTitle, styles.textDisabled]}>
-            Mi jön ezután?
+        {/* 2. Mi jön ezután? — aktív */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/top25-next-step-quiz")}
+          activeOpacity={0.75}
+        >
+          <Text style={styles.cardTitle}>Mi jön ezután?</Text>
+          <Text style={styles.cardDescription}>
+            4 válasz közül válaszd ki a következő tisztított elkészítési lépést.
           </Text>
-          <Text style={[styles.cardDescription, styles.textDisabled]}>
-            4 válasz közül kell majd kiválasztani a következő lépést.
-          </Text>
-          <View style={styles.soonBadge}>
-            <Text style={styles.soonBadgeText}>Hamarosan</Text>
+          <View style={styles.activeBadge}>
+            <Text style={styles.activeBadgeText}>Játssz most →</Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* 3. Alapanyag felismerő — hamarosan */}
         <View style={[styles.card, styles.cardDisabled]}>
