@@ -161,10 +161,9 @@ function normalizeIngredientName(name: string): string {
 
 export function buildTop25IngredientQuestion(): Top25IngredientQuizQuestion | null {
   // Gather all Top25 meals with ingredients
-  const top25MealsWithIngredients = TOP_MEAL_INGREDIENT_PLANS.filter((plan) => {
-    const mealId = plan.mealVariantId.split("-").slice(1).join("-");
-    return isTop25Meal(mealId);
-  });
+  const top25MealsWithIngredients = TOP_MEAL_INGREDIENT_PLANS.filter((plan) =>
+    isTop25Meal(plan.mealVariantId)
+  );
 
   if (top25MealsWithIngredients.length === 0) {
     return null;
@@ -259,7 +258,7 @@ export function buildTop25IngredientQuestion(): Top25IngredientQuizQuestion | nu
     const shuffledOptions = shuffleArray(allOptions);
 
     // Get meal info
-    const mealId = selectedPlan.mealVariantId.split("-").slice(1).join("-");
+    const mealId = selectedPlan.mealVariantId;
     const mealData = MEALS.find((m) => m.id === mealId);
     const mealName = mealData?.name || selectedPlan.displayName || selectedPlan.mealVariantId;
 
