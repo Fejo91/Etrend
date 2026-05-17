@@ -1415,5 +1415,71 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon nagyobb teltségérzet kell, a répa vagy a borsó tovább emelhető, miközben a rizs és az olaj maradhat csökkentett mennyiségben.",
     },
   },
+  {
+    mealVariantId: "2-U-dietas",
+    displayName: "Diétás bogyós fehérjeshake",
+    slot: "Uzsonna",
+    rank: 1,
+
+    workout: [
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "Fő fehérjeforrás, ez adja a shake alapját.",
+      },
+      {
+        name: "Bogyós gyümölcs",
+        amount: 80,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb marék vagy kb. 1/2 bögre",
+        note: "Áfonya vagy málna, alacsonyabb kalóriás gyümölcsös rész.",
+      },
+      {
+        name: "Víz vagy víz + kevés tej",
+        amount: 225,
+        unit: "ml",
+        kitchenAmount: "kb. 1 nagyobb pohár",
+        note: "Edzésnapos középérték a 200–250 ml-es tartományból.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Whey fehérje",
+        amount: 30,
+        unit: "g",
+        kitchenAmount: "kb. 1 adagolókanál",
+        note: "Pihenőnapon is megmarad a stabil fehérjebázis.",
+      },
+      {
+        name: "Bogyós gyümölcs",
+        amount: 80,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb marék vagy kb. 1/2 bögre",
+        note: "Standard pihenőnapi gyümölcsmennyiség a shake-ben.",
+      },
+      {
+        name: "Víz",
+        amount: 200,
+        unit: "ml",
+        kitchenAmount: "kb. 1 pohár",
+        note: "Standard diétás pihenőnapi folyadékalap.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos és pihenőnapos adag azonos makróval szerepel, ami ennél a diétás shake-nél elfogadható.",
+        "A 30 g whey mindkét napon stabil, magas fehérjebázist ad alacsony kalória mellett.",
+        "A 80 g bogyós gyümölcs jó kompromisszum: ad ízt és rostot, de nem viszi magasra a szénhidrátot.",
+        "Ez az uzsonna inkább könnyű, diétás fehérjepótlás, nem nagy energiatartalmú étkezés.",
+      ],
+      optionalSuggestion:
+        "Ha edzésnapon krémesebb vagy laktatóbb shake kell, a víz egy része kevés tejjel kiváltható, de ezt extra kalóriaként érdemes kezelni.",
+    },
+  },
 
 ];
