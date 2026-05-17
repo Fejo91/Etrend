@@ -2295,4 +2295,92 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon még könnyebb vacsora kell, az olaj tapadásmentes serpenyőben tovább csökkenthető, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
     },
   },
+  {
+    mealVariantId: "3-V-kremes",
+    displayName: "Puha, krémes rántotta avokádóval",
+    slot: "Vacsora",
+    rank: 5,
+
+    workout: [
+      {
+        name: "Tojás",
+        amount: 3,
+        unit: "db",
+        kitchenAmount: "3 db M-es tojás",
+        note: "Edzésnapos fő fehérje- és zsírbázis a krémes rántottához.",
+      },
+      {
+        name: "Olaj vagy vaj",
+        amount: 5,
+        unit: "g",
+        kitchenAmount: "kb. 1 teáskanál",
+        note: "Sütéshez használt zsiradék, alacsony lángon a krémes állaghoz.",
+      },
+      {
+        name: "Avokádó",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 1/4–1/3 avokádó",
+        note: "Krémes, zsíros kiegészítő a tojás mellé.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 32.5,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb szelet",
+        note: "Edzésnapos középérték a 30–35 g-os tartományból.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Tojás",
+        amount: 2,
+        unit: "db",
+        kitchenAmount: "2 db M-es tojás",
+        note: "Pihenőnapon csökkentett egész tojásmennyiség a zsír visszafogásához.",
+      },
+      {
+        name: "Tojásfehérje",
+        amount: 1,
+        unit: "db",
+        kitchenAmount: "1 db tojásfehérje",
+        note: "Plusz fehérje alacsonyabb zsír- és kalóriaterheléssel.",
+      },
+      {
+        name: "Olaj vagy olajspray",
+        amount: 0.5,
+        unit: "tk",
+        kitchenAmount: "kb. 1/2 teáskanál vagy kevés olajspray",
+        note: "Pihenőnapon csökkentett sütési zsiradék.",
+      },
+      {
+        name: "Avokádó",
+        amount: 40,
+        unit: "g",
+        kitchenAmount: "kb. 1/4 kisebb avokádó",
+        note: "Pihenőnapon kissé csökkentett zsíros, krémes kiegészítő.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér",
+        amount: 22.5,
+        unit: "g",
+        kitchenAmount: "kb. 1/2–1 kisebb vékony szelet",
+        note: "Pihenőnapos középérték a 20–25 g-os tartományból.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag három egész tojással, avokádóval és teljes kiőrlésű kenyérrel energiadúsabb esti vacsora.",
+        "A pihenőnapi adag két egész tojásra csökkent, de egy tojásfehérjével megtartja a fehérjebázist.",
+        "A pihenőnapos verzió az olajat, az avokádót és a kenyeret is visszafogja, így kevesebb zsírt és szénhidrátot ad estére.",
+        "A tojásfehérje jó döntés pihenőnapon, mert emeli a fehérjét anélkül, hogy jelentősen növelné a zsírt.",
+        "Ez a vacsora krémes, meleg, laktató esti opció, de a pihenőnapi verzió már jobban kontrollált kalóriában.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon még könnyebb vacsora kell, a kenyér elhagyható, vagy az avokádó 30 g körülire csökkenthető, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
+    },
+  },
 ];
