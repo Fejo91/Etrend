@@ -1910,4 +1910,99 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon még alacsonyabb szénhidrát a cél, a kenyér vagy abonett elhagyható, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
     },
     },
+  {
+    mealVariantId: "5-V-kapros-uborkas",
+    displayName: "Túrókrém – sós kapros-uborkás",
+    slot: "Vacsora",
+    rank: 2,
+
+    workout: [
+      {
+        name: "Zsírszegény túró",
+        amount: 200,
+        unit: "g",
+        kitchenAmount: "kb. 8–10 evőkanál",
+        note: "Edzésnapos fő fehérjebázis, sós túrókrémként elkészítve.",
+      },
+      {
+        name: "Uborka",
+        amount: 75,
+        unit: "g",
+        kitchenAmount: "kb. 1/3 kígyóuborka, apró kockákra vágva",
+        note: "Edzésnapos középérték a 70–80 g-os tartományból, frissíti és lazítja a túrókrémet.",
+      },
+      {
+        name: "Kapor, só, bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Sós, körözöttes jellegű ízesítés a túrókrémhez.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 4,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb teáskanál",
+        note: "Edzésnapos középérték a 3–5 g-os tartományból, maximum 1 teáskanálnyi mennyiség.",
+      },
+      {
+        name: "Teljes kiőrlésű pirítós",
+        amount: 37.5,
+        unit: "g",
+        kitchenAmount: "kb. 1 szelet",
+        note: "Edzésnapos középérték a 35–40 g-os tartományból, esti szénhidrátforrásként.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Zsírszegény túró",
+        amount: 180,
+        unit: "g",
+        kitchenAmount: "kb. 7–8 evőkanál",
+        note: "Pihenőnapon kissé csökkentett, de még erős fehérjebázis.",
+      },
+      {
+        name: "Uborka",
+        amount: 90,
+        unit: "g",
+        kitchenAmount: "kb. 1/3–1/2 kígyóuborka, apró kockákra vágva",
+        note: "Pihenőnapos középérték a 80–100 g-os tartományból, több zöldség a teltségérzethez.",
+      },
+      {
+        name: "Kapor, só, bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Ugyanaz a sós-kapros ízesítés, mint edzésnapon.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 2,
+        unit: "g",
+        kitchenAmount: "pár csepp",
+        note: "Pihenőnapos középérték a 0–3 g-os tartományból, csak minimális zsiradék.",
+      },
+      {
+        name: "Teljes kiőrlésű kenyér vagy abonett/puffasztott szelet",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "1 kisebb szelet, kb. 30–35 g, vagy 2 db abonett/puffasztott szelet",
+        note: "Pihenőnapon csökkentett esti szénhidrátforrás.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag erős túróalapra épül, mérsékelt olívaolajjal és egy szelet teljes kiőrlésű pirítóssal.",
+        "A pihenőnapi adag csökkenti a túró, az olívaolaj és a kenyér jellegű köret terhelését.",
+        "Pihenőnapon az uborka mennyisége magasabb, ami jól növeli a térfogatot és frissességet alacsony kalória mellett.",
+        "Az olívaolaj pihenőnapon csak minimális mennyiségben szerepel, ami jó döntés esti, kalóriabarát vacsoránál.",
+        "Ez a vacsora sós, körözöttes jellegű esti fehérjeforrásként jól működik, különösen akkor, ha nem édes túrókrémre van igény.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon még alacsonyabb szénhidrát a cél, a kenyér vagy abonett/puffasztott szelet elhagyható, de ezt külön döntésként érdemes kezelni, nem az alap verzió részeként.",
+    },
+  },
 ];
