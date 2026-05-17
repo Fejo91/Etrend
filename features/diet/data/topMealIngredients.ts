@@ -858,4 +858,98 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon nagyobb teltségérzet kell, a zöldségmennyiség tovább emelhető, miközben a kenyér maradhat csökkentett mennyiségben.",
     },
   },
+  {
+    mealVariantId: "1-E-alap",
+    displayName: "Grillezett csirkemell barna rizzsel",
+    slot: "Ebéd",
+    rank: 1,
+
+    workout: [
+      {
+        name: "Csirkemell",
+        amount: 175,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb csirkemellfilé adag",
+        note: "Fő fehérjeforrás, grillezve vagy serpenyőben sütve.",
+      },
+      {
+        name: "Barna rizs",
+        amount: 72.5,
+        unit: "g",
+        kitchenAmount: "kb. 5 evőkanál nyers rizs",
+        note: "Nyersen mérendő edzésnapos szénhidrátforrás.",
+      },
+      {
+        name: "Brokkoli",
+        amount: 120,
+        unit: "g",
+        kitchenAmount: "kb. 2 nagyobb marék brokkolirózsa",
+        note: "Edzésnapon normál zöldségadag a rizs és csirke mellé.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 80,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes répa",
+        note: "Édesebb, ropogósabb zöldségelem a brokkoli mellé.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 1,
+        unit: "ek",
+        kitchenAmount: "1 evőkanál",
+        note: "Sütéshez vagy a kész ételre locsolva, ez adja a fő zsiradékot.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Csirkemell",
+        amount: 155,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes csirkemellfilé adag",
+        note: "Pihenőnapon kissé csökkentett, de erős fehérjebázis.",
+      },
+      {
+        name: "Barna rizs",
+        amount: 52.5,
+        unit: "g",
+        kitchenAmount: "kb. 3,5 evőkanál nyers rizs",
+        note: "Nyersen mérendő, csökkentett pihenőnapi szénhidrátforrás.",
+      },
+      {
+        name: "Brokkoli",
+        amount: 160,
+        unit: "g",
+        kitchenAmount: "kb. 3 nagyobb marék brokkolirózsa",
+        note: "Pihenőnapon emelt zöldségmennyiség a teltségérzet miatt.",
+      },
+      {
+        name: "Sárgarépa",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb répa",
+        note: "Pihenőnapon is bőséges zöldségadag a rizs csökkentése mellett.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 1,
+        unit: "tk",
+        kitchenAmount: "1 teáskanál",
+        note: "Csökkentett pihenőnapi zsiradék.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több barna rizst és több olívaolajat tartalmaz, ezért több energiát ad.",
+        "A pihenőnapi adag főleg a rizst és az olívaolajat csökkenti, miközben a csirkemell továbbra is erős fehérjebázis marad.",
+        "A pihenőnapos zöldségmennyiség magasabb, ami jól ellensúlyozza a kisebb rizsadagot és segíti a teltségérzetet.",
+        "A barna rizst nyersen kell mérni, mert a főtt mennyiség vízfelvételtől függően jelentősen változhat.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon is nagyobb ételvolumen kell, a brokkoli és a répa tovább emelhető, miközben a rizs és az olívaolaj maradhat csökkentett mennyiségben.",
+    },
+  },
 ];
