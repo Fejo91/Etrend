@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
+import {
+    filterMealsByTop25Pool,
+    type Top25Pool,
+} from "../constants/topMeals";
 import MEALS from "../types/meals";
 import type { Meal } from "../types/nutrition";
 import type { CookingInstruction } from "../types/preparations";
 import COOKING_INSTRUCTIONS from "../types/preparations";
-import {
-  filterMealsByTop25Pool,
-  type Top25Pool,
-} from "../constants/topMeals";
 
 type QuizScreenProps = {
   onBack?: () => void;

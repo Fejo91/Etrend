@@ -3,13 +3,13 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TOP_MEAL_INGREDIENT_PLANS } from "../features/diet/data/topMealIngredients";
 import {
-  TOP25_SLOT_FILTERS,
-  TOP25_SLOT_ORDER,
-  buildCustomTop25ShoppingList,
-  buildTop25ShoppingList,
-  type AggregatedShoppingItem,
-  type ShoppingDayMode,
-  type ShoppingSlotFilter,
+    TOP25_SLOT_FILTERS,
+    TOP25_SLOT_ORDER,
+    buildCustomTop25ShoppingList,
+    buildTop25ShoppingList,
+    type AggregatedShoppingItem,
+    type ShoppingDayMode,
+    type ShoppingSlotFilter,
 } from "../features/diet/utils/top25ShoppingList";
 
 type ScreenMode = "quick" | "custom";

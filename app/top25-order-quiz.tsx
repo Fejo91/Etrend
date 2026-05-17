@@ -1,16 +1,16 @@
 import { router } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import {
-  getTop25QuizMealsWithSteps,
-  shuffleArray,
-  type Top25QuizMealSteps,
+    getTop25QuizMealsWithSteps,
+    shuffleArray,
+    type Top25QuizMealSteps,
 } from "../features/diet/utils/top25QuizData";
 
 type StepItem = {
