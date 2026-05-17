@@ -952,4 +952,84 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon is nagyobb ételvolumen kell, a brokkoli és a répa tovább emelhető, miközben a rizs és az olívaolaj maradhat csökkentett mennyiségben.",
     },
   },
+  {
+    mealVariantId: "2-E-suto",
+    displayName: "Sütőben egyben sült pulyka édesburgonyával",
+    slot: "Ebéd",
+    rank: 2,
+
+    workout: [
+      {
+        name: "Pulykamell",
+        amount: 175,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb pulykamell adag",
+        note: "Fő fehérjeforrás, kockázva vagy csíkokra vágva mehet a tepsibe.",
+      },
+      {
+        name: "Édesburgonya",
+        amount: 210,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes-nagyobb édesburgonya",
+        note: "Edzésnapos fő szénhidrátforrás, hasábokra vagy kockákra vágva.",
+      },
+      {
+        name: "Zöldbab",
+        amount: 150,
+        unit: "g",
+        kitchenAmount: "kb. 2 nagyobb marék",
+        note: "Zöldségköret, jól süthető együtt a pulykával és édesburgonyával.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 1,
+        unit: "ek",
+        kitchenAmount: "1 evőkanál",
+        note: "A tepsis sütéshez és a zsiradékbevitelhez.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Pulykamell",
+        amount: 155,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes pulykamell adag",
+        note: "Pihenőnapon kissé csökkentett, de erős fehérjebázis.",
+      },
+      {
+        name: "Édesburgonya",
+        amount: 150,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb-közepes édesburgonya",
+        note: "Csökkentett pihenőnapi szénhidrátforrás.",
+      },
+      {
+        name: "Zöldbab",
+        amount: 185,
+        unit: "g",
+        kitchenAmount: "kb. 3 nagyobb marék",
+        note: "Pihenőnapon emelt zöldségmennyiség a nagyobb ételvolumenhez.",
+      },
+      {
+        name: "Olívaolaj",
+        amount: 1,
+        unit: "tk",
+        kitchenAmount: "1 teáskanál",
+        note: "Csökkentett pihenőnapi zsiradék a tepsis sütéshez.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több édesburgonyát és több olívaolajat tartalmaz, ezért több energiát ad.",
+        "A pihenőnapi adag főleg az édesburgonyát és az olívaolajat csökkenti, miközben a pulykamell továbbra is erős fehérjebázis marad.",
+        "A pihenőnapos zöldbabmennyiség magasabb, ami jól növeli az étel térfogatát alacsonyabb kalória mellett.",
+        "A tepsis elkészítés praktikus, mert a pulyka, az édesburgonya és a zöldbab egyben elkészíthető.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon nagyobb teltségérzet kell, a zöldbab tovább emelhető, miközben az édesburgonya és az olívaolaj maradhat csökkentett mennyiségben.",
+    },
+  },
 ];
