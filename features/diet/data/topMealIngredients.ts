@@ -1481,5 +1481,100 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha edzésnapon krémesebb vagy laktatóbb shake kell, a víz egy része kevés tejjel kiváltható, de ezt extra kalóriaként érdemes kezelni.",
     },
   },
+  {
+    mealVariantId: "3-U-alap",
+    displayName: "Abonett cottage cheese-szel és zöldséggel",
+    slot: "Uzsonna",
+    rank: 2,
+
+    workout: [
+      {
+        name: "Teljes kiőrlésű abonett",
+        amount: 3,
+        unit: "db",
+        kitchenAmount: "3 db abonett",
+        note: "Edzésnapon több ropogós szénhidrátforrás a cottage mellé.",
+      },
+      {
+        name: "Zsírszegény cottage cheese",
+        amount: 120,
+        unit: "g",
+        kitchenAmount: "kb. 5–6 evőkanál",
+        note: "Fő fehérjeforrás, az abonett tetejére vagy mellé kanalazva.",
+      },
+      {
+        name: "Uborka",
+        amount: 45,
+        unit: "g",
+        kitchenAmount: "kb. 1/5 kígyóuborka",
+        note: "Friss, ropogós, alacsony kalóriás zöldség.",
+      },
+      {
+        name: "Retek",
+        amount: 25,
+        unit: "g",
+        kitchenAmount: "kb. 2–3 kisebb retek",
+        note: "Ropogós, enyhén csípős zöldségelem.",
+      },
+      {
+        name: "Só és bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Enyhe fűszerezés a cottage cheese-hez és zöldségekhez.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Teljes kiőrlésű abonett",
+        amount: 2,
+        unit: "db",
+        kitchenAmount: "2 db abonett",
+        note: "Csökkentett pihenőnapi ropogós szénhidrátforrás.",
+      },
+      {
+        name: "Zsírszegény cottage cheese",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 4–5 evőkanál",
+        note: "Pihenőnapon csökkentett, de még értelmes fehérjebázis.",
+      },
+      {
+        name: "Uborka",
+        amount: 60,
+        unit: "g",
+        kitchenAmount: "kb. 1/4 kígyóuborka",
+        note: "Pihenőnapon több zöldség segíti a teltségérzetet kevés kalóriával.",
+      },
+      {
+        name: "Retek",
+        amount: 25,
+        unit: "g",
+        kitchenAmount: "kb. 2–3 kisebb retek",
+        note: "Ropogós zöldségelem, pihenőnapon is maradhat.",
+      },
+      {
+        name: "Só és bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Enyhe fűszerezés, elhagyható.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több abonettet és több cottage cheese-t tartalmaz.",
+        "A pihenőnapi adag főleg az abonett és a cottage mennyiségét csökkenti, így kevesebb kalóriát és szénhidrátot ad.",
+        "A zöldségmennyiség pihenőnapon magasabb lehet, mert az uborka és retek alacsony kalóriájú, de jól növeli a térfogatot.",
+        "A zöldségek külön bontása praktikusabbá teszi a hozzávaló-adag nézetet, mint egyetlen uborka/retkek sor.",
+        "Ez az uzsonna könnyű, ropogós, jól adagolható fehérjés opció.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon nagyobb teltségérzet kell, az uborka vagy retek tovább emelhető, miközben az abonett maradhat 2 db.",
+    },
+  },
 
 ];
