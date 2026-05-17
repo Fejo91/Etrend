@@ -1,20 +1,43 @@
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TOP_MEAL_INGREDIENT_PLANS } from "../features/diet/data/topMealIngredients";
 
 type DayMode = "workout" | "rest";
+const SLOT_ORDER = ["Reggeli", "Tízórai", "Ebéd", "Uzsonna", "Vacsora"] as const;
+type Slot = (typeof SLOT_ORDER)[number];
 
 export default function TopMealIngredientsScreen() {
+  const [selectedSlot, setSelectedSlot] = useState<Slot>("Reggeli");
+  const [selectedMealVariantId, setSelectedMealVariantId] = useState<string | null>(null);
   const [dayMode, setDayMode] = useState<DayMode>("workout");
 
-  const plan = useMemo(
-    () =>
-      TOP_MEAL_INGREDIENT_PLANS.find(
-        (item) => item.mealVariantId === "5-R-gyors-alap"
-      ),
-    []
-  );
+  const plansBySlot = useMemo(() => {
+    return SLOT_ORDER.reduce(
+      (acc, slot) => {
+        acc[slot] = TOP_MEAL_INGREDIENT_PLANS.filter((item) => item.slot === slot)
+          .slice()
+          .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
+        return acc;
+      },
+      {} as Record<Slot, typeof TOP_MEAL_INGREDIENT_PLANS>
+    );
+  }, []);
+
+  const slotPlans = plansBySlot[selectedSlot];
+
+  useEffect(() => {
+    const firstPlan = slotPlans[0];
+    setSelectedMealVariantId(firstPlan?.mealVariantId ?? null);
+  }, [selectedSlot, slotPlans]);
+
+  const plan = useMemo(() => {
+    if (!selectedMealVariantId) {
+      return slotPlans[0];
+    }
+
+    return slotPlans.find((item) => item.mealVariantId === selectedMealVariantId) ?? slotPlans[0];
+  }, [selectedMealVariantId, slotPlans]);
 
   const ingredients = dayMode === "workout" ? plan?.workout : plan?.rest;
 
@@ -22,7 +45,43 @@ export default function TopMealIngredientsScreen() {
     <View style={styles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <Text style={styles.title}>Top25 hozzávaló-adagok</Text>
-        <Text style={styles.subtitle}>Pilot nézet - 5-R-gyors-alap</Text>
+        <Text style={styles.subtitle}>Válassz étkezést és ételt</Text>
+
+        <View style={styles.slotRow}>
+          {SLOT_ORDER.map((slot) => (
+            <TouchableOpacity
+              key={slot}
+              style={[styles.slotButton, selectedSlot === slot && styles.slotButtonActive]}
+              onPress={() => setSelectedSlot(slot)}
+            >
+              <Text
+                style={[
+                  styles.slotButtonText,
+                  selectedSlot === slot && styles.slotButtonTextActive,
+                ]}
+              >
+                {slot}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <View style={styles.mealPickerCard}>
+          {slotPlans.map((item) => {
+            const isActive = item.mealVariantId === plan?.mealVariantId;
+            return (
+              <TouchableOpacity
+                key={item.mealVariantId}
+                style={[styles.mealButton, isActive && styles.mealButtonActive]}
+                onPress={() => setSelectedMealVariantId(item.mealVariantId)}
+              >
+                <Text style={[styles.mealButtonText, isActive && styles.mealButtonTextActive]}>
+                  #{item.rank ?? "?"} {item.displayName ?? item.mealVariantId}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
         <View style={styles.toggleRow}>
           <TouchableOpacity
@@ -59,6 +118,14 @@ export default function TopMealIngredientsScreen() {
           </View>
         ) : (
           <>
+            <View style={styles.card}>
+              <Text style={styles.planTitle}>{plan.displayName ?? "Névtelen étel"}</Text>
+              <Text style={styles.planMeta}>
+                {plan.slot} #{plan.rank ?? "?"}
+              </Text>
+              <Text style={styles.planId}>{plan.mealVariantId}</Text>
+            </View>
+
             <View style={styles.card}>
               {ingredients.map((ingredient, index) => (
                 <View
@@ -143,6 +210,61 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
+  slotRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 12,
+  },
+  slotButton: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#334155",
+    backgroundColor: "#0f172a",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  slotButtonActive: {
+    backgroundColor: "#334155",
+    borderColor: "#93c5fd",
+  },
+  slotButtonText: {
+    color: "#cbd5e1",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  slotButtonTextActive: {
+    color: "#eff6ff",
+  },
+  mealPickerCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#334155",
+    backgroundColor: "#0b1220",
+    padding: 10,
+    marginBottom: 14,
+    gap: 8,
+  },
+  mealButton: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#334155",
+    backgroundColor: "#111827",
+    paddingVertical: 9,
+    paddingHorizontal: 10,
+  },
+  mealButtonActive: {
+    borderColor: "#60a5fa",
+    backgroundColor: "#1e3a8a",
+  },
+  mealButtonText: {
+    color: "#e5e7eb",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  mealButtonTextActive: {
+    color: "#eff6ff",
+  },
   toggleRow: {
     flexDirection: "row",
     gap: 10,
@@ -180,6 +302,22 @@ const styles = StyleSheet.create({
   emptyText: {
     color: "#cbd5e1",
     fontSize: 15,
+  },
+  planTitle: {
+    color: "#f8fafc",
+    fontSize: 20,
+    fontWeight: "700",
+  },
+  planMeta: {
+    color: "#93c5fd",
+    fontSize: 14,
+    fontWeight: "600",
+    marginTop: 4,
+  },
+  planId: {
+    color: "#94a3b8",
+    fontSize: 12,
+    marginTop: 4,
   },
   ingredientRow: {
     paddingVertical: 10,

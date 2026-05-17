@@ -47,7 +47,7 @@ export function getTopMealBadge(meal: Meal | null): string | null {
     return `🥇 Top reggeli #${TOP_BREAKFAST_RANKS[meal.id]}`;
   }
 
-  if (meal.slot === "Tízorai" && TOP_TIZORAI_RANKS[meal.id]) {
+  if (meal.slot === "Tízórai" && TOP_TIZORAI_RANKS[meal.id]) {
     return `🥇 Top tízórai #${TOP_TIZORAI_RANKS[meal.id]}`;
   }
 
