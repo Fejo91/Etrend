@@ -684,4 +684,84 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha ennél a tízórai opciónál magasabb fehérje lenne a cél, külön fehérjeforrással egészíthető ki, de az már extra kiegészítésként kezelendő, nem az alap verzió része.",
     },
   },
+  {
+    mealVariantId: "6-T-superfood",
+    displayName: "Superfood verzió",
+    slot: "Tízórai",
+    rank: 4,
+
+    workout: [
+      {
+        name: "Puffasztott rizsszelet",
+        amount: 2,
+        unit: "db",
+        kitchenAmount: "2 db rizsszelet",
+        note: "Ropogós alap, erre kerül a mogyoróvaj, banán és chia.",
+      },
+      {
+        name: "Mogyoróvaj",
+        amount: 17,
+        unit: "g",
+        kitchenAmount: "kb. 2 vékony kenés, 8–9 g/szelet",
+        note: "Edzésnapos középérték a 16–18 g-os tartományból.",
+      },
+      {
+        name: "Banán",
+        amount: 65,
+        unit: "g",
+        kitchenAmount: "kb. 2/3 közepes banán",
+        note: "Karikázva kerüljön a mogyoróvajas rizsszeletek tetejére.",
+      },
+      {
+        name: "Chia mag",
+        amount: 4,
+        unit: "g",
+        kitchenAmount: "kb. 1 kávéskanál",
+        note: "A tetejére szórva ad rostot és superfood jellegű kiegészítést.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Puffasztott rizsszelet",
+        amount: 2,
+        unit: "db",
+        kitchenAmount: "2 db rizsszelet",
+        note: "Pihenőnapon is marad az alap, hogy az étel szerkezete megmaradjon.",
+      },
+      {
+        name: "Mogyoróvaj",
+        amount: 12,
+        unit: "g",
+        kitchenAmount: "kb. 2 nagyon vékony kenés, 6 g/szelet",
+        note: "Csökkentett pihenőnapi mennyiség.",
+      },
+      {
+        name: "Banán",
+        amount: 50,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kisebb banán",
+        note: "Pihenőnapon kisebb banánadag a visszafogottabb szénhidrát miatt.",
+      },
+      {
+        name: "Chia mag",
+        amount: 3.5,
+        unit: "g",
+        kitchenAmount: "kb. 1/2–1 kávéskanál",
+        note: "Pihenőnapos középérték a 3–4 g-os tartományból.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag gyors, ropogós energiaforrás rizsszelettel, banánnal és mogyoróvajjal.",
+        "A pihenőnapi adag logikusan a mogyoróvajat és a banánt csökkenti, így kevesebb kalóriát és szénhidrátot ad.",
+        "A 2 rizsszelet mindkét napon megmarad, ezért az étel formája és fogyaszthatósága stabil.",
+        "Ez az étel nem magas fehérjetartalmú tízórai, inkább gyors energialöket jó zsírral és mérsékelt szénhidráttal.",
+      ],
+      optionalSuggestion:
+        "Ha magasabb fehérjetartalmú tízórai kell, ezt az ételt külön fehérjeforrással lehet kiegészíteni, de az már extra kiegészítésként kezelendő, nem az alap superfood verzió része.",
+    },
+  },
 ];
