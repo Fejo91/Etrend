@@ -1576,5 +1576,93 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon nagyobb teltségérzet kell, az uborka vagy retek tovább emelhető, miközben az abonett maradhat 2 db.",
     },
   },
+  {
+    mealVariantId: "1-U-feherjes",
+    displayName: "Fehérjés túró–gyümölcs pohár",
+    slot: "Uzsonna",
+    rank: 3,
+
+    workout: [
+      {
+        name: "Zsírszegény túró",
+        amount: 165,
+        unit: "g",
+        kitchenAmount: "kb. 7–8 evőkanál",
+        note: "Fő fehérjebázis, ebből készül a pohárkrém alapja.",
+      },
+      {
+        name: "Fehérjepor",
+        amount: 10,
+        unit: "g",
+        kitchenAmount: "kb. 1/3 adagolókanál",
+        note: "Kiegészítő fehérje és ízesítés a túró mellé.",
+      },
+      {
+        name: "Gyümölcs",
+        amount: 100,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb marék vagy kb. 1/2 bögre",
+        note: "Bogyós gyümölcs, alma vagy más könnyen adagolható gyümölcs.",
+      },
+      {
+        name: "Dió vagy mandula",
+        amount: 10,
+        unit: "g",
+        kitchenAmount: "kb. 4–5 szem mandula vagy 4–5 fél dió",
+        note: "Ropogós, zsíros magféle, kis mennyiségben is teltebbé teszi az uzsonnát.",
+      },
+      {
+        name: "Méz",
+        amount: 5,
+        unit: "g",
+        kitchenAmount: "kb. 1 teáskanál alatt",
+        note: "Minimális edzésnapos édesítés.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Zsírszegény túró",
+        amount: 150,
+        unit: "g",
+        kitchenAmount: "kb. 6–7 evőkanál",
+        note: "Pihenőnapon kissé csökkentett, de erős fehérjebázis.",
+      },
+      {
+        name: "Fehérjepor",
+        amount: 10,
+        unit: "g",
+        kitchenAmount: "kb. 1/3 adagolókanál",
+        note: "Pihenőnapon is marad a kiegészítő fehérje.",
+      },
+      {
+        name: "Gyümölcs",
+        amount: 90,
+        unit: "g",
+        kitchenAmount: "kb. 1 kisebb marék alatt",
+        note: "Kissé csökkentett pihenőnapi gyümölcsmennyiség.",
+      },
+      {
+        name: "Dió vagy mandula",
+        amount: 6,
+        unit: "g",
+        kitchenAmount: "kb. 2–3 szem mandula vagy 2–3 fél dió",
+        note: "Pihenőnapos középérték az 5–7 g-os tartományból.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag logikusan több túrót, gyümölcsöt és magfélét tartalmaz.",
+        "A pihenőnapi adag csökkenti a túrót, a gyümölcsöt és a magot, miközben a fehérjepor mennyisége stabil marad.",
+        "A pihenőnapos verzióból a méz alapból kimarad, ami jól csökkenti az extra gyors szénhidrátot.",
+        "A dió vagy mandula kis mennyiségben is javítja az állagot és a teltségérzetet, de nem viszi túl magasra a kalóriát.",
+        "Ez az uzsonna jó fehérjedús, kanalas opció, amely edzésnapon és pihenőnapon is könnyen adagolható.",
+      ],
+      optionalSuggestion:
+        "Ha pihenőnapon édesebb íz kell, minimális méz hozzáadható, de azt extra gyors szénhidrátként érdemes kezelni.",
+    },
+  },
 
 ];
