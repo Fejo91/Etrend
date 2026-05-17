@@ -1747,4 +1747,86 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         "Ha pihenőnapon alacsonyabb kalória a cél, a folyadék legyen inkább víz vagy víz-tej keverék, ne teljes adag tej.",
     },
   },
+
+  {
+    mealVariantId: "5-U-fitnesz-alap",
+    displayName: "Fitnesz alap",
+    slot: "Uzsonna",
+    rank: 5,
+
+    workout: [
+      {
+        name: "Főtt tojás",
+        amount: 2,
+        unit: "db",
+        kitchenAmount: "2 db M-es tojás",
+        note: "Edzésnapon két tojás adja a fő fehérje- és zsírbázist.",
+      },
+      {
+        name: "Paprika",
+        amount: 90,
+        unit: "g",
+        kitchenAmount: "kb. 1 közepes paprika hasábokra vágva",
+        note: "Edzésnapos középérték a 80–100 g-os tartományból.",
+      },
+      {
+        name: "Uborka",
+        amount: 90,
+        unit: "g",
+        kitchenAmount: "kb. 1/3–1/2 kígyóuborka hasábokra vágva",
+        note: "Friss, ropogós, alacsony kalóriás zöldség.",
+      },
+      {
+        name: "Só és bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Alap fűszerezés a tojásra és zöldségekre.",
+      },
+    ],
+
+    rest: [
+      {
+        name: "Főtt tojás",
+        amount: 1,
+        unit: "db",
+        kitchenAmount: "1 db M-es tojás",
+        note: "Pihenőnapon csökkentett tojásmennyiség a zsír és kalória visszafogásához.",
+      },
+      {
+        name: "Paprika",
+        amount: 110,
+        unit: "g",
+        kitchenAmount: "kb. 1 nagyobb paprika vagy 1 közepes bővebben",
+        note: "Pihenőnapos középérték a 100–120 g-os tartományból.",
+      },
+      {
+        name: "Uborka",
+        amount: 110,
+        unit: "g",
+        kitchenAmount: "kb. 1/2 kígyóuborka alatt, hasábokra vágva",
+        note: "Pihenőnapon több zöldség segíti a teltségérzetet kevés kalóriával.",
+      },
+      {
+        name: "Só és bors",
+        amount: 1,
+        unit: "adag",
+        kitchenAmount: "ízlés szerint",
+        note: "Alap fűszerezés, elhagyható.",
+      },
+    ],
+
+    audit: {
+      status: "PASS",
+      notes: [
+        "Az edzésnapos adag két főtt tojást tartalmaz, ezért magasabb a fehérje- és zsírtartalma.",
+        "A pihenőnapi adag egy tojásra csökkent, így kevesebb kalóriát és zsírt ad.",
+        "Pihenőnapon a paprika és uborka mennyisége magasabb, ami jól megtartja a teltségérzetet alacsony kalória mellett.",
+        "Ez az uzsonna nagyon tiszta, egyszerű fehérje + zöldség alapú snack.",
+        "A mustár vagy natúr joghurtos mártogatós opcionális, ezért nem kerül az alap hozzávalólistába.",
+      ],
+      optionalSuggestion:
+        "Ha edzésnapon vagy pihenőnapon száraznak érződik, 1 teáskanál mustár vagy kevés natúr joghurtos mártogatós adható hozzá, de ezt extra kiegészítésként érdemes kezelni.",
+    },
+  },
 ];
