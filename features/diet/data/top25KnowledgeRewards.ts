@@ -602,7 +602,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "2-U-dietas:Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.": {
     category: "kitchen_logic",
     title: "Miért bogyós gyümölcs?",
-    body: "A bogyós gyümölcs friss, savanyúkas-édes ízet és szép színt ad a shake-nek. Jól működik könnyebb, gyümölcsös fehérjeturmixban.",
+    body: "A bogyós gyümölcs friss, savanykás-édes ízt és szép színt ad a shake-nek. Jól működik könnyebb, gyümölcsös fehérjeturmixban.",
   },
   "2-U-dietas:Turmixold vagy rázd össze csomómentesre.": {
     category: "common_mistake",
