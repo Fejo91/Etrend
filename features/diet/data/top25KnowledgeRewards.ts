@@ -344,6 +344,220 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
     title: "Miért jó azonnal lezárni?",
     body: "Ha nem eszed meg rögtön, a dobozban minden komponens megmarad külön és rendezett marad. Pont ez a bento egyik előnye.",
   },
+
+  // ─── 1-E-alap ────────────────────────────────────────────────────────────
+  // quizSteps: rizs → rizs pihen → zöldség mos/vág → zöldség párol → csirke előkészít → csirke süt → pihentet/szeletel → tálalás
+
+  "1-E-alap:Mérd ki a barna rizst, majd öblítsd át folyó víz alatt.": {
+    category: "kitchen_logic",
+    title: "Miért az öblítéssel kezdj?",
+    body: "Az öblítés eltávolítja a felesleges keményítőt, így a rizs főzés után pergősebb lesz. Ezzel indul az alap, mielőtt főzni kezdenéd.",
+  },
+
+  "1-E-alap:Tedd fel főni a barna rizst sós vízben, majd pihentesd lefedve.": {
+    category: "kitchen_logic",
+    title: "Miért legyen a rizs előbb megfőzve?",
+    body: "A rizs akkor lesz pergő és jól tálalható, ha előbb fő meg és utána pihen. Így a köret tartja a formáját, nem esik szét.",
+  },
+  "1-E-alap:Mosd meg a brokkolit és a sárgarépát, majd darabold fel őket.": {
+    category: "kitchen_logic",
+    title: "Miért a zöldség-előkészítés jön ezután?",
+    body: "A brokkoli és a répa így egyszerre lesz készen a pároláshoz. Az előkészített zöldség gyorsabban és egyenletesebben sül.",
+  },
+  "1-E-alap:Párold roppanós-puhára a brokkolit és a sárgarépát.": {
+    category: "common_mistake",
+    title: "Miért ne főzd szét a zöldséget?",
+    body: "A túl puhára főtt zöldség elveszíti a tartását. A roppanós-puha állag jobb textúrát és frissebb érzetet ad az ebédnek.",
+  },
+  "1-E-alap:Tisztítsd meg és fűszerezd be a csirkemellet mindkét oldalon.": {
+    category: "kitchen_logic",
+    title: "Miért a csirke előkészítése következik?",
+    body: "Ha a csirkét előbb előkészíted, azonnal mehet a sütőbe vagy a serpenyőbe. Így egyenletesebben sül, és kevésbé szárad ki.",
+  },
+  "1-E-alap:Süsd meg a csirkemellet grillserpenyőben vagy kontaktgrillen.": {
+    category: "fitness_logic",
+    title: "Miért pont grillen süsd?",
+    body: "A grill gyorsan lezárja a felületet, így szaftosabb marad a hús. Egyszerű, tiszta fehérjealap egy meal prep ebédhez.",
+  },
+  "1-E-alap:Pihentesd a csirkét röviden, majd szeleteld fel.": {
+    category: "memory_trick",
+    title: "Miért kell rövid pihentetés?",
+    body: "A pihentetés után a szaft nem folyik ki, amikor szeleteled. Ettől lesz a csirke puhább és szebben tálalható.",
+  },
+  "1-E-alap:Tálald együtt a barna rizst, a párolt brokkolit-répát és a szeletelt csirkemellet.": {
+    category: "fitness_logic",
+    title: "Miért jó együtt tálalni?",
+    body: "Így egy komplett, könnyen dobozolható ebédet kapsz: külön nem kell variálni semmit, mégis minden falat kiegyensúlyozott lesz.",
+  },
+
+  // ─── 2-E-suto ─────────────────────────────────────────────────────────────
+  // quizSteps: sütő előmelegít → csirke tisztít/fűszerez → édesburgonya hámoz/darabol/fűszerez →
+  //            tepsibe rendez → zöldbab előkészít → első sütés után forgat/ad zöldbabot → készre süt → tálalás
+
+  "2-E-suto:Melegítsd elő a sütőt, és készíts elő egy sütőpapíros tepsit.": {
+    category: "kitchen_logic",
+    title: "Miért az előmelegítéssel kezdd?",
+    body: "Az előmelegített sütő egyenletesebb hőt ad, így a hús és a köret egyszerre készül el rendesen. A tepsi előkészítése pedig gyorsítja a munkát.",
+  },
+  "2-E-suto:Tisztítsd meg és fűszerezd be a pulykamellet.": {
+    category: "kitchen_logic",
+    title: "Miért a hús jön először?",
+    body: "Ha a pulyka már befűszerezve vár, a sütésnél rögtön kész alapot kapsz. Ez segít, hogy a hús ne maradjon íztelen vagy száraz.",
+  },
+  "2-E-suto:Hámozd meg, darabold fel és fűszerezd be az édesburgonyát.": {
+    category: "common_mistake",
+    title: "Miért darabold egyforma méretre?",
+    body: "Az egyformára vágott édesburgonya egyszerre puhul meg, így nem lesz egyik darab nyers, a másik széteső. Az egységes méret a sütős ételeknél kulcs.",
+  },
+  "2-E-suto:Rendezd tepsibe a pulykamellet és az édesburgonyát, majd indítsd az első sütést.": {
+    category: "kitchen_logic",
+    title: "Miért menjen egyszerre a hús és a köret?",
+    body: "Így a tepsiben összeérnek az ízek, és nem kell külön figyelni két edényre. Egy jól szervezett tepsi mindig egyszerűbb meal prep.",
+  },
+  "2-E-suto:Készítsd elő a zöldbabot, és fűszerezd enyhén.": {
+    category: "kitchen_logic",
+    title: "Miért csak enyhén fűszerezd a zöldbabot?",
+    body: "A zöldbab akkor marad friss és tiszta ízű, ha nem viszed túlzásba a fűszerezést. Így jobban illik a sült húshoz és az édesburgonyához.",
+  },
+  "2-E-suto:Az első sütés után forgasd át az édesburgonyát, majd add a tepsibe a zöldbabot.": {
+    category: "common_mistake",
+    title: "Miért csak később jöjjön a zöldbab?",
+    body: "A zöldbab gyorsabban puhul, ezért ha korábban kerülne be, könnyen túlsülne. A későbbi hozzáadás segít, hogy roppanós maradjon.",
+  },
+  "2-E-suto:Süsd készre az egészet, amíg a pulykamell teljesen átsül.": {
+    category: "fitness_logic",
+    title: "Miért fontos a teljes átsülés?",
+    body: "A teljesen átsült pulyka biztonságosabb és jobb állagú lesz. A zöldség és az édesburgonya közben pont annyira sül, amennyire kell.",
+  },
+  "2-E-suto:Tálald együtt a sült pulykamellet, édesburgonyát és zöldbabot.": {
+    category: "memory_trick",
+    title: "Miért jó a végső egyben tálalás?",
+    body: "Így a tepsiből egyből ebéd lesz, külön macera nélkül. A sütős menü szépen elkészül, és meal prepnek is tökéletes.",
+  },
+
+  // ─── 3-E-suto-egyben ──────────────────────────────────────────────────────
+  // quizSteps: tepsi előkészít → édesburgonya hámoz/darabol → brokkoli/répa/cukkini/lilahagyma előkészít →
+  //            fűszerez/olajoz → lazac tisztít/fűszerez → tepsibe rétegez → készre süt → tálalás
+
+  "3-E-suto-egyben:Melegítsd elő a sütőt, és béleld ki a tepsit sütőpapírral.": {
+    category: "kitchen_logic",
+    title: "Miért a sütő és a tepsi előkészítése az első?",
+    body: "Ha a sütő már meleg, rögtön mehet a tepsi, és nem áll le a folyamat. A sütőpapír pedig megkönnyíti a tepsis sütést és a tisztítást.",
+  },
+
+  "3-E-suto-egyben:Hámozd meg és darabold fel az édesburgonyát.": {
+    category: "kitchen_logic",
+    title: "Miért az édesburgonya jön először?",
+    body: "Az édesburgonya az alap köret, ezért érdemes először vele kezdeni. Ha azonos méretű darabokra vágod, egyenletesen sül meg a tepsiben.",
+  },
+  "3-E-suto-egyben:Készítsd elő a brokkolit, répát, cukkinit és lilahagymát.": {
+    category: "common_mistake",
+    title: "Miért legyen minden zöldség külön előkészítve?",
+    body: "A különböző zöldségek más sebességgel puhulnak, ezért jobb, ha előre rendben vannak. Így nem lesz egyik nyers, a másik túlpuhult.",
+  },
+  "3-E-suto-egyben:Fűszerezd és olajozd be az édesburgonya-zöldség keveréket.": {
+    category: "kitchen_logic",
+    title: "Miért az olaj és a fűszer most jön?",
+    body: "Ha a fűszerek és az olaj előbb kerülnek rá, a tepsiben szebb, egyenletesebb pirulást kapsz. Ettől lesz az egésznek jobb sült íze.",
+  },
+  "3-E-suto-egyben:Tisztítsd meg és fűszerezd be a lazacfilét.": {
+    category: "fitness_logic",
+    title: "Miért a lazacot külön kezeld?",
+    body: "A lazac érzékenyebb, mint a zöldségek, ezért külön figyelmet érdemel. Így marad szaftos, és nem veszti el a jó állagát.",
+  },
+  "3-E-suto-egyben:Terítsd tepsibe az édesburgonya-zöldség keveréket, majd helyezd rá a lazacot.": {
+    category: "kitchen_logic",
+    title: "Miért a lazac a tetejére kerüljön?",
+    body: "A tetején a hal szépen átsül, miközben az alatta lévő zöldségek és az édesburgonya is megkapják a saját idejüket. Ez a tepsis sorrend logikája.",
+  },
+  "3-E-suto-egyben:Süsd készre az egészet, amíg a lazac átsül és az édesburgonya megpuhul.": {
+    category: "common_mistake",
+    title: "Miért ne siesd el a sütést?",
+    body: "A lazac és az édesburgonya egyszerre akkor jó, ha a hal még szaftos, a köret pedig puha. A túl rövid sütés itt az egyik leggyakoribb hiba.",
+  },
+  "3-E-suto-egyben:Tálald a sült lazacot az édesburgonyás-zöldséges körettel.": {
+    category: "memory_trick",
+    title: "Miért jó egyben tálalni?",
+    body: "A tepsiből egyből kész ebéd lesz, és nem kell külön komponensekkel bajlódni. Ettől lesz a fogás egyszerű, mégis teljes értékű.",
+  },
+
+  // ─── 5-E-alap ─────────────────────────────────────────────────────────────
+  // quizSteps: tojás → zöldség vág → tonhal lecsepegtet/fellazít → öntet → összevon → öntet rá → tálal
+
+  "5-E-alap:Főzd keményre a tojásokat, majd hűtsd le és szeleteld fel őket.": {
+    category: "kitchen_logic",
+    title: "Miért a tojás az első lépés?",
+    body: "A tojásnak idő kell, ezért érdemes vele kezdeni. Mire a saláta kész, a tojás már pont jó lesz a tálaláshoz.",
+  },
+  "5-E-alap:Vágd fel a paradicsomot, uborkát, paprikát, lilahagymát és a salátát.": {
+    category: "common_mistake",
+    title: "Miért a zöldségeket külön vágd fel?",
+    body: "A külön felaprított zöldség frissebb és rendezettebb marad. Így könnyebb a salátát összerakni, és kevésbé ázik el.",
+  },
+  "5-E-alap:Csepegtesd le a tonhalat, majd lazítsd fel villával.": {
+    category: "kitchen_logic",
+    title: "Miért kell a tonhalat először lecsöpögtetni?",
+    body: "A felesleges lé nélkül a saláta nem lesz vizes. A fel lazított tonhal jobban eloszlik a zöldségek között.",
+  },
+  "5-E-alap:Keverd ki az öntetet olívaolajjal, citromlével, sóval és borssal.": {
+    category: "fitness_logic",
+    title: "Miért külön öntettel dolgozz?",
+    body: "Az öntet így minden falatot átjár, de nem nehezíti el a salátát. A friss, savas íz jól kiemeli a tonhalat.",
+  },
+  "5-E-alap:Forgasd össze a felvágott zöldségeket a tonhallal.": {
+    category: "kitchen_logic",
+    title: "Miért most jön az összeforgatás?",
+    body: "Ha a tonhal és a zöldség előbb összeér, egységesebb lesz az alap. Az öntet később így sokkal jobban oszlik el.",
+  },
+  "5-E-alap:Öntsd rá az öntetet, majd keverd át a salátát.": {
+    category: "common_mistake",
+    title: "Miért ne öntsd rá túl korán?",
+    body: "Ha az öntet túl sokáig áll a zöldségen, eláztatja a friss hozzávalókat. A végén hozzáadva marad a roppanós textúra.",
+  },
+  "5-E-alap:Tálald a tonhalsalátát a szeletelt főtt tojással.": {
+    category: "memory_trick",
+    title: "Miért a tojás a záró elem?",
+    body: "A tojás a tetején szépen látszik, és rendben összefogja a salátát. Egyszerű, tiszta végső réteg egy fehérjedús ebédhez.",
+  },
+
+  // ─── 6-E-klasszikus ───────────────────────────────────────────────────────
+  // quizSteps: rizs öblít → rizs főz → zöldség párol → csirke tisztít/fűszerez → serpenyő hevítsd/süsd → pihentet/szeletel → tálalás
+
+  "6-E-klasszikus:Mérd ki és öblítsd át a basmati rizst.": {
+    category: "kitchen_logic",
+    title: "Miért legyen a rizs tisztán előkészítve?",
+    body: "Az öblített rizs kevésbé ragad össze, és szebben lesz pergős a főzés után. Ezzel kezdődik a jó köret alapja.",
+  },
+  "6-E-klasszikus:Főzd meg a basmati rizst, majd pihentesd lefedve.": {
+    category: "common_mistake",
+    title: "Miért kell a rizst pihentetni?",
+    body: "A pihenőidő segít, hogy a rizs ne legyen nedves vagy ragacsos. Ettől lesz könnyebb és rendezettebb a köret.",
+  },
+  "6-E-klasszikus:Párold roppanós-puhára a borsó-répa keveréket.": {
+    category: "kitchen_logic",
+    title: "Miért maradjon a zöldség kissé roppanós?",
+    body: "A borsó és a répa akkor a legjobb, ha van tartásuk. Így a tányér nem lesz túlfőtt, a zöldség pedig frissebb marad.",
+  },
+  "6-E-klasszikus:Tisztítsd meg és fűszerezd be a csirkemellet.": {
+    category: "fitness_logic",
+    title: "Miért a csirkével indul a fehérjés rész?",
+    body: "A jól előkészített csirke adja az ebéd stabil fehérjealapját. Ha itt jó a fűszerezés, az egész tál íze erősebb lesz.",
+  },
+  "6-E-klasszikus:Hevítsd fel a serpenyőt, majd süsd meg a csirkemellet mindkét oldalon.": {
+    category: "common_mistake",
+    title: "Miért legyen forró a serpenyő?",
+    body: "A forró serpenyő segít, hogy a csirke kérget kapjon, de ne ázzon meg a saját levében. Így marad szaftosabb a hús.",
+  },
+  "6-E-klasszikus:Pihentesd röviden a csirkét, majd szeleteld fel.": {
+    category: "memory_trick",
+    title: "Miért ne szeleteld azonnal?",
+    body: "A rövid pihentetés után a szaft a húsban marad. Szeleteléskor így nem folyik ki minden finomság a tányérra.",
+  },
+  "6-E-klasszikus:Tálald együtt a basmati rizst, a párolt borsó-répát és a szeletelt csirkemellet.": {
+    category: "fitness_logic",
+    title: "Miért ez a klasszikus ebéd logikája?",
+    body: "Egy tiszta, jól előkészíthető tányér: rizs, zöldség és csirke külön, mégis együtt működik. Pont erre jó a meal prep.",
+  },
 };
 
 export function getKnowledgeReward(

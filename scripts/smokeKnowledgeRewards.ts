@@ -1,5 +1,5 @@
 /**
- * Smoke test: Top25 Knowledge Rewards — Top5 reggeli
+ * Smoke test: Top25 Knowledge Rewards — Top5 reggeli / tízórai / ebéd
  * Futtatás: npx tsx scripts/smokeKnowledgeRewards.ts
  */
 
@@ -24,7 +24,7 @@ function assert(label: string, condition: boolean, detail?: string) {
   }
 }
 
-type SlotLabel = "Reggeli" | "Tízórai";
+type SlotLabel = "Reggeli" | "Tízórai" | "Ebéd";
 
 const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
   Reggeli: {
@@ -104,6 +104,56 @@ const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
       "Készítsd elő külön a teljes kiőrlésű kenyeret.",
       "Rendezd el külön részekbe a pulykasonkát, a zöldségeket és a kenyeret.",
       "Tálald vagy zárd le a bento dobozt.",
+    ],
+  },
+  Ebéd: {
+    "1-E-alap": [
+      "Mérd ki a barna rizst, majd öblítsd át folyó víz alatt.",
+      "Tedd fel főni a barna rizst sós vízben, majd pihentesd lefedve.",
+      "Mosd meg a brokkolit és a sárgarépát, majd darabold fel őket.",
+      "Párold roppanós-puhára a brokkolit és a sárgarépát.",
+      "Tisztítsd meg és fűszerezd be a csirkemellet mindkét oldalon.",
+      "Süsd meg a csirkemellet grillserpenyőben vagy kontaktgrillen.",
+      "Pihentesd a csirkét röviden, majd szeleteld fel.",
+      "Tálald együtt a barna rizst, a párolt brokkolit-répát és a szeletelt csirkemellet.",
+    ],
+    "2-E-suto": [
+      "Melegítsd elő a sütőt, és készíts elő egy sütőpapíros tepsit.",
+      "Tisztítsd meg és fűszerezd be a pulykamellet.",
+      "Hámozd meg, darabold fel és fűszerezd be az édesburgonyát.",
+      "Rendezd tepsibe a pulykamellet és az édesburgonyát, majd indítsd az első sütést.",
+      "Készítsd elő a zöldbabot, és fűszerezd enyhén.",
+      "Az első sütés után forgasd át az édesburgonyát, majd add a tepsibe a zöldbabot.",
+      "Süsd készre az egészet, amíg a pulykamell teljesen átsül.",
+      "Tálald együtt a sült pulykamellet, édesburgonyát és zöldbabot.",
+    ],
+    "3-E-suto-egyben": [
+      "Melegítsd elő a sütőt, és béleld ki a tepsit sütőpapírral.",
+      "Hámozd meg és darabold fel az édesburgonyát.",
+      "Készítsd elő a brokkolit, répát, cukkinit és lilahagymát.",
+      "Fűszerezd és olajozd be az édesburgonya-zöldség keveréket.",
+      "Tisztítsd meg és fűszerezd be a lazacfilét.",
+      "Terítsd tepsibe az édesburgonya-zöldség keveréket, majd helyezd rá a lazacot.",
+      "Süsd készre az egészet, amíg a lazac átsül és az édesburgonya megpuhul.",
+      "Tálald a sült lazacot az édesburgonyás-zöldséges körettel.",
+    ],
+    "5-E-alap": [
+      "Főzd keményre a tojásokat, majd hűtsd le és szeleteld fel őket.",
+      "Vágd fel a paradicsomot, uborkát, paprikát, lilahagymát és a salátát.",
+      "Csepegtesd le a tonhalat, majd lazítsd fel villával.",
+      "Keverd ki az öntetet olívaolajjal, citromlével, sóval és borssal.",
+      "Forgasd össze a felvágott zöldségeket a tonhallal.",
+      "Öntsd rá az öntetet, majd keverd át a salátát.",
+      "Tálald a tonhalsalátát a szeletelt főtt tojással.",
+    ],
+    "6-E-klasszikus": [
+      "Mérd ki és öblítsd át a basmati rizst.",
+      "Főzd meg a basmati rizst, majd pihentesd lefedve.",
+      "Párold roppanós-puhára a borsó-répa keveréket.",
+      "Tisztítsd meg és fűszerezd be a csirkemellet.",
+      "Hevítsd fel a serpenyőt, majd süsd meg a csirkemellet mindkét oldalon.",
+      "Pihentesd röviden a csirkét, majd szeleteld fel.",
+      "Tálald együtt a basmati rizst, a párolt borsó-répát és a szeletelt csirkemellet.",
     ],
   },
 };
@@ -234,6 +284,7 @@ runRewardStructureChecks();
 runHelperChecks();
 runSlotIntegrationSmoke("Reggeli", 180);
 runSlotIntegrationSmoke("Tízórai", 240);
+runSlotIntegrationSmoke("Ebéd", 320);
 
 console.log(`\n${"─".repeat(55)}`);
 console.log(`Összesítő: ${passed} átment, ${failed} sikertelen`);
