@@ -16,6 +16,7 @@ import {
     TOP25_MODE_LABELS,
     type Top25NextStepQuestion,
 } from "../features/diet/utils/top25QuizData";
+import { CATEGORY_LABELS } from "../features/diet/data/top25KnowledgeRewards";
 
 type AnswerState = "idle" | "correct" | "incorrect";
 
@@ -203,6 +204,20 @@ export default function Top25NextStepQuizScreen() {
                 ? "Helyes válasz ✅"
                 : "Nem ez a következő lépés 🔁"}
             </Text>
+          </View>
+        )}
+
+        {/* Knowledge Reward — only on correct answer */}
+        {isCorrect && question.knowledgeReward && (
+          <View style={styles.rewardBlock}>
+            <Text style={styles.rewardHeader}>Tudásjutalom 🧠</Text>
+            <View style={styles.rewardCategoryBadge}>
+              <Text style={styles.rewardCategoryText}>
+                {CATEGORY_LABELS[question.knowledgeReward.category]}
+              </Text>
+            </View>
+            <Text style={styles.rewardTitle}>{question.knowledgeReward.title}</Text>
+            <Text style={styles.rewardBody}>{question.knowledgeReward.body}</Text>
           </View>
         )}
 
@@ -458,5 +473,48 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "600",
     textAlign: "center",
+  },
+  rewardBlock: {
+    backgroundColor: "#0f2a1f",
+    borderRadius: 12,
+    padding: 16,
+    marginTop: 8,
+    marginBottom: 4,
+    borderWidth: 1,
+    borderColor: "#10b981",
+  },
+  rewardHeader: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#6ee7b7",
+    marginBottom: 8,
+  },
+  rewardCategoryBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "#064e3b",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#10b981",
+  },
+  rewardCategoryText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#a7f3d0",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  rewardTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#e5e7eb",
+    marginBottom: 6,
+  },
+  rewardBody: {
+    fontSize: 13,
+    color: "#cbd5e1",
+    lineHeight: 19,
   },
 });

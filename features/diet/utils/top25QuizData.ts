@@ -7,6 +7,12 @@ import {
     TOP_MEAL_INGREDIENT_PLANS,
     type MealIngredientAmount,
 } from "../data/topMealIngredients";
+import {
+    getKnowledgeReward,
+    type Top25KnowledgeReward,
+} from "../data/top25KnowledgeRewards";
+
+export type { Top25KnowledgeReward };
 
 export type Top25QuizMealSteps = {
   mealId: string;
@@ -98,6 +104,7 @@ export type Top25NextStepQuestion = {
   currentStep: string;
   correctNextStep: string;
   options: string[];
+  knowledgeReward?: Top25KnowledgeReward;
 };
 
 export type Top25NextStepParams = {
@@ -173,6 +180,7 @@ export function buildTop25NextStepQuestion(
     currentStep,
     correctNextStep,
     options: shuffledOptions,
+    knowledgeReward: getKnowledgeReward(meal.mealId, correctNextStep),
   };
 }
 
