@@ -190,7 +190,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
 
   "1-T-klasszikus:Mosd meg a paprikát és az uborkát.": {
     category: "kitchen_logic",
-    title: "Miért a mosással kezdj?",
+    title: "Miért mosd meg korán a zöldségeket?",
     body: "A tiszta zöldség adja a snack friss, ropogós alapját. Ha előbb megmosod, a vágás és a tálalás is rendezettebb lesz.",
   },
   "1-T-klasszikus:Vágd fel a paprikát és az uborkát falatnyi darabokra.": {
@@ -201,7 +201,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-T-klasszikus:Sózd, borsozd, majd keverd át a cottage cheese-t.": {
     category: "kitchen_logic",
     title: "Miért a cottage-ot ízesíted előbb?",
-    body: "Ha az alap már ízesített, minden falat egyenletesebb lesz. A zöldség és a kenyér csak ráerősít a kész ízre.",
+    body: "Ha az alap már ízesített, minden falat egyenletesebb lesz. A zöldség frissességet, a kenyér vagy abonett pedig ropogós kísérőt ad mellé.",
   },
   "1-T-klasszikus:Tedd a zöldségeket a cottage cheese mellé vagy keverd hozzá.": {
     category: "kitchen_logic",
@@ -235,7 +235,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "5-T-kremes-dio:Keverd össze óvatosan, hogy a dió egyenletesen eloszoljon.": {
     category: "common_mistake",
     title: "Miért csak óvatosan keverd?",
-    body: "Elég, ha a dió szépen eloszlik; ha túlpörgeted, elveszhet a ropogóssága. A cél krém + crunch egyszerre.",
+    body: "Elég, ha a dió szépen eloszlik; ha túl sokat kevered, könnyebben elveszti a ropogós érzetét. A cél: krémes alap és ropogós dió egyszerre.",
   },
   "5-T-kremes-dio:Tálald azonnal, vagy tedd rövid időre hűtőbe, ha hidegebben szeretnéd enni.": {
     category: "memory_trick",
@@ -269,7 +269,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "4-T-klasszikus:Add a banánt a kefires-zabos alaphoz.": {
     category: "fitness_logic",
     title: "Miért a banán a végső lendület?",
-    body: "A banán adja meg az édes, puhább réteget a kefir és a zab mellé. Ettől lesz teljesebb, kerekebb a tízórai.",
+    body: "A banán természetes édességet és puhább állagot ad a kefires-zabos alaphoz. A végén hozzáadva frissebb marad, és nem törik teljesen szét.",
   },
   "4-T-klasszikus:Szórd meg fahéjjal.": {
     category: "kitchen_logic",
@@ -303,7 +303,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "6-T-superfood:Szórd meg a tetejét chia maggal.": {
     category: "fitness_logic",
     title: "Miért jön a chia a végén?",
-    body: "A chia a tetején marad a legjobban látható és a legszebben egyenletes. Kevés is elég belőle, csak egy kis extra textúráért.",
+    body: "A chia a végén szórva nem ázik be teljesen, és egyenletes extra textúrát ad. Kevés is elég belőle, mert könnyen dominánssá válhat.",
   },
   "6-T-superfood:Tálald a mogyoróvajas-banános rizsszeleteket.": {
     category: "kitchen_logic",
