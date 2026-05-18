@@ -1,5 +1,5 @@
-import { router } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -9,6 +9,11 @@ import {
 } from "react-native";
 import {
     buildTop25IngredientQuestion,
+    sanitizeDifficulty,
+    sanitizeMode,
+    sanitizeSlotFilter,
+    TOP25_DIFFICULTY_LABELS,
+    TOP25_MODE_LABELS,
     type Top25IngredientQuizQuestion,
 } from "../features/diet/utils/top25QuizData";
 
@@ -20,9 +25,33 @@ type IngredientQuizState = {
   quizState: QuizState;
 };
 
+function firstParam(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0];
+  return value;
+}
+
 export default function Top25IngredientQuizScreen() {
+  const params = useLocalSearchParams<{
+    slotFilter?: string | string[];
+    difficulty?: string | string[];
+    mode?: string | string[];
+  }>();
+
+  const slotFilter = useMemo(
+    () => sanitizeSlotFilter(firstParam(params.slotFilter)),
+    [params.slotFilter]
+  );
+  const difficulty = useMemo(
+    () => sanitizeDifficulty(firstParam(params.difficulty)),
+    [params.difficulty]
+  );
+  const mode = useMemo(
+    () => sanitizeMode(firstParam(params.mode)),
+    [params.mode]
+  );
+
   const [quiz, setQuiz] = useState<IngredientQuizState | null>(() => {
-    const q = buildTop25IngredientQuestion();
+    const q = buildTop25IngredientQuestion({ slotFilter, difficulty });
     return q
       ? {
           question: q,
@@ -33,7 +62,7 @@ export default function Top25IngredientQuizScreen() {
   });
 
   const loadNewQuestion = useCallback(() => {
-    const q = buildTop25IngredientQuestion();
+    const q = buildTop25IngredientQuestion({ slotFilter, difficulty });
     setQuiz(
       q
         ? {
@@ -43,32 +72,40 @@ export default function Top25IngredientQuizScreen() {
           }
         : null
     );
-  }, []);
+  }, [slotFilter, difficulty]);
 
-  const toggleIngredient = useCallback((ingredient: string) => {
-    setQuiz((prev) => {
-      if (!prev || prev.quizState === "correct") {
-        return prev;
-      }
+  const toggleIngredient = useCallback(
+    (ingredient: string) => {
+      setQuiz((prev) => {
+        if (!prev) return prev;
+        if (prev.quizState === "correct") return prev;
+        // Exam mode: once any check has been made (incorrect), lock selections
+        if (mode === "exam" && prev.quizState === "incorrect") return prev;
 
-      const newSelected = new Set(prev.selectedIngredients);
-      if (newSelected.has(ingredient)) {
-        newSelected.delete(ingredient);
-      } else {
-        newSelected.add(ingredient);
-      }
+        const newSelected = new Set(prev.selectedIngredients);
+        if (newSelected.has(ingredient)) {
+          newSelected.delete(ingredient);
+        } else {
+          newSelected.add(ingredient);
+        }
 
-      return {
-        ...prev,
-        selectedIngredients: newSelected,
-        quizState: prev.quizState === "incorrect" ? "idle" : prev.quizState,
-      };
-    });
-  }, []);
+        return {
+          ...prev,
+          selectedIngredients: newSelected,
+          quizState: prev.quizState === "incorrect" ? "idle" : prev.quizState,
+        };
+      });
+    },
+    [mode]
+  );
 
   const handleCheck = useCallback(() => {
     setQuiz((prev) => {
       if (!prev || prev.quizState === "correct") {
+        return prev;
+      }
+      // Exam mode: also lock when already incorrect
+      if (mode === "exam" && prev.quizState === "incorrect") {
         return prev;
       }
 
@@ -84,14 +121,14 @@ export default function Top25IngredientQuizScreen() {
         quizState: isCorrect ? "correct" : "incorrect",
       };
     });
-  }, []);
+  }, [mode]);
 
   if (!quiz) {
     return (
       <View style={styles.container}>
         <View style={styles.emptyWrap}>
           <Text style={styles.emptyText}>
-            Nincs elérhető Top25 alapanyag-kvíz kérdés.
+            Nincs elérhető Top25 kérdés ezekkel a beállításokkal.
           </Text>
           <TouchableOpacity
             style={styles.backButton}
@@ -106,6 +143,7 @@ export default function Top25IngredientQuizScreen() {
 
   const { question, selectedIngredients, quizState } = quiz;
   const isCorrect = quizState === "correct";
+  const isLocked = isCorrect || (mode === "exam" && quizState === "incorrect");
 
   return (
     <View style={styles.container}>
@@ -116,6 +154,22 @@ export default function Top25IngredientQuizScreen() {
       >
         {/* Header */}
         <Text style={styles.screenTitle}>Top25 — Alapanyag felismerő</Text>
+
+        {/* Settings badge */}
+        <View style={styles.settingsBadge}>
+          <Text style={styles.settingsBadgeText}>
+            {slotFilter} · {TOP25_DIFFICULTY_LABELS[difficulty]} ·{" "}
+            {TOP25_MODE_LABELS[mode]}
+          </Text>
+        </View>
+
+        {mode === "exam" && (
+          <View style={styles.examBanner}>
+            <Text style={styles.examBannerText}>
+              Vizsga mód: az első ellenőrzés után a válasz rögzül.
+            </Text>
+          </View>
+        )}
 
         {/* Question card */}
         <View style={styles.questionCard}>
@@ -140,7 +194,7 @@ export default function Top25IngredientQuizScreen() {
               !isCorrectIngredient;
 
             let containerStyle = [styles.optionContainer];
-            if (isCorrect) {
+            if (isLocked) {
               containerStyle.push(styles.optionContainerLocked);
             }
 
@@ -159,8 +213,8 @@ export default function Top25IngredientQuizScreen() {
                 key={`${idx}-${option.slice(0, 20)}`}
                 style={containerStyle}
                 onPress={() => toggleIngredient(option)}
-                disabled={isCorrect}
-                activeOpacity={isCorrect ? 1 : 0.7}
+                disabled={isLocked}
+                activeOpacity={isLocked ? 1 : 0.7}
               >
                 <View style={checkboxStyle}>
                   {isSelected && (
@@ -191,7 +245,7 @@ export default function Top25IngredientQuizScreen() {
 
         {/* Action buttons */}
         <View style={styles.actionRow}>
-          {quizState !== "correct" && (
+          {!isLocked && (
             <TouchableOpacity
               style={styles.primaryBtn}
               onPress={handleCheck}
@@ -201,7 +255,7 @@ export default function Top25IngredientQuizScreen() {
             </TouchableOpacity>
           )}
 
-          {isCorrect && (
+          {isLocked && (
             <TouchableOpacity
               style={styles.primaryBtn}
               onPress={loadNewQuestion}
@@ -414,5 +468,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginBottom: 24,
+  },
+  settingsBadge: {
+    alignSelf: "center",
+    backgroundColor: "#0f172a",
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+  },
+  settingsBadgeText: {
+    color: "#94a3b8",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  examBanner: {
+    backgroundColor: "#451a03",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: "#f59e0b",
+  },
+  examBannerText: {
+    color: "#fde68a",
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
   },
 });

@@ -1,5 +1,5 @@
-import { router } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useCallback, useMemo, useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -8,8 +8,17 @@ import {
     View,
 } from "react-native";
 import {
+    getOrderStepCount,
     getTop25QuizMealsWithSteps,
+    sanitizeDifficulty,
+    sanitizeMode,
+    sanitizeSlotFilter,
     shuffleArray,
+    TOP25_DIFFICULTY_LABELS,
+    TOP25_MODE_LABELS,
+    Top25QuizDifficulty,
+    Top25QuizMode,
+    Top25QuizSlotFilter,
     type Top25QuizMealSteps,
 } from "../features/diet/utils/top25QuizData";
 
@@ -26,8 +35,11 @@ type QuizState = {
   isCorrect: boolean;
 };
 
-function buildQuestion(): QuizState | null {
-  const pool = getTop25QuizMealsWithSteps(4);
+function buildQuestion(
+  slotFilter: Top25QuizSlotFilter,
+  difficulty: Top25QuizDifficulty
+): QuizState | null {
+  const pool = getTop25QuizMealsWithSteps({ minSteps: 4, slotFilter });
   if (pool.length === 0) {
     return null;
   }
@@ -35,7 +47,7 @@ function buildQuestion(): QuizState | null {
   const meal = pool[Math.floor(Math.random() * pool.length)];
   const { steps } = meal;
 
-  const stepCount = Math.min(Math.floor(Math.random() * 4) + 4, steps.length);
+  const stepCount = getOrderStepCount(difficulty, steps.length);
   const maxStartIndex = Math.max(0, steps.length - stepCount);
   const startIndex = Math.floor(Math.random() * (maxStartIndex + 1));
   const selectedSteps = steps.slice(startIndex, startIndex + stepCount);
@@ -57,12 +69,38 @@ function buildQuestion(): QuizState | null {
   };
 }
 
+function firstParam(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) return value[0];
+  return value;
+}
+
 export default function Top25OrderQuizScreen() {
-  const [quiz, setQuiz] = useState<QuizState | null>(() => buildQuestion());
+  const params = useLocalSearchParams<{
+    slotFilter?: string | string[];
+    difficulty?: string | string[];
+    mode?: string | string[];
+  }>();
+
+  const slotFilter = useMemo(
+    () => sanitizeSlotFilter(firstParam(params.slotFilter)),
+    [params.slotFilter]
+  );
+  const difficulty = useMemo(
+    () => sanitizeDifficulty(firstParam(params.difficulty)),
+    [params.difficulty]
+  );
+  const mode: Top25QuizMode = useMemo(
+    () => sanitizeMode(firstParam(params.mode)),
+    [params.mode]
+  );
+
+  const [quiz, setQuiz] = useState<QuizState | null>(() =>
+    buildQuestion(slotFilter, difficulty)
+  );
 
   const loadNewQuestion = useCallback(() => {
-    setQuiz(buildQuestion());
-  }, []);
+    setQuiz(buildQuestion(slotFilter, difficulty));
+  }, [slotFilter, difficulty]);
 
   const moveStep = useCallback((fromIndex: number, toIndex: number) => {
     setQuiz((prev) => {
@@ -97,7 +135,7 @@ export default function Top25OrderQuizScreen() {
       <View style={styles.container}>
         <View style={styles.emptyWrap}>
           <Text style={styles.emptyText}>
-            Nincs elérhető Top25 lépéssorrend kérdés.
+            Nincs elérhető Top25 kérdés ezekkel a beállításokkal.
           </Text>
           <TouchableOpacity
             style={styles.backButton}
@@ -122,6 +160,22 @@ export default function Top25OrderQuizScreen() {
       >
         {/* Header */}
         <Text style={styles.screenTitle}>Top25 lépéssorrend</Text>
+
+        {/* Settings badge */}
+        <View style={styles.settingsBadge}>
+          <Text style={styles.settingsBadgeText}>
+            {slotFilter} · {TOP25_DIFFICULTY_LABELS[difficulty]} ·{" "}
+            {TOP25_MODE_LABELS[mode]}
+          </Text>
+        </View>
+
+        {mode === "exam" && (
+          <View style={styles.examBanner}>
+            <Text style={styles.examBannerText}>
+              Vizsga mód: a válasz az első ellenőrzés után rögzül.
+            </Text>
+          </View>
+        )}
 
         {/* Question card */}
         <View style={styles.questionCard}>
@@ -201,7 +255,7 @@ export default function Top25OrderQuizScreen() {
               <Text style={styles.primaryBtnText}>Következő kérdés</Text>
             </TouchableOpacity>
           )}
-          {quiz.checked && !quiz.isCorrect && (
+          {quiz.checked && !quiz.isCorrect && mode !== "exam" && (
             <TouchableOpacity
               style={styles.secondaryBtn}
               onPress={() =>
@@ -212,6 +266,15 @@ export default function Top25OrderQuizScreen() {
               activeOpacity={0.75}
             >
               <Text style={styles.secondaryBtnText}>Próbálom újra</Text>
+            </TouchableOpacity>
+          )}
+          {quiz.checked && !quiz.isCorrect && mode === "exam" && (
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={loadNewQuestion}
+              activeOpacity={0.75}
+            >
+              <Text style={styles.primaryBtnText}>Következő kérdés</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
@@ -397,5 +460,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginBottom: 24,
+  },
+  settingsBadge: {
+    alignSelf: "center",
+    backgroundColor: "#0f172a",
+    borderRadius: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+  },
+  settingsBadgeText: {
+    color: "#94a3b8",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  examBanner: {
+    backgroundColor: "#451a03",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: "#f59e0b",
+  },
+  examBannerText: {
+    color: "#fde68a",
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
   },
 });
