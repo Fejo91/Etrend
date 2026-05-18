@@ -1,5 +1,5 @@
 /**
- * Smoke test: Top25 Knowledge Rewards — Top5 reggeli / tízórai / ebéd
+ * Smoke test: Top25 Knowledge Rewards — Top5 reggeli / tízórai / ebéd / uzsonna
  * Futtatás: npx tsx scripts/smokeKnowledgeRewards.ts
  */
 
@@ -24,7 +24,7 @@ function assert(label: string, condition: boolean, detail?: string) {
   }
 }
 
-type SlotLabel = "Reggeli" | "Tízórai" | "Ebéd";
+type SlotLabel = "Reggeli" | "Tízórai" | "Ebéd" | "Uzsonna";
 
 const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
   Reggeli: {
@@ -104,6 +104,45 @@ const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
       "Készítsd elő külön a teljes kiőrlésű kenyeret.",
       "Rendezd el külön részekbe a pulykasonkát, a zöldségeket és a kenyeret.",
       "Tálald vagy zárd le a bento dobozt.",
+    ],
+  },
+  Uzsonna: {
+    "1-U-feherjes": [
+      "Add hozzá a fehérjeport.",
+      "Adj hozzá kevés folyadékot, majd keverd krémesre a túrós-fehérjés alapot.",
+      "Készítsd elő a gyümölcsöt falatnyi darabokra.",
+      "Mérd ki és aprítsd fel a magvakat.",
+      "Rétegezd a fehérjés túrót és a gyümölcsöt.",
+      "Szórd a tetejére a magvakat, majd tálald.",
+    ],
+    "2-U-dietas": [
+      "Mérd ki és add hozzá a whey-t.",
+      "Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.",
+      "Turmixold vagy rázd össze csomómentesre.",
+      "Állítsd be az állagát kevés vízzel, ha szükséges.",
+      "Öntsd pohárba, és fogyaszd frissen.",
+    ],
+    "2-U-zabos": [
+      "Mérd ki és add hozzá a zabpelyhet.",
+      "Szórd bele a fehérjeport.",
+      "Add hozzá a felaprított banánt.",
+      "Turmixold simára a keveréket.",
+      "Állítsd be az állagát kevés folyadékkal, ha szükséges.",
+      "Öntsd pohárba, és tálald frissen.",
+    ],
+    "3-U-alap": [
+      "Mérd ki a cottage cheese-t egy tálba.",
+      "Ízesítsd, majd keverd át a cottage cheese-t.",
+      "Készítsd elő az abonettet.",
+      "Kend rá egyenletesen a cottage cheese-t az abonett lapokra.",
+      "Tedd rá a zöldségszeleteket, majd tálald.",
+    ],
+    "5-U-fitnesz-alap": [
+      "Hűtsd le, pucold meg, majd vágd félbe vagy cikkekre.",
+      "Mosd meg a paprikát és az uborkát.",
+      "Vágd hasábokra a zöldségeket.",
+      "Rendezd tányérra a tojást és a zöldségeket.",
+      "Ízesítsd sóval és borssal, majd tálald.",
     ],
   },
   Ebéd: {
@@ -285,6 +324,7 @@ runHelperChecks();
 runSlotIntegrationSmoke("Reggeli", 180);
 runSlotIntegrationSmoke("Tízórai", 240);
 runSlotIntegrationSmoke("Ebéd", 320);
+runSlotIntegrationSmoke("Uzsonna", 320);
 
 console.log(`\n${"─".repeat(55)}`);
 console.log(`Összesítő: ${passed} átment, ${failed} sikertelen`);

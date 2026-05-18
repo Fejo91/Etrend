@@ -558,6 +558,153 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
     title: "Miért ez a klasszikus ebéd logikája?",
     body: "Egy tiszta, jól előkészíthető tányér: rizs, zöldség és csirke külön, mégis együtt működik. Pont erre jó a meal prep.",
   },
+
+  // ── Top5 Uzsonna ──────────────────────────────────────────────────
+
+  // 1-U-feherjes — Fehérjés verzió (túró + whey + gyümölcs + magvak)
+  "1-U-feherjes:Add hozzá a fehérjeport.": {
+    category: "kitchen_logic",
+    title: "Miért jön a por a túróra?",
+    body: "Ha a fehérjeport a túróra szórod, könnyebben bekeveredik, mint ha folyadékba szórnád. A sűrű alap segít, hogy ne csomósodjon.",
+  },
+  "1-U-feherjes:Adj hozzá kevés folyadékot, majd keverd krémesre a túrós-fehérjés alapot.": {
+    category: "common_mistake",
+    title: "Mennyi folyadék kell?",
+    body: "Mindig kevéssel kezdj – egy-két evőkanál elég indulásnak. Ha egyszerre túl sokat teszel, könnyen folyós lesz a krém, amit nehéz visszasűríteni.",
+  },
+  "1-U-feherjes:Készítsd elő a gyümölcsöt falatnyi darabokra.": {
+    category: "kitchen_logic",
+    title: "Miért falatnyi darabok?",
+    body: "Kisebb darabok egyenletesen oszlanak el a rétegek között. Így minden kanálba kerül gyümölcs, és szebb is az összkép.",
+  },
+  "1-U-feherjes:Mérd ki és aprítsd fel a magvakat.": {
+    category: "fitness_logic",
+    title: "Mit adnak a magvak?",
+    body: "A dió vagy mandula hozza a ropogós textúrát és jó zsírt. Durvára vágva jobban szétoszlanak a rétegek között, mint egészben.",
+  },
+  "1-U-feherjes:Rétegezd a fehérjés túrót és a gyümölcsöt.": {
+    category: "memory_trick",
+    title: "Miért érdemes rétegezni?",
+    body: "A rétegezés nem csak szép – minden kanálba kerül fehérjés alap és gyümölcs is. Az arány így marad egyensúlyban az egész uzsonnán át.",
+  },
+  "1-U-feherjes:Szórd a tetejére a magvakat, majd tálald.": {
+    category: "kitchen_logic",
+    title: "Miért kerül a mag a tetejére?",
+    body: "A magvak a tetején maradnak ropogósak. Ha beleforgatnád, hamar megpuhulnának a nedves túrótól.",
+  },
+
+  // 2-U-dietas — Diétásabb verzió (whey + bogyós gyümölcs shake)
+  "2-U-dietas:Mérd ki és add hozzá a whey-t.": {
+    category: "fitness_logic",
+    title: "Miért pont 30 g whey?",
+    body: "Ez az a mennyiség, ami egy könnyű uzsonnához elegendő fehérjét ad – kb. 24–25 g. Nem nyom agyon kalóriában, mégis teltebb leszel.",
+  },
+  "2-U-dietas:Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.": {
+    category: "kitchen_logic",
+    title: "Miért bogyós gyümölcs?",
+    body: "A bogyós gyümölcsök kevés cukrot tartalmaznak a többi gyümölcshöz képest, de jól ízesítik a shake-et és szép színt adnak.",
+  },
+  "2-U-dietas:Turmixold vagy rázd össze csomómentesre.": {
+    category: "common_mistake",
+    title: "Miért fontos a csomómentesség?",
+    body: "A fehérjepor könnyen csomósodik, ha nem kevered el rendesen. Fél perces turmixolás vagy erős rázás megakadályozza a száraz klumpokat az alján.",
+  },
+  "2-U-dietas:Állítsd be az állagát kevés vízzel, ha szükséges.": {
+    category: "kitchen_logic",
+    title: "Mikor kell állagot állítani?",
+    body: "Ha fagyasztott gyümölcsöt használtál, a shake sűrűbb lehet. Kevés vízzel pontosan beállíthatod, hogy iható, de krémes maradjon.",
+  },
+  "2-U-dietas:Öntsd pohárba, és fogyaszd frissen.": {
+    category: "fitness_logic",
+    title: "Miért frissen a legjobb?",
+    body: "Frissen a legkrémesebb az állag és a legjobb az íz. Állás közben a fehérje és a gyümölcshús leülepszik – ha mégis előre csinálod, rázd fel ivás előtt.",
+  },
+
+  // 2-U-zabos — Zabpelyhes verzió (whey + zab + banán)
+  "2-U-zabos:Mérd ki és add hozzá a zabpelyhet.": {
+    category: "fitness_logic",
+    title: "Mit ad a zab a shake-hez?",
+    body: "A zab lassítja a szénhidrát felszívódást és besűríti a shake-et. Edzésnapon több zabot, pihenőnapon kevesebbet érdemes beletenni.",
+  },
+  "2-U-zabos:Szórd bele a fehérjeport.": {
+    category: "kitchen_logic",
+    title: "Miért jön a fehérje a zab után?",
+    body: "Ha a fehérjeport a már folyadékos-zabos alapra szórod, kevésbé tapad csomóba. A zab picit feloldja, mielőtt a turmix elkezdi az egészet.",
+  },
+  "2-U-zabos:Add hozzá a felaprított banánt.": {
+    category: "kitchen_logic",
+    title: "Mit ad a banán az állaghoz?",
+    body: "A banán természetes édesítést ad és krémesebb állagot hoz létre turmixoláskor. Minél érettebb a banán, annál édesebb és simább lesz a shake.",
+  },
+  "2-U-zabos:Turmixold simára a keveréket.": {
+    category: "common_mistake",
+    title: "Miért kell alaposan turmixolni?",
+    body: "A zab darabos marad, ha csak gyorsan turmixolod. 20–30 másodperc közepes-magas fokozaton elég, hogy valóban sima, krémes legyen.",
+  },
+  "2-U-zabos:Állítsd be az állagát kevés folyadékkal, ha szükséges.": {
+    category: "common_mistake",
+    title: "Miért lehet sűrű?",
+    body: "A zab szívja a folyadékot, ezért ez a shake eleve sűrűbb lesz. Ha nehezen iható, adj hozzá 20–30 ml vizet és turmixold át újra.",
+  },
+  "2-U-zabos:Öntsd pohárba, és tálald frissen.": {
+    category: "memory_trick",
+    title: "Gyorsan sűrűsödik!",
+    body: "A zabos shake állás közben tovább vastagodik. Ha előre készíted, számítj rá, hogy mire megiszod, sűrűbb lesz – ez normális.",
+  },
+
+  // 3-U-alap — Alap verzió (Abonett + cottage + uborka/retek)
+  "3-U-alap:Mérd ki a cottage cheese-t egy tálba.": {
+    category: "fitness_logic",
+    title: "Miért cottage cheese?",
+    body: "A cottage cheese sovány, magas fehérjetartalmú és könnyen kenhető. Főzés nélküli, gyors fehérjeforrás – az egyik legjobb uzsonna-alap.",
+  },
+  "3-U-alap:Ízesítsd, majd keverd át a cottage cheese-t.": {
+    category: "kitchen_logic",
+    title: "Miért érdemes átkeverni?",
+    body: "Az átkeverés krémesebbé teszi a cottage cheese-t, így könnyebben kenhető az abonett lapokra. Pici só és bors sokat dob az ízén.",
+  },
+  "3-U-alap:Készítsd elő az abonettet.": {
+    category: "common_mistake",
+    title: "Mikor kend rá a cottage cheese-t?",
+    body: "Az abonett gyorsan elázik, ha a cottage cheese sokáig rajta van. Közvetlenül evés előtt kend rá, vagy vidd külön – akkor marad ropogós.",
+  },
+  "3-U-alap:Kend rá egyenletesen a cottage cheese-t az abonett lapokra.": {
+    category: "kitchen_logic",
+    title: "Miért egyenletesen?",
+    body: "Egyenletes rétegnél minden falatba kerül cottage cheese. Ha csak középre kened, a széle száraz lesz, és elvész az uzsonna lényege.",
+  },
+  "3-U-alap:Tedd rá a zöldségszeleteket, majd tálald.": {
+    category: "fitness_logic",
+    title: "Mit hoznak a zöldségek?",
+    body: "Az uborka és retek rostot, ropogósságot és vizet ad – minimális kalóriával. Ez teszi könnyűvé, mégis kielégítővé az uzsonnát.",
+  },
+
+  // 5-U-fitnesz-alap — Fitnesz alap (főtt tojás + paprika + uborka)
+  "5-U-fitnesz-alap:Hűtsd le, pucold meg, majd vágd félbe vagy cikkekre.": {
+    category: "kitchen_logic",
+    title: "Miért hűtsd le a tojást?",
+    body: "Hidegen könnyebb megpucolni, és a cikkekre vágott tojás sem esik szét. Ha forró, a fehérje ragad a héjhoz.",
+  },
+  "5-U-fitnesz-alap:Mosd meg a paprikát és az uborkát.": {
+    category: "common_mistake",
+    title: "Miért ne hagyd ki a mosást?",
+    body: "A paprika és uborka héja közvetlenül kerül a szádba – mosással elkerülöd a maradék szennyeződést. Gyors lépés, de nem elhagyható.",
+  },
+  "5-U-fitnesz-alap:Vágd hasábokra a zöldségeket.": {
+    category: "kitchen_logic",
+    title: "Miért hasáb alak?",
+    body: "A hasáb kézzel könnyen fogható és mártogatható. Ez teszi igazi fitnesz finger food-dá – nem kell se tányér, se evőeszköz.",
+  },
+  "5-U-fitnesz-alap:Rendezd tányérra a tojást és a zöldségeket.": {
+    category: "memory_trick",
+    title: "Egyszerű snack, komoly fehérje",
+    body: "2 tojás + paprika + uborka: kb. 13–14 g fehérje minimális kalóriával. Gyors összerakás, és dobozba is könnyen elfér.",
+  },
+  "5-U-fitnesz-alap:Ízesítsd sóval és borssal, majd tálald.": {
+    category: "fitness_logic",
+    title: "Elég a só és bors?",
+    body: "A főtt tojás saját ízét só és bors is kellőképpen kiemeli – nincs szükség szószra vagy öntetbe. Így marad a legtisztább fehérjeforrás.",
+  },
 };
 
 export function getKnowledgeReward(
