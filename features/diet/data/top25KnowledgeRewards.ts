@@ -38,8 +38,8 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   },
   "5-R-gyors-alap:Add hozzá a bogyós gyümölcsöket.": {
     category: "kitchen_logic",
-    title: "Miért a gyümölcs megy a tetejére?",
-    body: "A bogyós gyümölcs feltétként frissebb marad, és jobban érezni az ízét. Ha teljesen szétkevered, könnyebben elveszik az állaga.",
+    title: "Miért a gyümölcs jön a joghurtos-zabos alap után?",
+    body: "A bogyós gyümölcsöt érdemes a joghurtos-zabos alap után hozzáadni, hogy ne törjön teljesen szét. Az óvatos keverés segít, hogy az íze eloszoljon, de maradjon friss gyümölcsös állaga is.",
   },
   "5-R-gyors-alap:Keverd össze óvatosan a joghurtot, zabot és gyümölcsöt.": {
     category: "kitchen_logic",
@@ -94,7 +94,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-R-overnight:Állítsd be az állagát kevés tejjel vagy vízzel, ha szükséges.": {
     category: "kitchen_logic",
     title: "Miért az állag beállítása az utolsó lépés?",
-    body: "Minden összetevő hozzáadása után tudod megítélni a végleges állagot. Egy kortytal az utolsó lépésben pontosan olyannávarázsolhatod, amilyet szeretsz.",
+    body: "Minden összetevő hozzáadása után tudod megítélni a végleges állagot. Egy kortytal az utolsó lépésben pontosan olyanná varázsolhatod, amilyet szeretsz.",
   },
 
   // ─── 1-R-mikros ───────────────────────────────────────────────────────────
@@ -119,12 +119,12 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-R-mikros:Add hozzá a fehérjeport, majd keverd csomómentesre.": {
     category: "fitness_logic",
     title: "Miért nem mehet forróba a fehérjepor?",
-    body: "A fehérjepor magas hőn denaturálódik, megváltozik az állaga és csomóssá válhat. Kicsit hűlt zabba keverve tökéletesen simán oldódik el.",
+    body: "A túl forró zabban a fehérjepor könnyebben csomósodik és kellemetlenebb állagú lehet. Kicsit hűlt alapba keverve simább, krémesebb végeredményt kapsz.",
   },
   "1-R-mikros:Állítsd be az állagát kevés vízzel vagy tejjel, ha szükséges.": {
     category: "kitchen_logic",
     title: "Miért az állag beállítása az utolsó lépés?",
-    body: "Minden összetevő hozzáadása után tudod megítélni a végleges állagot. Egy kortytal az utolsó lépésben pontosan olyannávarázsolhatod, amilyet szeretsz.",
+    body: "Minden összetevő hozzáadása után tudod megítélni a végleges állagot. Egy kortytal az utolsó lépésben pontosan olyanná varázsolhatod, amilyet szeretsz.",
   },
 
   // ─── 3-R-klasszikus ───────────────────────────────────────────────────────
@@ -148,7 +148,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "3-R-klasszikus:Állítsd össze a cottage cheese-t és a felvágott zöldségeket egy tányéron vagy tálban.": {
     category: "kitchen_logic",
     title: "Miért előbb a cottage-ot ízesíted, aztán rakod össze?",
-    body: "Ha előbb összekevered a zöldségekkel, és utána sózod, az ízesítő egy részét a zöldségek szívják fel. Így a cottage alap ízesített lesz, a zöldség pedig friss, enyhén sótlan — jobban érvényesül a kontraszt.",
+    body: "A cottage cheese-t érdemes külön ízesíteni, mert így egyenletesebb lesz az alap. A zöldségek utána frissebbek maradnak, és jobb lesz a kontraszt.",
   },
   "3-R-klasszikus:Tedd mellé a puffasztott rizst vagy abonettet.": {
     category: "fitness_logic",
@@ -182,7 +182,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "6-R-alap:Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet, majd tálald.": {
     category: "fitness_logic",
     title: "Miért teljes kiőrlésű a pirítós?",
-    body: "A TK kenyér lassabban emeli a vércukrot, mint a fehér kenyér. A fehérjedús túrókrém + lassú szénhidrát kombinációja tartós teltséget és egyenletes energiát ad délelőttre.",
+    body: "A teljes kiőrlésű kenyér általában laktatóbb, és kedvezőbb választás lehet, mint a sima fehér kenyér. A fehérjedús túrókrémmel együtt stabilabb, tartósabb reggelit ad.",
   },
 };
 
