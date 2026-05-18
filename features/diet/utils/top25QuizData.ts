@@ -28,6 +28,17 @@ export type Top25QuizMealsParams = {
   slotFilter?: Top25QuizSlotFilter;
 };
 
+function normalizeSlotValue(value: string | undefined): string {
+  if (!value) {
+    return "";
+  }
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 export function getTop25QuizMealsWithSteps(
   arg?: number | Top25QuizMealsParams
 ): Top25QuizMealSteps[] {
@@ -42,7 +53,10 @@ export function getTop25QuizMealsWithSteps(
       continue;
     }
 
-    if (slotFilter !== "Mind" && meal.slot !== slotFilter) {
+    if (
+      slotFilter !== "Mind" &&
+      normalizeSlotValue(meal.slot) !== normalizeSlotValue(slotFilter)
+    ) {
       continue;
     }
 
@@ -242,7 +256,9 @@ export function buildTop25IngredientQuestion(
     slotFilter === "Mind"
       ? top25Plans
       : top25Plans.filter(
-          (p) => mealSlotById.get(p.mealVariantId) === slotFilter
+          (p) =>
+            normalizeSlotValue(mealSlotById.get(p.mealVariantId)) ===
+            normalizeSlotValue(slotFilter)
         );
 
   if (filteredPlans.length === 0) {
@@ -289,9 +305,9 @@ export function buildTop25IngredientQuestion(
       0,
       numCorrect
     );
-    const correctNormalized = new Set(
-      selectedCorrectIngredients.map(normalizeIngredientName)
-    );
+    // Wrong options must exclude any real ingredient of the selected meal,
+    // not only the subset picked as correct answers.
+    const selectedMealAllIngredientNormalized = new Set(seenNormalized);
 
     const selectedSlot = mealSlotById.get(selectedPlan.mealVariantId);
 
@@ -313,7 +329,7 @@ export function buildTop25IngredientQuestion(
             continue;
           }
           const normalized = normalizeIngredientName(ingredient.name);
-          if (!correctNormalized.has(normalized)) {
+          if (!selectedMealAllIngredientNormalized.has(normalized)) {
             wrongSet.add(ingredient.name);
           }
         }
@@ -326,7 +342,9 @@ export function buildTop25IngredientQuestion(
 
     if ((difficulty === "hard" || difficulty === "master") && selectedSlot) {
       const sameSlotPlans = top25Plans.filter(
-        (p) => mealSlotById.get(p.mealVariantId) === selectedSlot
+        (p) =>
+          normalizeSlotValue(mealSlotById.get(p.mealVariantId)) ===
+          normalizeSlotValue(selectedSlot)
       );
       wrongIngredientsList = buildWrongPool(sameSlotPlans);
       if (wrongIngredientsList.length < numWrongNeeded) {
@@ -334,7 +352,9 @@ export function buildTop25IngredientQuestion(
       }
     } else if (difficulty === "easy" && selectedSlot) {
       const otherSlotPlans = top25Plans.filter(
-        (p) => mealSlotById.get(p.mealVariantId) !== selectedSlot
+        (p) =>
+          normalizeSlotValue(mealSlotById.get(p.mealVariantId)) !==
+          normalizeSlotValue(selectedSlot)
       );
       wrongIngredientsList = buildWrongPool(otherSlotPlans);
       if (wrongIngredientsList.length < numWrongNeeded) {
