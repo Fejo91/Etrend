@@ -377,7 +377,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-E-alap:Süsd meg a csirkemellet grillserpenyőben vagy kontaktgrillen.": {
     category: "fitness_logic",
     title: "Miért pont grillen süsd?",
-    body: "A grill gyorsan lezárja a felületet, így szaftosabb marad a hús. Egyszerű, tiszta fehérjealap egy meal prep ebédhez.",
+    body: "A grillserpenyő vagy kontaktgrill gyorsan szép pirult felületet ad a húsnak. Ha nem sütöd túl, a csirkemell egyszerű, tiszta fehérjealap marad meal prephez.",
   },
   "1-E-alap:Pihentesd a csirkét röviden, majd szeleteld fel.": {
     category: "memory_trick",
@@ -427,7 +427,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "2-E-suto:Süsd készre az egészet, amíg a pulykamell teljesen átsül.": {
     category: "fitness_logic",
     title: "Miért fontos a teljes átsülés?",
-    body: "A teljesen átsült pulyka biztonságosabb és jobb állagú lesz. A zöldség és az édesburgonya közben pont annyira sül, amennyire kell.",
+    body: "A pulykának teljesen át kell sülnie, de nem érdemes túlsütni, mert könnyen kiszárad. Akkor jó, ha biztonságosan átsült, de még nem lett száraz.",
   },
   "2-E-suto:Tálald együtt a sült pulykamellet, édesburgonyát és zöldbabot.": {
     category: "memory_trick",
@@ -473,7 +473,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "3-E-suto-egyben:Süsd készre az egészet, amíg a lazac átsül és az édesburgonya megpuhul.": {
     category: "common_mistake",
     title: "Miért ne siesd el a sütést?",
-    body: "A lazac és az édesburgonya egyszerre akkor jó, ha a hal még szaftos, a köret pedig puha. A túl rövid sütés itt az egyik leggyakoribb hiba.",
+    body: "Itt az időzítés a lényeg: a lazac ne maradjon nyers, de ne is száradjon ki, az édesburgonya pedig puhuljon meg. Ezért érdemes a sütés végén állagot ellenőrizni.",
   },
   "3-E-suto-egyben:Tálald a sült lazacot az édesburgonyás-zöldséges körettel.": {
     category: "memory_trick",
@@ -497,7 +497,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "5-E-alap:Csepegtesd le a tonhalat, majd lazítsd fel villával.": {
     category: "kitchen_logic",
     title: "Miért kell a tonhalat először lecsöpögtetni?",
-    body: "A felesleges lé nélkül a saláta nem lesz vizes. A fel lazított tonhal jobban eloszlik a zöldségek között.",
+    body: "A felesleges lé nélkül a saláta nem lesz vizes. A fellazított tonhal jobban eloszlik a zöldségek között.",
   },
   "5-E-alap:Keverd ki az öntetet olívaolajjal, citromlével, sóval és borssal.": {
     category: "fitness_logic",
@@ -551,7 +551,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "6-E-klasszikus:Pihentesd röviden a csirkét, majd szeleteld fel.": {
     category: "memory_trick",
     title: "Miért ne szeleteld azonnal?",
-    body: "A rövid pihentetés után a szaft a húsban marad. Szeleteléskor így nem folyik ki minden finomság a tányérra.",
+    body: "A rövid pihentetés segít, hogy szeleteléskor kevesebb lé folyjon ki a húsból. Így szebb szeleteket kapsz, és kevésbé szárad ki a tányéron.",
   },
   "6-E-klasszikus:Tálald együtt a basmati rizst, a párolt borsó-répát és a szeletelt csirkemellet.": {
     category: "fitness_logic",
