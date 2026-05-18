@@ -184,6 +184,166 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
     title: "Miért teljes kiőrlésű a pirítós?",
     body: "A teljes kiőrlésű kenyér általában laktatóbb, és kedvezőbb választás lehet, mint a sima fehér kenyér. A fehérjedús túrókrémmel együtt stabilabb, tartósabb reggelit ad.",
   },
+
+  // ─── 1-T-klasszikus ───────────────────────────────────────────────────────
+  // quizSteps: cottage → mosás → vágás → fűszerezés → összerakás → kenyér/abonett
+
+  "1-T-klasszikus:Mosd meg a paprikát és az uborkát.": {
+    category: "kitchen_logic",
+    title: "Miért a mosással kezdj?",
+    body: "A tiszta zöldség adja a snack friss, ropogós alapját. Ha előbb megmosod, a vágás és a tálalás is rendezettebb lesz.",
+  },
+  "1-T-klasszikus:Vágd fel a paprikát és az uborkát falatnyi darabokra.": {
+    category: "common_mistake",
+    title: "Miért falatnyi darabokra vágd?",
+    body: "A kisebb darabok könnyebben mártogathatók és kényelmesebben ehetők. Így a cottage mellé is jobban illenek.",
+  },
+  "1-T-klasszikus:Sózd, borsozd, majd keverd át a cottage cheese-t.": {
+    category: "kitchen_logic",
+    title: "Miért a cottage-ot ízesíted előbb?",
+    body: "Ha az alap már ízesített, minden falat egyenletesebb lesz. A zöldség és a kenyér csak ráerősít a kész ízre.",
+  },
+  "1-T-klasszikus:Tedd a zöldségeket a cottage cheese mellé vagy keverd hozzá.": {
+    category: "kitchen_logic",
+    title: "Miért a zöldség a következő lépés?",
+    body: "A zöldség akkor marad a legfrissebb, ha csak ezután kerül az alaphoz. Így megmarad a roppanósság és a kontraszt.",
+  },
+  "1-T-klasszikus:Készítsd elő mellé a teljes kiőrlésű kenyeret vagy abonettet, majd tálald.": {
+    category: "fitness_logic",
+    title: "Miért a kenyér jön a végén?",
+    body: "A kenyér a ropogós kísérő, ezért érdemes a legvégén mellé tenni. Így kevésbé ázik el, és sokkal kényelmesebb lesz enni.",
+  },
+
+  // ─── 5-T-kremes-dio ───────────────────────────────────────────────────────
+  // quizSteps: joghurt → krémesítés → dió → tetejére → óvatos keverés → tálalás
+
+  "5-T-kremes-dio:Keverd át a joghurtot, hogy krémesebb állagú legyen.": {
+    category: "kitchen_logic",
+    title: "Miért krémesítsd a joghurtot?",
+    body: "A simább alap jobban összefogja a diót, és kanalazhatóbb lesz az egész. Ettől desszertesebb, de még mindig könnyű tízórai marad.",
+  },
+  "5-T-kremes-dio:Vágd durvább darabokra a diót.": {
+    category: "common_mistake",
+    title: "Miért ne őröld porrá a diót?",
+    body: "A nagyobb darabok adják a ropogósságot és a teltségérzetet. Ha teljesen finomra töröd, eltűnik a textúra.",
+  },
+  "5-T-kremes-dio:Szórd a diót a joghurt tetejére.": {
+    category: "kitchen_logic",
+    title: "Miért a tetejére kerüljön a dió?",
+    body: "Felül marad a ropogós réteg, és minden kanálba jut egy kis textúra. Így nem áztatja el az egész tálat.",
+  },
+  "5-T-kremes-dio:Keverd össze óvatosan, hogy a dió egyenletesen eloszoljon.": {
+    category: "common_mistake",
+    title: "Miért csak óvatosan keverd?",
+    body: "Elég, ha a dió szépen eloszlik; ha túlpörgeted, elveszhet a ropogóssága. A cél krém + crunch egyszerre.",
+  },
+  "5-T-kremes-dio:Tálald azonnal, vagy tedd rövid időre hűtőbe, ha hidegebben szeretnéd enni.": {
+    category: "memory_trick",
+    title: "Miért jó rögtön tálalni?",
+    body: "Frissen a legkrémesebb, a dió pedig a legropogósabb. Rövid hűtés csak akkor kell, ha hidegebben szereted.",
+  },
+
+  // ─── 4-T-klasszikus ───────────────────────────────────────────────────────
+  // quizSteps: kefir → zab → áll → banán → hozzáad → fahéj → tálal
+
+  "4-T-klasszikus:Szórd bele a kimért zabpelyhet.": {
+    category: "kitchen_logic",
+    title: "Miért a zab jön a kefir után?",
+    body: "A zab a kefires alapot sűríti, és ettől lesz laktatóbb a tízórai. Ha először kerül bele, könnyebben elkeveredik.",
+  },
+  "4-T-klasszikus:Keverd össze, hogy minden zabpelyhet érjen a kefir.": {
+    category: "common_mistake",
+    title: "Miért fontos a jó elkeverés?",
+    body: "Az egyenletes keverés segít, hogy ne maradjanak száraz zabpelyhek. Így minden falatból ugyanaz a krémes, kefires íz jön.",
+  },
+  "4-T-klasszikus:Hagyd röviden állni, hogy a zab kissé megszívja magát.": {
+    category: "kitchen_logic",
+    title: "Miért jó pár perc pihenő?",
+    body: "A zab ilyenkor megszívja magát, és a textúra kellemesebbé válik. Ha sietsz, azonnal is eheted, csak ropogósabb marad.",
+  },
+  "4-T-klasszikus:Hámozd meg és vágd fel a banánt.": {
+    category: "memory_trick",
+    title: "Miért a banán csak ezután jön?",
+    body: "Így a banán friss marad, és nem puhul túl a keverés alatt. A tetején vagy a végén hozzáadva jobban megmarad az állaga.",
+  },
+  "4-T-klasszikus:Add a banánt a kefires-zabos alaphoz.": {
+    category: "fitness_logic",
+    title: "Miért a banán a végső lendület?",
+    body: "A banán adja meg az édes, puhább réteget a kefir és a zab mellé. Ettől lesz teljesebb, kerekebb a tízórai.",
+  },
+  "4-T-klasszikus:Szórd meg fahéjjal.": {
+    category: "kitchen_logic",
+    title: "Miért a fahéj a lezárás?",
+    body: "A fahéj a végén ül meg a legszebben a tetején, és gyorsan összefogja az ízeket. Egy kis plusz illat, nagyobb desszertérzet.",
+  },
+  "4-T-klasszikus:Tálald a kefires-zabos banános tízórait.": {
+    category: "memory_trick",
+    title: "Miért elég egyszerűen tálalni?",
+    body: "Ez a tízórai pont attól jó, hogy gyors és tiszta. Nem kell túlbonyolítani: kanalazd vagy vidd magaddal, kész.",
+  },
+
+  // ─── 6-T-superfood ───────────────────────────────────────────────────────
+  // quizSteps: rizsszelet → mogyoróvaj → banán → chia → tálalás
+
+  "6-T-superfood:Mérd ki a mogyoróvajat, és kend el egyenletesen a rizsszeleteken.": {
+    category: "kitchen_logic",
+    title: "Miért a mogyoróvaj az alap?",
+    body: "A mogyoróvaj adja a tapadást és a teltséget, erre ülhet rá szépen a banán. Így nem csúszik szét a topping.",
+  },
+  "6-T-superfood:Hámozd meg és karikázd fel a banánt.": {
+    category: "kitchen_logic",
+    title: "Miért most szeleteld a banánt?",
+    body: "A karikák egyenletesen oszlanak el, és minden falatba jut belőlük. Így frissebb is marad az állaga.",
+  },
+  "6-T-superfood:Rendezd el a banánkarikákat a mogyoróvajas rizsszeleteken.": {
+    category: "common_mistake",
+    title: "Miért így rakd rá a banánt?",
+    body: "Az elosztott karikák stabilabban ülnek a rizsszeleten, és nem billentik fel. Ettől könnyebb kézbe venni és enni.",
+  },
+  "6-T-superfood:Szórd meg a tetejét chia maggal.": {
+    category: "fitness_logic",
+    title: "Miért jön a chia a végén?",
+    body: "A chia a tetején marad a legjobban látható és a legszebben egyenletes. Kevés is elég belőle, csak egy kis extra textúráért.",
+  },
+  "6-T-superfood:Tálald a mogyoróvajas-banános rizsszeleteket.": {
+    category: "kitchen_logic",
+    title: "Miért rögtön tálald?",
+    body: "A rizsszelet akkor a legjobb, amikor még ropogós. Minél tovább áll, annál könnyebben puhul és törik.",
+  },
+
+  // ─── 3-T-bento ────────────────────────────────────────────────────────────
+  // quizSteps: doboz → sonka darabol → mosás → vágás → kenyér → rekeszek → tálalás
+
+  "3-T-bento:Rakd egymásra a pulykasonka-szeleteket, és vágd fel őket falatnyi darabokra.": {
+    category: "kitchen_logic",
+    title: "Miért a sonka darabolása az első?",
+    body: "A falatnyi sonka könnyebben rendezhető rekeszekbe, és gyorsabban lesz belőle snack-kész komponens. Így nem kell evés közben csipkedni a nagy szeleteket.",
+  },
+  "3-T-bento:Mosd meg a répát, az uborkát és a paprikát.": {
+    category: "kitchen_logic",
+    title: "Miért a mosással indul a bento?",
+    body: "A bento lényege a tiszta, külön komponensekre bontott snack. A megmosott zöldség így marad friss és ropogós.",
+  },
+  "3-T-bento:Vágd fel a répát, az uborkát és a paprikát hasábokra.": {
+    category: "common_mistake",
+    title: "Miért hasábokra vágd?",
+    body: "A hasábok könnyen kézbe vehetők, és jól illenek a bento logikához. Így nem lesz szétesős a doboz.",
+  },
+  "3-T-bento:Készítsd elő külön a teljes kiőrlésű kenyeret.": {
+    category: "kitchen_logic",
+    title: "Miért legyen külön a kenyér?",
+    body: "A kenyér külön tárolva nem ázik el a zöldségek levétől. Ettől marad élvezetesebb és hordozhatóbb.",
+  },
+  "3-T-bento:Rendezd el külön részekbe a pulykasonkát, a zöldségeket és a kenyeret.": {
+    category: "memory_trick",
+    title: "Miért jó a külön rekeszes tálalás?",
+    body: "A külön komponensek megőrzik a saját állagukat: a sonka puha marad, a zöldség ropogós, a kenyér pedig tiszta és száraz.",
+  },
+  "3-T-bento:Tálald vagy zárd le a bento dobozt.": {
+    category: "kitchen_logic",
+    title: "Miért jó azonnal lezárni?",
+    body: "Ha nem eszed meg rögtön, a dobozban minden komponens megmarad külön és rendezett marad. Pont ez a bento egyik előnye.",
+  },
 };
 
 export function getKnowledgeReward(
