@@ -596,18 +596,18 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   // 2-U-dietas — Diétásabb verzió (whey + bogyós gyümölcs shake)
   "2-U-dietas:Mérd ki és add hozzá a whey-t.": {
     category: "fitness_logic",
-    title: "Miért pont 30 g whey?",
-    body: "Ez az a mennyiség, ami egy könnyű uzsonnához elegendő fehérjét ad – kb. 24–25 g. Nem nyom agyon kalóriában, mégis teltebb leszel.",
+    title: "Miért jó alap a whey?",
+    body: "A whey gyors, egyszerű fehérjealapot ad a shake-nek. Ettől az uzsonna könnyű marad, de nem lesz üres vagy hamar elillanó.",
   },
   "2-U-dietas:Mérd ki a bogyós gyümölcsöt, majd add a keverékhez.": {
     category: "kitchen_logic",
     title: "Miért bogyós gyümölcs?",
-    body: "A bogyós gyümölcsök kevés cukrot tartalmaznak a többi gyümölcshöz képest, de jól ízesítik a shake-et és szép színt adnak.",
+    body: "A bogyós gyümölcs friss, savanyúkas-édes ízet és szép színt ad a shake-nek. Jól működik könnyebb, gyümölcsös fehérjeturmixban.",
   },
   "2-U-dietas:Turmixold vagy rázd össze csomómentesre.": {
     category: "common_mistake",
     title: "Miért fontos a csomómentesség?",
-    body: "A fehérjepor könnyen csomósodik, ha nem kevered el rendesen. Fél perces turmixolás vagy erős rázás megakadályozza a száraz klumpokat az alján.",
+    body: "A fehérjepor könnyen csomósodik, ha nem kevered el rendesen. Fél perc turmixolás vagy erős rázás segít, hogy ne maradjanak száraz csomók az alján.",
   },
   "2-U-dietas:Állítsd be az állagát kevés vízzel, ha szükséges.": {
     category: "kitchen_logic",
@@ -624,12 +624,12 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "2-U-zabos:Mérd ki és add hozzá a zabpelyhet.": {
     category: "fitness_logic",
     title: "Mit ad a zab a shake-hez?",
-    body: "A zab lassítja a szénhidrát felszívódást és besűríti a shake-et. Edzésnapon több zabot, pihenőnapon kevesebbet érdemes beletenni.",
+    body: "A zab sűrűbbé és laktatóbbá teszi a shake-et. Jó választás, ha az uzsonnától nemcsak fehérjét, hanem tartósabb energiát is vársz.",
   },
   "2-U-zabos:Szórd bele a fehérjeport.": {
     category: "kitchen_logic",
     title: "Miért jön a fehérje a zab után?",
-    body: "Ha a fehérjeport a már folyadékos-zabos alapra szórod, kevésbé tapad csomóba. A zab picit feloldja, mielőtt a turmix elkezdi az egészet.",
+    body: "Ha a fehérjeport a folyadékos-zabos alaphoz adod, könnyebben eloszlik turmixoláskor. Így kevésbé maradnak száraz porcsomók.",
   },
   "2-U-zabos:Add hozzá a felaprított banánt.": {
     category: "kitchen_logic",
@@ -639,7 +639,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "2-U-zabos:Turmixold simára a keveréket.": {
     category: "common_mistake",
     title: "Miért kell alaposan turmixolni?",
-    body: "A zab darabos marad, ha csak gyorsan turmixolod. 20–30 másodperc közepes-magas fokozaton elég, hogy valóban sima, krémes legyen.",
+    body: "A zab darabos maradhat, ha csak röviden kevered. Turmixold addig, amíg egységes, krémes állagot kapsz.",
   },
   "2-U-zabos:Állítsd be az állagát kevés folyadékkal, ha szükséges.": {
     category: "common_mistake",
@@ -656,7 +656,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "3-U-alap:Mérd ki a cottage cheese-t egy tálba.": {
     category: "fitness_logic",
     title: "Miért cottage cheese?",
-    body: "A cottage cheese sovány, magas fehérjetartalmú és könnyen kenhető. Főzés nélküli, gyors fehérjeforrás – az egyik legjobb uzsonna-alap.",
+    body: "A cottage cheese fehérjedús, könnyen kenhető és főzés nélkül használható. Ezért jó gyors, sós uzsonna-alap.",
   },
   "3-U-alap:Ízesítsd, majd keverd át a cottage cheese-t.": {
     category: "kitchen_logic",
@@ -698,12 +698,12 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "5-U-fitnesz-alap:Rendezd tányérra a tojást és a zöldségeket.": {
     category: "memory_trick",
     title: "Egyszerű snack, komoly fehérje",
-    body: "2 tojás + paprika + uborka: kb. 13–14 g fehérje minimális kalóriával. Gyors összerakás, és dobozba is könnyen elfér.",
+    body: "A főtt tojás egyszerű fehérjealap, a paprika és uborka pedig friss, roppanós kísérő. Kevés előkészítéssel jól dobozolható uzsonna lesz belőle.",
   },
   "5-U-fitnesz-alap:Ízesítsd sóval és borssal, majd tálald.": {
     category: "fitness_logic",
     title: "Elég a só és bors?",
-    body: "A főtt tojás saját ízét só és bors is kellőképpen kiemeli – nincs szükség szószra vagy öntetbe. Így marad a legtisztább fehérjeforrás.",
+    body: "A főtt tojás ízét a só és bors egyszerűen kiemeli. Így nem kell nehéz szósz vagy öntet, és az uzsonna tiszta, könnyen ehető marad.",
   },
 };
 
