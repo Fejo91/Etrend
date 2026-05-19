@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 
 const QUIZ_REMINDER_NOTIFICATION_TYPE = "quiz_reminder";
+const LEGACY_TOP25_NOTIFICATION_TYPE = "top25-hourly-quiz";
 const QUIZ_REMINDER_CHANNEL_ID = "quiz-reminders";
 
 type NotificationModule = typeof import("expo-notifications");
@@ -66,6 +67,7 @@ export async function cancelQuizReminderNotifications(): Promise<void> {
     const data = notification.content.data as Record<string, unknown> | undefined;
     return (
       data?.type === QUIZ_REMINDER_NOTIFICATION_TYPE ||
+      data?.type === LEGACY_TOP25_NOTIFICATION_TYPE ||
       data?.targetRoute === "/random-quiz"
     );
   });
