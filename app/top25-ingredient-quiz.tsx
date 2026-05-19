@@ -243,6 +243,20 @@ export default function Top25IngredientQuizScreen() {
           </View>
         )}
 
+        {/* Learning reward: reveal full ingredient list only after correct answer */}
+        {isCorrect && question.allIngredientNames.length > 0 && (
+          <View style={styles.fullIngredientsBox}>
+            <Text style={styles.fullIngredientsTitle}>Teljes hozzávalólista 🧾</Text>
+            <View style={styles.fullIngredientsList}>
+              {question.allIngredientNames.map((ingredientName, idx) => (
+                <Text key={`${idx}-${ingredientName}`} style={styles.fullIngredientsItem}>
+                  • {ingredientName}
+                </Text>
+              ))}
+            </View>
+          </View>
+        )}
+
         {/* Action buttons */}
         <View style={styles.actionRow}>
           {!isLocked && (
@@ -409,6 +423,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#e5e7eb",
+  },
+  fullIngredientsBox: {
+    backgroundColor: "#0f172a",
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+  },
+  fullIngredientsTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#e5e7eb",
+    marginBottom: 10,
+  },
+  fullIngredientsList: {
+    gap: 6,
+  },
+  fullIngredientsItem: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: "#cbd5e1",
   },
   actionRow: {
     flexDirection: "row",

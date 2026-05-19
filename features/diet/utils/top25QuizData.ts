@@ -4,13 +4,13 @@ import COOKING_INSTRUCTIONS, {
     type CookingInstruction,
 } from "../../../types/preparations";
 import {
-    TOP_MEAL_INGREDIENT_PLANS,
-    type MealIngredientAmount,
-} from "../data/topMealIngredients";
-import {
     getKnowledgeReward,
     type Top25KnowledgeReward,
 } from "../data/top25KnowledgeRewards";
+import {
+    TOP_MEAL_INGREDIENT_PLANS,
+    type MealIngredientAmount,
+} from "../data/topMealIngredients";
 
 export type { Top25KnowledgeReward };
 
@@ -189,6 +189,7 @@ export type Top25IngredientQuizQuestion = {
   mealName: string;
   correctIngredients: string[];
   options: string[];
+  allIngredientNames: string[];
 };
 
 function isFilteredOutIngredient(name: string): boolean {
@@ -280,6 +281,29 @@ export function buildTop25IngredientQuestion(
       ...selectedPlan.workout,
       ...selectedPlan.rest,
     ];
+
+    const allIngredientNames: string[] = [];
+    const seenAllNormalized = new Set<string>();
+
+    for (const ingredient of combinedIngredients) {
+      const rawName =
+        typeof ingredient.name === "string" ? ingredient.name.trim() : "";
+      if (!rawName) {
+        continue;
+      }
+
+      const normalizedAll = normalizeIngredientName(rawName);
+      if (seenAllNormalized.has(normalizedAll)) {
+        continue;
+      }
+
+      seenAllNormalized.add(normalizedAll);
+      allIngredientNames.push(rawName);
+    }
+
+    if (allIngredientNames.length < 1) {
+      continue;
+    }
 
     const seenNormalized = new Set<string>();
     const correctIngredientsList: string[] = [];
@@ -397,6 +421,7 @@ export function buildTop25IngredientQuestion(
       mealName,
       correctIngredients: selectedCorrectIngredients,
       options: shuffledOptions,
+      allIngredientNames,
     };
   }
 
