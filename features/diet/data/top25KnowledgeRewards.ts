@@ -3,12 +3,12 @@
  * Lookup key: `${mealId}:${correctNextStep}`
  *
  * These rewards are shown AFTER a correct answer — never before.
- * Covered meals (Top5 reggeli):
- *   5-R-gyors-alap  (5 rewards)
- *   1-R-overnight   (7 rewards)
- *   1-R-mikros      (5 rewards)
- *   3-R-klasszikus  (5 rewards)
- *   6-R-alap        (5 rewards)
+ * Covered slots (150 reward keys total):
+ *   Top5 Reggeli  — 5-R-gyors-alap, 1-R-overnight, 1-R-mikros, 3-R-klasszikus, 6-R-alap        (27)
+ *   Top5 Tízórai  — 1-T-klasszikus, 5-T-kremes-dio, 4-T-klasszikus, 6-T-superfood, 3-T-bento   (28)
+ *   Top5 Ebéd     — 1-E-alap, 2-E-suto, 3-E-suto-egyben, 5-E-alap, 6-E-klasszikus              (38)
+ *   Top5 Uzsonna  — 1-U-feherjes, 2-U-dietas, 2-U-zabos, 3-U-alap, 5-U-fitnesz-alap            (27)
+ *   Top5 Vacsora  — 5-V-proteines, 5-V-kapros-uborkas, 7-V-salatas, 1-V-stirfry, 3-V-kremes    (30)
  */
 
 export type Top25KnowledgeRewardCategory =
@@ -114,7 +114,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-R-mikros:Vedd ki, majd hagyd 1–2 percig sűrűsödni és hűlni.": {
     category: "kitchen_logic",
     title: "Miért kell várni a fehérje előtt?",
-    body: "A forrón adott fehérjepor csomós maradhat. Az 1–2 perc pihenő közben a zab tovább sűrűsödik saját gőzétől — nem megy el az idő feleslegesen.",
+    body: "A forrón adott fehérjepor csomós maradhat. Rövid pihenő közben a zab tovább sűrűsödik a saját gőzétől, így nem megy el az idő feleslegesen.",
   },
   "1-R-mikros:Add hozzá a fehérjeport, majd keverd csomómentesre.": {
     category: "fitness_logic",
@@ -172,7 +172,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "6-R-alap:Adj hozzá kevés vizet vagy joghurtot a krémesítéshez.": {
     category: "common_mistake",
     title: "Mi a leggyakoribb hiba itt?",
-    body: "Sokan egyszerre töltenek hozzá túl sok folyadékot. Mindig csak 1–2 evőkanálanként adj hozzá, keverd el teljesen, és csak aztán döntsd el, kell-e még. Így nem lesz folyós a végeredmény.",
+    body: "Sokan egyszerre túl sok folyadékot adnak hozzá. Mindig fokozatosan, kis adagokban lazítsd, keverd el teljesen, és csak aztán döntsd el, kell-e még. Így nem lesz folyós a végeredmény.",
   },
   "6-R-alap:Keverd krémes állagúra a túrós keveréket.": {
     category: "kitchen_logic",
@@ -644,7 +644,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "2-U-zabos:Állítsd be az állagát kevés folyadékkal, ha szükséges.": {
     category: "common_mistake",
     title: "Miért lehet sűrű?",
-    body: "A zab szívja a folyadékot, ezért ez a shake eleve sűrűbb lesz. Ha nehezen iható, adj hozzá 20–30 ml vizet és turmixold át újra.",
+    body: "A zab szívja a folyadékot, ezért ez a shake eleve sűrűbb lesz. Ha nehezen iható, adj hozzá egy kevés folyadékot, és turmixold át újra.",
   },
   "2-U-zabos:Öntsd pohárba, és tálald frissen.": {
     category: "memory_trick",
