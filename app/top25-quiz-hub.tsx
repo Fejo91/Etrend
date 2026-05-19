@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -18,6 +19,22 @@ import {
     Top25QuizMode,
     Top25QuizSlotFilter,
 } from "../features/diet/utils/top25QuizData";
+import {
+  cancelQuizReminderNotifications,
+  requestQuizReminderPermission,
+  scheduleQuizReminderNotifications,
+} from "../features/notifications/quizReminderNotifications";
+
+type QuizReminderInterval = 30 | 60 | 120;
+
+type QuizReminderSettings = {
+  enabled: boolean;
+  intervalMinutes: QuizReminderInterval | null;
+};
+
+const QUIZ_REMINDER_STORAGE_KEY = "@diet_app/quiz_reminder_settings";
+
+const QUIZ_REMINDER_INTERVALS: QuizReminderInterval[] = [30, 60, 120];
 
 type ChipProps<T extends string> = {
   label: string;
@@ -44,6 +61,108 @@ export default function Top25QuizHubScreen() {
   const [slotFilter, setSlotFilter] = useState<Top25QuizSlotFilter>("Mind");
   const [difficulty, setDifficulty] = useState<Top25QuizDifficulty>("normal");
   const [mode, setMode] = useState<Top25QuizMode>("practice");
+  const [reminderSettings, setReminderSettings] = useState<QuizReminderSettings>({
+    enabled: false,
+    intervalMinutes: null,
+  });
+  const [reminderBusy, setReminderBusy] = useState(false);
+  const [reminderInfoText, setReminderInfoText] = useState<string>("");
+
+  useEffect(() => {
+    let active = true;
+
+    AsyncStorage.getItem(QUIZ_REMINDER_STORAGE_KEY)
+      .then((raw) => {
+        if (!raw || !active) {
+          return;
+        }
+
+        const parsed = JSON.parse(raw) as Partial<QuizReminderSettings>;
+        const interval =
+          parsed.intervalMinutes === 30 ||
+          parsed.intervalMinutes === 60 ||
+          parsed.intervalMinutes === 120
+            ? parsed.intervalMinutes
+            : null;
+
+        setReminderSettings({
+          enabled: Boolean(parsed.enabled) && interval !== null,
+          intervalMinutes: interval,
+        });
+      })
+      .catch(() => {
+        // noop
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const reminderStatusLabel = useMemo(() => {
+    if (!reminderSettings.enabled || !reminderSettings.intervalMinutes) {
+      return "Kikapcsolva";
+    }
+
+    return `Bekapcsolva (${reminderSettings.intervalMinutes} percenként)`;
+  }, [reminderSettings]);
+
+  async function persistReminderSettings(nextSettings: QuizReminderSettings) {
+    await AsyncStorage.setItem(QUIZ_REMINDER_STORAGE_KEY, JSON.stringify(nextSettings));
+    setReminderSettings(nextSettings);
+  }
+
+  async function disableReminder() {
+    setReminderBusy(true);
+    setReminderInfoText("");
+
+    try {
+      await cancelQuizReminderNotifications();
+
+      const nextSettings: QuizReminderSettings = {
+        enabled: false,
+        intervalMinutes: null,
+      };
+
+      await persistReminderSettings(nextSettings);
+      setReminderInfoText("Kvíz emlékeztető kikapcsolva.");
+    } catch {
+      setReminderInfoText("Nem sikerült kikapcsolni az emlékeztetőt.");
+    } finally {
+      setReminderBusy(false);
+    }
+  }
+
+  async function enableReminder(intervalMinutes: QuizReminderInterval) {
+    setReminderBusy(true);
+    setReminderInfoText("");
+
+    try {
+      const hasPermission = await requestQuizReminderPermission();
+      if (!hasPermission) {
+        setReminderInfoText("Az értesítési engedély nem érhető el vagy elutasítottad.");
+        return;
+      }
+
+      const scheduled = await scheduleQuizReminderNotifications(intervalMinutes);
+      if (!scheduled) {
+        setReminderInfoText("Nem sikerült ütemezni az emlékeztetőt ezen az eszközön.");
+        return;
+      }
+
+      const nextSettings: QuizReminderSettings = {
+        enabled: true,
+        intervalMinutes,
+      };
+
+      await persistReminderSettings(nextSettings);
+      setReminderInfoText(`Kvíz emlékeztető beállítva: ${intervalMinutes} percenként.`);
+    } catch {
+      setReminderInfoText("Hiba történt az emlékeztető beállításakor.");
+    } finally {
+      setReminderBusy(false);
+    }
+  }
 
   const navigateToQuiz = (pathname: string) => {
     router.push({
@@ -115,6 +234,62 @@ export default function Top25QuizHubScreen() {
               ? "Vizsga mód: a válasz az első próbálkozás után rögzül, nincs újrapróbálás."
               : "Gyakorlás mód: hibás válasz után újrapróbálhatod a kérdést."}
           </Text>
+        </View>
+
+        <View style={styles.reminderBlock}>
+          <Text style={styles.reminderTitle}>Kvíz emlékeztető</Text>
+          <Text style={styles.reminderStatus}>Állapot: {reminderStatusLabel}</Text>
+
+          <View style={styles.chipRowWrap}>
+            <TouchableOpacity
+              style={[
+                styles.reminderButton,
+                !reminderSettings.enabled && styles.reminderButtonActive,
+              ]}
+              onPress={disableReminder}
+              disabled={reminderBusy}
+            >
+              <Text
+                style={[
+                  styles.reminderButtonText,
+                  !reminderSettings.enabled && styles.reminderButtonTextActive,
+                ]}
+              >
+                Kikapcsolva
+              </Text>
+            </TouchableOpacity>
+
+            {QUIZ_REMINDER_INTERVALS.map((interval) => {
+              const active =
+                reminderSettings.enabled && reminderSettings.intervalMinutes === interval;
+
+              return (
+                <TouchableOpacity
+                  key={interval}
+                  style={[styles.reminderButton, active && styles.reminderButtonActive]}
+                  onPress={() => enableReminder(interval)}
+                  disabled={reminderBusy}
+                >
+                  <Text
+                    style={[
+                      styles.reminderButtonText,
+                      active && styles.reminderButtonTextActive,
+                    ]}
+                  >
+                    {interval} percenként
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {reminderInfoText.length > 0 ? (
+            <Text style={styles.reminderHint}>{reminderInfoText}</Text>
+          ) : (
+            <Text style={styles.reminderHint}>
+              Androidon az értesítés ütemezése kb. időzítésű lehet.
+            </Text>
+          )}
         </View>
 
         {/* 1. Lépéssorrend */}
@@ -226,6 +401,53 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#64748b",
     marginTop: 12,
+    lineHeight: 16,
+    fontStyle: "italic",
+  },
+  reminderBlock: {
+    backgroundColor: "#0f172a",
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: "#1e293b",
+  },
+  reminderTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#e5e7eb",
+    marginBottom: 8,
+  },
+  reminderStatus: {
+    fontSize: 13,
+    color: "#cbd5e1",
+    marginBottom: 10,
+  },
+  reminderButton: {
+    backgroundColor: "#1e293b",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "#334155",
+    marginBottom: 4,
+  },
+  reminderButtonActive: {
+    backgroundColor: "#0ea5e9",
+    borderColor: "#38bdf8",
+  },
+  reminderButtonText: {
+    color: "#94a3b8",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  reminderButtonTextActive: {
+    color: "#fff",
+  },
+  reminderHint: {
+    marginTop: 10,
+    fontSize: 12,
+    color: "#64748b",
     lineHeight: 16,
     fontStyle: "italic",
   },

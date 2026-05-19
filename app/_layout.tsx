@@ -3,6 +3,7 @@ import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { setupQuizReminderNotificationResponseHandler } from "../features/notifications/quizReminderNotifications";
 import { isTop25Meal, TOP_25_SHOPPING_MEAL_IDS } from "../constants/topMeals";
 import MEALS from "../types/meals";
 import COOKING_INSTRUCTIONS from "../types/preparations";
@@ -39,6 +40,28 @@ export default function RootLayout() {
       document.documentElement.style.backgroundColor = "#020617";
     }
   }, []);
+
+  useEffect(() => {
+    let cleanup = () => {
+      // noop
+    };
+
+    setupQuizReminderNotificationResponseHandler((targetRoute) => {
+      if (targetRoute === "/random-quiz") {
+        router.push("/random-quiz");
+      }
+    })
+      .then((nextCleanup) => {
+        cleanup = nextCleanup;
+      })
+      .catch(() => {
+        // noop
+      });
+
+    return () => {
+      cleanup();
+    };
+  }, [router]);
 
   useEffect(() => {
     let responseSubscription: { remove: () => void } | null = null;
@@ -224,6 +247,7 @@ export default function RootLayout() {
         <Stack.Screen name="cooking-order-quiz" />
         <Stack.Screen name="next-step-quiz" />
         <Stack.Screen name="extra" />
+        <Stack.Screen name="random-quiz" />
         <Stack.Screen name="training" />
         <Stack.Screen name="modal" />
         <Stack.Screen name="shopping-cart" />
