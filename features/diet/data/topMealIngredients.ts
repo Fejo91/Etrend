@@ -8,6 +8,7 @@ export type IngredientUnit =
   | "adag";
 
 export type MealIngredientAmount = {
+  ingredientKey?: string;
   name: string;
   amount: number;
   unit: IngredientUnit;
@@ -37,6 +38,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
     rank: 1,
     workout: [
       {
+        ingredientKey: "greek_yogurt_2",
         name: "Görög joghurt (2%)",
         amount: 200,
         unit: "g",
@@ -44,6 +46,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Alap fehérjeforrás, krémes joghurtos alap.",
       },
       {
+        ingredientKey: "oats",
         name: "Zabpehely",
         amount: 30,
         unit: "g",
@@ -51,6 +54,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Edzésnapon több lassabb szénhidrátot ad.",
       },
       {
+        ingredientKey: "berries_mix",
         name: "Bogyós gyümölcs",
         amount: 70,
         unit: "g",
@@ -58,6 +62,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Áfonya, málna vagy eper.",
       },
       {
+        ingredientKey: "honey",
         name: "Méz",
         amount: 10,
         unit: "g",
@@ -67,6 +72,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
     ],
     rest: [
       {
+        ingredientKey: "greek_yogurt_2",
         name: "Görög joghurt (2%)",
         amount: 180,
         unit: "g",
@@ -74,6 +80,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Fehérjebázis, pihenőnapon mérsékelten csökkentve.",
       },
       {
+        ingredientKey: "oats",
         name: "Zabpehely",
         amount: 20,
         unit: "g",
@@ -81,6 +88,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Csökkentett pihenőnapi szénhidrát.",
       },
       {
+        ingredientKey: "berries_mix",
         name: "Bogyós gyümölcs",
         amount: 60,
         unit: "g",
@@ -89,6 +97,7 @@ export const TOP_MEAL_INGREDIENT_PLANS: MealIngredientPlan[] = [
         note: "Kisebb pihenőnapi gyümölcsadag.",
       },
       {
+        ingredientKey: "honey",
         name: "Méz",
         amount: 5,
         unit: "g",

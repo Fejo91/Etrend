@@ -1,11 +1,20 @@
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  estimateIngredientCostHuf,
+  getIngredientCatalogItem,
+  type IngredientBaseUnit,
+} from "../features/diet/data/ingredientCatalog";
 import { TOP_MEAL_INGREDIENT_PLANS } from "../features/diet/data/topMealIngredients";
 
 type DayMode = "workout" | "rest";
 const SLOT_ORDER = ["Reggeli", "Tízórai", "Ebéd", "Uzsonna", "Vacsora"] as const;
 type Slot = (typeof SLOT_ORDER)[number];
+
+function isBaseUnit(unit: string): unit is IngredientBaseUnit {
+  return unit === "g" || unit === "ml" || unit === "db";
+}
 
 export default function TopMealIngredientsScreen() {
   const [selectedSlot, setSelectedSlot] = useState<Slot>("Reggeli");
@@ -145,6 +154,48 @@ export default function TopMealIngredientsScreen() {
                   {ingredient.note ? (
                     <Text style={styles.ingredientNote}>{ingredient.note}</Text>
                   ) : null}
+
+                  {(() => {
+                    const meta = getIngredientCatalogItem(ingredient.ingredientKey);
+                    if (!meta) {
+                      return null;
+                    }
+
+                    const estimatedCost = isBaseUnit(ingredient.unit)
+                      ? estimateIngredientCostHuf({
+                          amount: ingredient.amount,
+                          amountUnit: ingredient.unit,
+                          averagePackagePriceHuf: meta.averagePackagePriceHuf,
+                          averagePackageAmount: meta.averagePackageAmount,
+                          averagePackageUnit: meta.averagePackageUnit,
+                        })
+                      : null;
+
+                    return (
+                      <View style={styles.ingredientMetaCard}>
+                        <View style={styles.ingredientMetaHeader}>
+                          {meta.imageAsset ? (
+                            <Image source={meta.imageAsset} style={styles.ingredientMetaImage} />
+                          ) : (
+                            <View style={styles.ingredientMetaEmojiWrap}>
+                              <Text style={styles.ingredientMetaEmoji}>{meta.fallbackEmoji}</Text>
+                            </View>
+                          )}
+                          <Text style={styles.ingredientMetaName}>{meta.displayName}</Text>
+                        </View>
+
+                        <Text style={styles.ingredientMetaAvgPrice}>
+                          Átlagár: {Math.round(meta.averagePackagePriceHuf)} Ft / {meta.averagePackageAmount} {meta.averagePackageUnit}
+                        </Text>
+
+                        {typeof estimatedCost === "number" && Number.isFinite(estimatedCost) ? (
+                          <Text style={styles.ingredientMetaEstimated}>
+                            Ehhez az adaghoz: ~{Math.round(estimatedCost)} Ft
+                          </Text>
+                        ) : null}
+                      </View>
+                    );
+                  })()}
                 </View>
               ))}
             </View>
@@ -346,6 +397,51 @@ const styles = StyleSheet.create({
     color: "#9ca3af",
     fontSize: 13,
     marginTop: 4,
+  },
+  ingredientMetaCard: {
+    marginTop: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#1f2937",
+    backgroundColor: "#0b1220",
+    padding: 10,
+    gap: 6,
+  },
+  ingredientMetaHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  ingredientMetaImage: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+  },
+  ingredientMetaEmojiWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    backgroundColor: "#1e293b",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  ingredientMetaEmoji: {
+    fontSize: 16,
+  },
+  ingredientMetaName: {
+    flex: 1,
+    color: "#e5e7eb",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  ingredientMetaAvgPrice: {
+    color: "#93c5fd",
+    fontSize: 13,
+  },
+  ingredientMetaEstimated: {
+    color: "#86efac",
+    fontSize: 13,
+    fontWeight: "600",
   },
   auditTitle: {
     color: "#e5e7eb",
