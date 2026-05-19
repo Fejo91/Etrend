@@ -712,12 +712,12 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "5-V-proteines:Add hozzá a fehérjeport.": {
     category: "kitchen_logic",
     title: "Miért most jön a fehérjepor?",
-    body: "Ha a port közvetlenül a túróra szórod, könnyebb egyenletesen elkeverni. Így a krém alapja hamarabb összeáll.",
+    body: "Ha a port közvetlenül a túróra szórod, könnyebb fokozatosan elkeverni. Kevés folyadékkal lazítva simább, krémesebb alapot kapsz.",
   },
   "5-V-proteines:Adj hozzá kevés vizet vagy joghurtot, majd keverd krémesre a túrókrémet.": {
     category: "common_mistake",
     title: "Miért fokozatosan lazítsd?",
-    body: "A folyadékot érdemes kis adagokban hozzáadni, mert a túró gyorsan túl híg lehet. Fokozatos keveréssel marad sűrűn krémes az állag.",
+    body: "A folyadékot érdemes kis adagokban hozzáadni, mert a túró gyorsan túl híg lehet. Fokozatos keveréssel sűrű, krémes marad az állag.",
   },
   "5-V-proteines:Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet.": {
     category: "fitness_logic",
@@ -761,7 +761,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "7-V-salatas:Rendezd el a zöldségeket egy tányéron salátaalapként.": {
     category: "kitchen_logic",
     title: "Miért legyen külön zöldségágy?",
-    body: "A salátaalap segít, hogy a nedvesség ne egy helyre gyűljön. Ettől frissebb és rendezettebb marad a teljes tányér.",
+    body: "A zöldségágy elosztja a saláta nedvességét, és rendezett alapot ad a cottage-nak és a sonkának. Ettől frissebb marad a tányér.",
   },
   "7-V-salatas:Ízesítsd a zöldségeket sóval, borssal és kevés olívaolajjal.": {
     category: "common_mistake",
@@ -781,7 +781,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "7-V-salatas:Szórd a sonkacsíkokat a cottage cheese és a zöldségek tetejére.": {
     category: "fitness_logic",
     title: "Miért kerül felülre a sonka?",
-    body: "Felülről szórva jól látható és egyenletesen osztható a fehérjés komponens. Így nem kell keveréssel szétáztatni a salátát.",
+    body: "A sonka felülre szórva egyenletesen oszlik el, és nem kell túlkeverni a salátát. Így a zöldségek frissebbek maradnak.",
   },
   "7-V-salatas:Készítsd elő mellé a teljes kiőrlésű kenyeret, majd tálald.": {
     category: "memory_trick",
@@ -793,7 +793,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-V-stirfry:Fűszerezd be a csirkecsíkokat.": {
     category: "kitchen_logic",
     title: "Miért sütés előtt fűszerezz?",
-    body: "A csirkecsíkok így már az elején felveszik az ízt. Sütés közben egyenletesebben pirulnak és jobb lesz az összhatás.",
+    body: "A vékony csirkecsíkok gyorsan sülnek, ezért jó, ha már sütés előtt kapnak ízt. Így nem utólag kell túlsózni a kész ételt.",
   },
   "1-V-stirfry:Készítsd elő a brokkolit, répát, paprikát, cukkinit és hagymát.": {
     category: "memory_trick",
@@ -823,14 +823,14 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "1-V-stirfry:Tálald a csirkés-zöldséges stir-fry-t.": {
     category: "fitness_logic",
     title: "Miért jó esti választás?",
-    body: "A csirke és zöldség kombó laktató, mégsem túl nehéz lefekvés előtt. Gyorsan elkészül, dobozolható és másnap is működik.",
+    body: "A csirke és zöldség kombó laktató, de nem túl nehéz esti étel. Gyorsan elkészül, dobozolható, és másnap is jól működik.",
   },
 
   // 3-V-kremes — Puha, krémes rántotta
   "3-V-kremes:Sózd, borsozd, majd keverd fel a tojásokat.": {
     category: "kitchen_logic",
     title: "Miért felverve jobb a tojás?",
-    body: "A felvert tojás egyenletesebben sül, és lágyabb textúrát ad. Így kevésbé lesz foltos vagy gumis a rántotta.",
+    body: "A felvert tojás egyenletesebben sül, és lágyabb textúrát ad. Így kevésbé lesz darabos vagy gumis a rántotta.",
   },
   "3-V-kremes:Melegíts elő egy serpenyőt alacsony lángon.": {
     category: "common_mistake",
@@ -855,7 +855,7 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
   "3-V-kremes:Vedd le a tűzről, mielőtt teljesen kiszáradna.": {
     category: "common_mistake",
     title: "Miért állj meg korábban?",
-    body: "A serpenyő maradékhője tovább készíti a tojást a tűzről levéve is. Ha túl későn húzod le, percek alatt száraz lesz.",
+    body: "A serpenyő maradékhője tovább készíti a tojást a tűzről levéve is. Ha túl későn húzod le, könnyen szárazabb lesz.",
   },
   "3-V-kremes:Szeleteld fel az avokádót és készítsd elő a kenyeret.": {
     category: "kitchen_logic",
