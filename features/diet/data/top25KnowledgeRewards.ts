@@ -705,6 +705,168 @@ export const TOP25_KNOWLEDGE_REWARDS: Record<string, Top25KnowledgeReward> = {
     title: "Elég a só és bors?",
     body: "A főtt tojás ízét a só és bors egyszerűen kiemeli. Így nem kell nehéz szósz vagy öntet, és az uzsonna tiszta, könnyen ehető marad.",
   },
+
+  // ── Top5 Vacsora ──────────────────────────────────────────────────
+
+  // 5-V-proteines — Túrókrém – proteines vaníliás
+  "5-V-proteines:Add hozzá a fehérjeport.": {
+    category: "kitchen_logic",
+    title: "Miért most jön a fehérjepor?",
+    body: "Ha a port közvetlenül a túróra szórod, könnyebb egyenletesen elkeverni. Így a krém alapja hamarabb összeáll.",
+  },
+  "5-V-proteines:Adj hozzá kevés vizet vagy joghurtot, majd keverd krémesre a túrókrémet.": {
+    category: "common_mistake",
+    title: "Miért fokozatosan lazítsd?",
+    body: "A folyadékot érdemes kis adagokban hozzáadni, mert a túró gyorsan túl híg lehet. Fokozatos keveréssel marad sűrűn krémes az állag.",
+  },
+  "5-V-proteines:Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet.": {
+    category: "fitness_logic",
+    title: "Miért külön a ropogós elem?",
+    body: "A pirítós vagy abonett külön tartva nem ázik el. Ettől a vacsora egyszerre marad krémes és ropogós.",
+  },
+  "5-V-proteines:Tálald a proteines túrókrémet a kenyérrel vagy abonettel.": {
+    category: "memory_trick",
+    title: "Egyszerű esti sorrend",
+    body: "Túró, por, krémesítés, ropogós kísérő, tálalás. Ezzel a rövid sorral könnyű fejben tartani a teljes vacsorát.",
+  },
+
+  // 5-V-kapros-uborkas — Túrókrém – sós kapros-uborkás
+  "5-V-kapros-uborkas:Vágd apró kockákra az uborkát.": {
+    category: "kitchen_logic",
+    title: "Miért apró kockák az uborkánál?",
+    body: "A kisebb kockák egyenletesebben oszlanak el a túróban. Így minden falatban lesz friss, ropogós uborka.",
+  },
+  "5-V-kapros-uborkas:Mérd ki a túrót egy keverőtálba.": {
+    category: "fitness_logic",
+    title: "Miért jó túróval indítani?",
+    body: "A túró stabil, fehérjedús alapot ad a krémnek. Erre könnyen ráépül az uborka és a kapros ízvilág.",
+  },
+  "5-V-kapros-uborkas:Add hozzá a kaprot, sót és borsot.": {
+    category: "kitchen_logic",
+    title: "Miért most kerülnek a fűszerek?",
+    body: "A fűszerek így közvetlenül a túróba kerülnek, ezért könnyebb egyenletesre keverni őket. Ettől lesz kiegyensúlyozott az íz minden falatban.",
+  },
+  "5-V-kapros-uborkas:Keverd össze a túrót az uborkával krémes kapros túrókrémmé.": {
+    category: "common_mistake",
+    title: "Miért ne keverd túl sokáig?",
+    body: "Az uborka vizet engedhet, ha túl sokáig dolgozod. Rövid, alapos átkeverés után marad friss és jól kenhető a krém.",
+  },
+  "5-V-kapros-uborkas:Készítsd elő mellé a pirítóst vagy abonettet, majd tálald.": {
+    category: "memory_trick",
+    title: "Miért a végén jön a kenyér?",
+    body: "A ropogós kísérőt mindig tálalás előtt érdemes mellé tenni. Így nem puhul fel, és jobb lesz a textúrakontraszt.",
+  },
+
+  // 7-V-salatas — Rakott hidegtál verzió
+  "7-V-salatas:Rendezd el a zöldségeket egy tányéron salátaalapként.": {
+    category: "kitchen_logic",
+    title: "Miért legyen külön zöldségágy?",
+    body: "A salátaalap segít, hogy a nedvesség ne egy helyre gyűljön. Ettől frissebb és rendezettebb marad a teljes tányér.",
+  },
+  "7-V-salatas:Ízesítsd a zöldségeket sóval, borssal és kevés olívaolajjal.": {
+    category: "common_mistake",
+    title: "Miért kevés olajjal dolgozz?",
+    body: "Az olaj itt csak ízkiemelésre kell, nem nehéz öntetnek. Kevés mennyiséggel a saláta nem lesz tocsogós.",
+  },
+  "7-V-salatas:Kanalazd rá a cottage cheese-t kisebb halmokban.": {
+    category: "kitchen_logic",
+    title: "Miért halmokban add hozzá?",
+    body: "A kisebb halmokkal könnyebb arányosan elosztani a cottage-ot. Így minden falatban jut a krémes részből.",
+  },
+  "7-V-salatas:Vágd csíkokra a csirkemellsonkát.": {
+    category: "kitchen_logic",
+    title: "Miért csíkokban jobb a sonka?",
+    body: "A vékony csíkok jobban szétterülnek a hidegtálon, mint a nagy darabok. Ettől kiegyensúlyozottabb lesz a zöldség-cottage-sonka arány.",
+  },
+  "7-V-salatas:Szórd a sonkacsíkokat a cottage cheese és a zöldségek tetejére.": {
+    category: "fitness_logic",
+    title: "Miért kerül felülre a sonka?",
+    body: "Felülről szórva jól látható és egyenletesen osztható a fehérjés komponens. Így nem kell keveréssel szétáztatni a salátát.",
+  },
+  "7-V-salatas:Készítsd elő mellé a teljes kiőrlésű kenyeret, majd tálald.": {
+    category: "memory_trick",
+    title: "Hidegtál, ropogós, kész",
+    body: "Salátaalap, ízesítés, cottage, sonka, kenyér. Ezzel az öt szóval könnyen megjegyezhető a tálalási sorrend.",
+  },
+
+  // 1-V-stirfry — Csíkokra vágott stir-fry
+  "1-V-stirfry:Fűszerezd be a csirkecsíkokat.": {
+    category: "kitchen_logic",
+    title: "Miért sütés előtt fűszerezz?",
+    body: "A csirkecsíkok így már az elején felveszik az ízt. Sütés közben egyenletesebben pirulnak és jobb lesz az összhatás.",
+  },
+  "1-V-stirfry:Készítsd elő a brokkolit, répát, paprikát, cukkinit és hagymát.": {
+    category: "memory_trick",
+    title: "Miért fontos a mise en place?",
+    body: "Woknál gyors a tempó, ezért minden hozzávaló legyen kéznél előre. Így nem ég meg a csirke, amíg zöldséget vágsz.",
+  },
+  "1-V-stirfry:Hevítsd fel a wokot vagy serpenyőt, majd add hozzá az olajat.": {
+    category: "common_mistake",
+    title: "Miért kell forró edénnyel kezdeni?",
+    body: "Ha nem elég forró a wok, a hús inkább levet ereszt, mint pirul. A jó hő adja meg a stir-fry jellegét.",
+  },
+  "1-V-stirfry:Pirítsd meg a csirkecsíkokat.": {
+    category: "kitchen_logic",
+    title: "Miért külön piruljon a csirke?",
+    body: "A csirke előpirítva színt és ízt kap, mielőtt a zöldség bekerül. Így nem fő szét a zöldségekkel együtt.",
+  },
+  "1-V-stirfry:Add hozzá a zöldségeket, és pirítsd roppanós-puhára.": {
+    category: "common_mistake",
+    title: "Miért maradjon roppanós a zöldség?",
+    body: "A stir-fry lényege a gyors, rövid pirítás. Ha túlsütöd, a zöldség elpuhul és elveszti a friss karakterét.",
+  },
+  "1-V-stirfry:Locsold meg szójaszósszal, majd keverd át.": {
+    category: "kitchen_logic",
+    title: "Miért a végén jön a szójaszósz?",
+    body: "A szójaszósz gyorsan bevonja a forró alapot, és a végén könnyebb kontrollálni az intenzitását. Így nem lesz túl sós a vacsora.",
+  },
+  "1-V-stirfry:Tálald a csirkés-zöldséges stir-fry-t.": {
+    category: "fitness_logic",
+    title: "Miért jó esti választás?",
+    body: "A csirke és zöldség kombó laktató, mégsem túl nehéz lefekvés előtt. Gyorsan elkészül, dobozolható és másnap is működik.",
+  },
+
+  // 3-V-kremes — Puha, krémes rántotta
+  "3-V-kremes:Sózd, borsozd, majd keverd fel a tojásokat.": {
+    category: "kitchen_logic",
+    title: "Miért felverve jobb a tojás?",
+    body: "A felvert tojás egyenletesebben sül, és lágyabb textúrát ad. Így kevésbé lesz foltos vagy gumis a rántotta.",
+  },
+  "3-V-kremes:Melegíts elő egy serpenyőt alacsony lángon.": {
+    category: "common_mistake",
+    title: "Miért alacsony láng a kulcs?",
+    body: "A túl erős hő gyorsan kiszárítja a tojást. Alacsony lángon marad puha és krémes a végeredmény.",
+  },
+  "3-V-kremes:Adj hozzá kevés zsiradékot.": {
+    category: "kitchen_logic",
+    title: "Miért elég kevés zsiradék?",
+    body: "Egy vékony réteg pont elég, hogy ne tapadjon le a tojás. Így könnyű marad az étel, mégis jól kezelhető sütés közben.",
+  },
+  "3-V-kremes:Öntsd bele a tojást a serpenyőbe.": {
+    category: "kitchen_logic",
+    title: "Miért azonnal keverd majd?",
+    body: "A tojás beöntése után gyorsan elindul a szilárdulás. Ha rögtön figyelsz rá, egyenletesebb, krémesebb lesz az állag.",
+  },
+  "3-V-kremes:Lassan keverve süsd krémesre a rántottát.": {
+    category: "memory_trick",
+    title: "Rántotta-szabály: lassan",
+    body: "A krémes rántotta alaptrükkje a lassú, folyamatos keverés. Gondolj rá úgy: inkább kíméletesen főzöd, mint gyorsan sütöd.",
+  },
+  "3-V-kremes:Vedd le a tűzről, mielőtt teljesen kiszáradna.": {
+    category: "common_mistake",
+    title: "Miért állj meg korábban?",
+    body: "A serpenyő maradékhője tovább készíti a tojást a tűzről levéve is. Ha túl későn húzod le, percek alatt száraz lesz.",
+  },
+  "3-V-kremes:Szeleteld fel az avokádót és készítsd elő a kenyeret.": {
+    category: "kitchen_logic",
+    title: "Miért külön kezeld a köretet?",
+    body: "Az avokádó és a kenyér frissen adja a legjobb textúrát a lágy rántotta mellé. Külön tálalva jobban kontrollálható az arányuk.",
+  },
+  "3-V-kremes:Tálald együtt a krémes rántottát, avokádót és kenyeret.": {
+    category: "fitness_logic",
+    title: "Miért működik ez vacsorának?",
+    body: "A tojás telít, az avokádó krémes kísérő, a kenyér pedig ad egy kis ropogós tartást. Egy kiegyensúlyozott, gyors esti tányér lesz belőle.",
+  },
 };
 
 export function getKnowledgeReward(

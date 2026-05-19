@@ -1,5 +1,5 @@
 /**
- * Smoke test: Top25 Knowledge Rewards — Top5 reggeli / tízórai / ebéd / uzsonna
+ * Smoke test: Top25 Knowledge Rewards — Top5 reggeli / tízórai / ebéd / uzsonna / vacsora
  * Futtatás: npx tsx scripts/smokeKnowledgeRewards.ts
  */
 
@@ -24,7 +24,7 @@ function assert(label: string, condition: boolean, detail?: string) {
   }
 }
 
-type SlotLabel = "Reggeli" | "Tízórai" | "Ebéd" | "Uzsonna";
+type SlotLabel = "Reggeli" | "Tízórai" | "Ebéd" | "Uzsonna" | "Vacsora";
 
 const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
   Reggeli: {
@@ -143,6 +143,48 @@ const EXPECTED_STEPS_BY_SLOT: Record<SlotLabel, Record<string, string[]>> = {
       "Vágd hasábokra a zöldségeket.",
       "Rendezd tányérra a tojást és a zöldségeket.",
       "Ízesítsd sóval és borssal, majd tálald.",
+    ],
+  },
+  Vacsora: {
+    "5-V-proteines": [
+      "Add hozzá a fehérjeport.",
+      "Adj hozzá kevés vizet vagy joghurtot, majd keverd krémesre a túrókrémet.",
+      "Készítsd elő mellé a teljes kiőrlésű pirítóst vagy abonettet.",
+      "Tálald a proteines túrókrémet a kenyérrel vagy abonettel.",
+    ],
+    "5-V-kapros-uborkas": [
+      "Vágd apró kockákra az uborkát.",
+      "Mérd ki a túrót egy keverőtálba.",
+      "Add hozzá a kaprot, sót és borsot.",
+      "Keverd össze a túrót az uborkával krémes kapros túrókrémmé.",
+      "Készítsd elő mellé a pirítóst vagy abonettet, majd tálald.",
+    ],
+    "7-V-salatas": [
+      "Rendezd el a zöldségeket egy tányéron salátaalapként.",
+      "Ízesítsd a zöldségeket sóval, borssal és kevés olívaolajjal.",
+      "Kanalazd rá a cottage cheese-t kisebb halmokban.",
+      "Vágd csíkokra a csirkemellsonkát.",
+      "Szórd a sonkacsíkokat a cottage cheese és a zöldségek tetejére.",
+      "Készítsd elő mellé a teljes kiőrlésű kenyeret, majd tálald.",
+    ],
+    "1-V-stirfry": [
+      "Fűszerezd be a csirkecsíkokat.",
+      "Készítsd elő a brokkolit, répát, paprikát, cukkinit és hagymát.",
+      "Hevítsd fel a wokot vagy serpenyőt, majd add hozzá az olajat.",
+      "Pirítsd meg a csirkecsíkokat.",
+      "Add hozzá a zöldségeket, és pirítsd roppanós-puhára.",
+      "Locsold meg szójaszósszal, majd keverd át.",
+      "Tálald a csirkés-zöldséges stir-fry-t.",
+    ],
+    "3-V-kremes": [
+      "Sózd, borsozd, majd keverd fel a tojásokat.",
+      "Melegíts elő egy serpenyőt alacsony lángon.",
+      "Adj hozzá kevés zsiradékot.",
+      "Öntsd bele a tojást a serpenyőbe.",
+      "Lassan keverve süsd krémesre a rántottát.",
+      "Vedd le a tűzről, mielőtt teljesen kiszáradna.",
+      "Szeleteld fel az avokádót és készítsd elő a kenyeret.",
+      "Tálald együtt a krémes rántottát, avokádót és kenyeret.",
     ],
   },
   Ebéd: {
@@ -325,6 +367,7 @@ runSlotIntegrationSmoke("Reggeli", 180);
 runSlotIntegrationSmoke("Tízórai", 240);
 runSlotIntegrationSmoke("Ebéd", 320);
 runSlotIntegrationSmoke("Uzsonna", 320);
+runSlotIntegrationSmoke("Vacsora", 380);
 
 console.log(`\n${"─".repeat(55)}`);
 console.log(`Összesítő: ${passed} átment, ${failed} sikertelen`);
