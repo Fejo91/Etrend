@@ -24,10 +24,58 @@ type QuizScenario = {
   isBeresDay: boolean;
 };
 
+type DayProfile = {
+  id: "light_weights" | "light_rest" | "heavy_weights" | "heavy_rest";
+  label: "Light edzős" | "Light pihenő" | "Heavy edzős" | "Heavy pihenő";
+  description: string;
+  cyclePhase: CyclePhase;
+  trainingKind: TrainingKind;
+};
+
 type QuizQuestion = {
   scenario: QuizScenario;
   slot: SupplementTimeSlot;
 };
+
+const DAY_PROFILES: DayProfile[] = [
+  {
+    id: "light_weights",
+    label: "Light edzős",
+    description: "Könnyebb súlyzós nap, mérsékeltebb edzésstack.",
+    cyclePhase: "light",
+    trainingKind: "weights",
+  },
+  {
+    id: "light_rest",
+    label: "Light pihenő",
+    description: "Könnyebb ciklus, nincs edzés előtti/utáni stack.",
+    cyclePhase: "light",
+    trainingKind: "cardio_rest",
+  },
+  {
+    id: "heavy_weights",
+    label: "Heavy edzős",
+    description: "Erősebb súlyzós nap, teljesebb edzésstack.",
+    cyclePhase: "heavy",
+    trainingKind: "weights",
+  },
+  {
+    id: "heavy_rest",
+    label: "Heavy pihenő",
+    description: "Erősebb ciklus pihenőnapja, edzésstack nélkül.",
+    cyclePhase: "heavy",
+    trainingKind: "cardio_rest",
+  },
+];
+
+const TIME_SLOT_ORDER: SupplementTimeSlot[] = [
+  "after_breakfast",
+  "after_lunch",
+  "pre_workout",
+  "post_workout",
+  "with_dinner",
+  "after_dinner",
+];
 
 function createRandomScenario(): QuizScenario {
   return {
@@ -68,15 +116,27 @@ function createRandomQuestion(): QuizQuestion {
   };
 }
 
-function scenarioLabel(scenario: QuizScenario) {
-  const phaseLabel = scenario.cyclePhase === "light" ? "Light" : "Heavy";
-  const dayLabel =
-    scenario.trainingKind === "weights" ? "Edzésnap" : "Pihenőnap";
-  const beresLabel = scenario.isBeresDay ? "Béres nap" : "Nem Béres nap";
-  return `${phaseLabel} • ${dayLabel} • ${beresLabel}`;
+function getDayProfileLabel(
+  cyclePhase: CyclePhase,
+  trainingKind: TrainingKind
+): DayProfile["label"] {
+  if (cyclePhase === "light" && trainingKind === "weights") {
+    return "Light edzős";
+  }
+  if (cyclePhase === "light" && trainingKind === "cardio_rest") {
+    return "Light pihenő";
+  }
+  if (cyclePhase === "heavy" && trainingKind === "weights") {
+    return "Heavy edzős";
+  }
+  return "Heavy pihenő";
 }
 
 export default function ExtraRoute() {
+  const [selectedProfileId, setSelectedProfileId] =
+    useState<DayProfile["id"]>("light_weights");
+  const [isPlanBeresDay, setIsPlanBeresDay] = useState(false);
+
   const [question, setQuestion] = useState<QuizQuestion>(() =>
     createRandomQuestion()
   );
@@ -84,6 +144,43 @@ export default function ExtraRoute() {
   const [submitted, setSubmitted] = useState(false);
 
   const { scenario, slot } = question;
+
+  const selectedProfile =
+    DAY_PROFILES.find((profile) => profile.id === selectedProfileId) ??
+    DAY_PROFILES[0];
+
+  const supplementsById = useMemo(() => {
+    return new Map(SUPPLEMENTS.map((supplement) => [supplement.id, supplement]));
+  }, []);
+
+  const dailyPlanRules = useMemo(() => {
+    return getDailySupplementPlan({
+      cyclePhase: selectedProfile.cyclePhase,
+      trainingKind: selectedProfile.trainingKind,
+      isBeresDay: isPlanBeresDay,
+    });
+  }, [selectedProfile, isPlanBeresDay]);
+
+  const groupedDailyPlan = useMemo(() => {
+    return TIME_SLOT_ORDER.map((timeSlot) => {
+      const items = dailyPlanRules
+        .filter((rule) => rule.timeSlot === timeSlot)
+        .map((rule) => {
+          const supplement = supplementsById.get(rule.supplementId);
+          return {
+            id: rule.id,
+            name: supplement?.name ?? rule.supplementId,
+            dose: rule.dose,
+            description: supplement?.description,
+          };
+        });
+
+      return {
+        timeSlot,
+        items,
+      };
+    }).filter((section) => section.items.length > 0);
+  }, [dailyPlanRules, supplementsById]);
 
   const correctIds = useMemo(() => {
     const rules = getDailySupplementPlan({
@@ -119,9 +216,11 @@ export default function ExtraRoute() {
 
   const maxScore = correctIds.length;
   const score = Math.max(0, hitCount - missCount);
-  const phaseLabel = scenario.cyclePhase === "light" ? "Light" : "Heavy";
-  const dayLabel =
-    scenario.trainingKind === "weights" ? "Edzésnap" : "Pihenőnap";
+  const quizProfileLabel = getDayProfileLabel(
+    scenario.cyclePhase,
+    scenario.trainingKind
+  );
+  const quizBeresLabel = scenario.isBeresDay ? "Béres nap" : "Nem Béres nap";
 
   function toggleSelection(id: string) {
     setSubmitted(false);
@@ -150,9 +249,95 @@ export default function ExtraRoute() {
         >
           <Text style={styles.backButtonText}>← Vissza a főmenübe</Text>
         </TouchableOpacity>
+
+        <View style={styles.planCard}>
+          <Text style={styles.planTitle}>Mai kiegészítő terv</Text>
+
+          <View style={styles.profileRow}>
+            {DAY_PROFILES.map((profile) => {
+              const active = profile.id === selectedProfile.id;
+              return (
+                <TouchableOpacity
+                  key={profile.id}
+                  style={[styles.profileChip, active && styles.profileChipActive]}
+                  onPress={() => setSelectedProfileId(profile.id)}
+                >
+                  <Text
+                    style={[
+                      styles.profileChipText,
+                      active && styles.profileChipTextActive,
+                    ]}
+                  >
+                    {profile.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <Text style={styles.planDescription}>{selectedProfile.description}</Text>
+
+          <View style={styles.beresRow}>
+            <TouchableOpacity
+              style={[
+                styles.beresChip,
+                isPlanBeresDay && styles.beresChipActive,
+              ]}
+              onPress={() => setIsPlanBeresDay(true)}
+            >
+              <Text
+                style={[
+                  styles.beresChipText,
+                  isPlanBeresDay && styles.beresChipTextActive,
+                ]}
+              >
+                Béres nap
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.beresChip,
+                !isPlanBeresDay && styles.beresChipActive,
+              ]}
+              onPress={() => setIsPlanBeresDay(false)}
+            >
+              <Text
+                style={[
+                  styles.beresChipText,
+                  !isPlanBeresDay && styles.beresChipTextActive,
+                ]}
+              >
+                Nem Béres nap
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.planSectionsWrap}>
+            {groupedDailyPlan.map((section) => (
+              <View key={section.timeSlot} style={styles.planSectionCard}>
+                <Text style={styles.planSectionTitle}>
+                  {SUPPLEMENT_TIME_SLOT_LABELS[section.timeSlot]}
+                </Text>
+                {section.items.map((item) => (
+                  <View key={item.id} style={styles.planSupplementItem}>
+                    <Text style={styles.planSupplementName}>
+                      {item.name} — {item.dose}
+                    </Text>
+                    {item.description ? (
+                      <Text style={styles.planSupplementDescription}>
+                        {item.description}
+                      </Text>
+                    ) : null}
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        </View>
+
         <Text style={styles.title}>Táplálékkiegészítő Kvíz</Text>
         <View style={styles.questionCard}>
-          <Text style={styles.questionTitle}>Kérdés paraméterei</Text>
+          <Text style={styles.questionTitle}>Kvíz paraméterei</Text>
           <View style={styles.questionChipsRow}>
             <View style={[styles.questionChip, styles.slotChip]}>
               <Text style={styles.questionChipText}>
@@ -160,10 +345,10 @@ export default function ExtraRoute() {
               </Text>
             </View>
             <View style={styles.questionChip}>
-              <Text style={styles.questionChipText}>{dayLabel}</Text>
+              <Text style={styles.questionChipText}>{quizProfileLabel}</Text>
             </View>
             <View style={styles.questionChip}>
-              <Text style={styles.questionChipText}>{phaseLabel}</Text>
+              <Text style={styles.questionChipText}>{quizBeresLabel}</Text>
             </View>
           </View>
           <Text style={styles.infoText}>
@@ -253,6 +438,108 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 14,
     color: "#111827",
+  },
+  planCard: {
+    marginTop: 2,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: "#334155",
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: "#0f172a",
+  },
+  planTitle: {
+    color: "#f8fafc",
+    fontSize: 18,
+    fontWeight: "800",
+    marginBottom: 10,
+  },
+  profileRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  profileChip: {
+    borderWidth: 1,
+    borderColor: "#475569",
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 11,
+    backgroundColor: "#1e293b",
+  },
+  profileChipActive: {
+    borderColor: "#38bdf8",
+    backgroundColor: "#0c4a6e",
+  },
+  profileChipText: {
+    color: "#e2e8f0",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  profileChipTextActive: {
+    color: "#e0f2fe",
+  },
+  planDescription: {
+    marginTop: 10,
+    color: "#cbd5e1",
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  beresRow: {
+    marginTop: 10,
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+  },
+  beresChip: {
+    borderWidth: 1,
+    borderColor: "#475569",
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 11,
+    backgroundColor: "#1e293b",
+  },
+  beresChipActive: {
+    borderColor: "#22c55e",
+    backgroundColor: "#14532d",
+  },
+  beresChipText: {
+    color: "#e2e8f0",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  beresChipTextActive: {
+    color: "#dcfce7",
+  },
+  planSectionsWrap: {
+    marginTop: 12,
+    gap: 10,
+  },
+  planSectionCard: {
+    borderWidth: 1,
+    borderColor: "#1e293b",
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#111827",
+  },
+  planSectionTitle: {
+    color: "#f8fafc",
+    fontSize: 14,
+    fontWeight: "800",
+    marginBottom: 6,
+  },
+  planSupplementItem: {
+    marginBottom: 6,
+  },
+  planSupplementName: {
+    color: "#e2e8f0",
+    fontSize: 13,
+    fontWeight: "700",
+  },
+  planSupplementDescription: {
+    color: "#94a3b8",
+    fontSize: 12,
+    marginTop: 2,
   },
   infoText: {
     fontSize: 14,
